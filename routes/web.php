@@ -1,11 +1,17 @@
 <?php
 
+use App\Http\Controllers\ClientController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AuthManager; // Import the AuthManager class
 
 Route::get('/', function () {
     return view('welcome');
 });
+Route::post('/clients/preregistration', [ClientController::class, 'store'])->name('preregisters.store');
+Route::get('/clients/preregistration', [AuthManager::class, 'preregistration'])->name('preregistration');
+
 
 Auth::routes();
 
