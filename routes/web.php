@@ -9,9 +9,8 @@ use App\Http\Controllers\AuthManager; // Import the AuthManager class
 Route::get('/', function () {
     return view('welcome');
 });
-Route::post('/clients/preregistration', [ClientController::class, 'store'])->name('preregisters.store');
-Route::get('/clients/preregistration', [AuthManager::class, 'preregistration'])->name('preregistration');
-
+Route::post('/preregisters', [ClientController::class, 'store'])->name('preregisters.store');
+Route::get('/preregistration', [AuthManager::class, 'preregistration'])->name('preregistration');
 
 Auth::routes();
 

@@ -29,7 +29,7 @@
             <li class="sidebar-nav-item"><a href="#services">Services</a></li>
             <li class="sidebar-nav-item"><a href="/login">Login</a></li>
             <li class="sidebar-nav-item"><a href="/register">Register</a></li>
-            <li class="sidebar-nav-item"><a href="/clients/preregistration">Pre registration</a></li>
+            <li class="sidebar-nav-item"><a href="/preregistration">Pre registration</a></li>
             <li class="sidebar-nav-item"><a href="#contact">Contact</a></li>
         </ul>
     </nav>

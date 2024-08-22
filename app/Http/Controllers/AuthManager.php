@@ -28,7 +28,7 @@ class AuthManager extends Controller
     }
     function preregistration()
     {
-        return view('clients/preregistration');
+        return view('preregistration');
     }
     function received()
     {

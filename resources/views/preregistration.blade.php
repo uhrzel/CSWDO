@@ -10,11 +10,11 @@
 
 @include('include.header2')
 <style>
-    /*  body {
+    /*   body {
         background: url('{{ asset(' img/taguig.png') }}') no-repeat center center fixed;
         background-size: cover;
-    } */
-
+    }
+ */
     .text-right {
         margin-right: 200px;
     }
@@ -74,7 +74,7 @@
         <div class="form-content">
             <h2 style="text-align:left; color: #333;">Pre-Registration Form</h2>
             <form id="preRegistrationForm" action="{{ route('preregisters.store') }}" method="POST">
-
+                @csrf
                 <div class="row">
                     <div class="col">
                         <label for="first_name">First Name</label>
