@@ -2673,8 +2673,11 @@ body {
     font-family: "Nunito", "Segoe UI", arial;
     color: #6c757d;
 }
+.no-underline {
+    text-decoration: none;
+}
 
-a.bb {
+a.b {
     text-decoration: none;
     border-bottom: 1px solid #6777ef;
     padding-bottom: 1px;

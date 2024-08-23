@@ -17,6 +17,8 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/styles-landing.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 </head>
 
 <body id="page-top">
@@ -77,7 +79,9 @@
         </div>
     </section>
 
-    <footer class="footer text-center" id="contact">
+    @include('components.custom-footer')
+
+    <!--  <footer class="footer text-center" id="contact">
         <div class="container px-4 px-lg-5">
             <ul class="list-inline mb-5">
                 <li class="list-inline-item">
@@ -96,7 +100,7 @@
             </ul>
             <p class="text-muted small mb-0">CSWDO - RMS &copy;2024</p>
         </div>
-    </footer>
+    </footer> -->
     <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>

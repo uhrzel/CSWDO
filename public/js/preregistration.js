@@ -55,41 +55,33 @@ document.addEventListener("DOMContentLoaded", function () {
                 .then((response) => {
                     console.log("Response received:", response); // Debug log
                     if (response.ok) {
-                        showModal("Form submitted successfully!");
-                        setTimeout(() => {
-                            window.location.reload();
-                        }, 2000);
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success!",
+                            text: "Form submitted successfully!",
+                            timer: 2000,
+                            timerProgressBar: true,
+                            willClose: () => {
+                                window.location.reload();
+                            },
+                        });
                     } else {
-                        alert("An error occurred while submitting the form.");
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error!",
+                            text: "An error occurred while submitting the form.",
+                        });
                     }
                 })
                 .catch((error) => {
                     console.error("Error:", error); // Debug log
-                    alert("An error occurred while submitting the form.");
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: "An error occurred while submitting the form.",
+                    });
                 });
         });
-
-    function showModal(message) {
-        const modal = document.getElementById("successModal");
-        const modalMessage = document.getElementById("modalMessage");
-        modalMessage.innerText = message;
-        modal.style.display = "block";
-    }
-
-    function closeModal() {
-        const modal = document.getElementById("successModal");
-        modal.style.display = "none";
-    }
-
-    window.onclick = function (event) {
-        const modal = document.getElementById("successModal");
-        if (event.target === modal) {
-            modal.style.display = "none";
-        }
-    };
-
-    // Make the closeModal function available globally
-    window.closeModal = closeModal;
 });
 
 document

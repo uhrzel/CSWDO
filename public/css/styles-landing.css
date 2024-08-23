@@ -2967,7 +2967,9 @@ fieldset:disabled .btn {
     border-color: var(--bs-btn-disabled-border-color);
     opacity: var(--bs-btn-disabled-opacity);
 }
-
+.no-underline {
+    text-decoration: none;
+}
 .btn-primary {
     --bs-btn-color: #fff;
     --bs-btn-bg: #155d74;

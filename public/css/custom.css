@@ -6,3 +6,34 @@
  */
 
 /*# sourceMappingURL=custom.css.map */
+
+/* resources/css/custom.css */
+.custom-header {
+    background-color: #d9c000;
+    color: white;
+    padding: 20px;
+}
+
+.custom-header .logo h1 {
+    margin: 0;
+}
+
+.custom-header nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.custom-header nav ul li {
+    display: inline;
+}
+
+.custom-header nav ul li a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.custom-header nav ul li a:hover {
+    text-decoration: underline;
+}
