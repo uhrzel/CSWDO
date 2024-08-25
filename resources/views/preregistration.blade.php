@@ -18,6 +18,7 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/styles-landing.css" rel="stylesheet" />
     <link href="css/style.css" rel="stylesheet" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
 
     <!-- Existing links and meta tags -->
@@ -31,7 +32,7 @@
 
 <body id="page-top">
 
-    <script src="{{ asset('js/preregistration.js') }}" defer></script>
+    <script src="{{ asset('js/preregistration.js') }}"></script>
 
     <div id="successModal" class="modal">
         <div class="modal-content">
@@ -46,8 +47,8 @@
             <li class="sidebar-brand"><a href="#page-top">Navigation</a></li>
             <li class="sidebar-nav-item"><a href="/">Home</a></li>
             <li class="sidebar-nav-item"><a href="#services">Services</a></li>
-            <li class="sidebar-nav-item"><a href="/login">Login</a></li>
-            <li class="sidebar-nav-item"><a href="/register">Register</a></li>
+            <!--             <li class="sidebar-nav-item"><a href="/login">Login</a></li>
+            <li class="sidebar-nav-item"><a href="/register">Register</a></li> -->
             <li class="sidebar-nav-item"><a href="/preregistration">Pre registration</a></li>
             <li class="sidebar-nav-item"><a href="#contact">Contact</a></li>
         </ul>
@@ -175,10 +176,11 @@
                                     </select>
                                 </div>
 
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-4 mb-3" id="otherReligion" style="display: none;">
                                     <label for="other_religion">Other Religion</label>
                                     <input type="text" name="other_religion" class="form-control" id="other_religion">
                                 </div>
+
 
                                 <div class="col-md-4 mb-3">
                                     <label for="nationality">Nationality</label>
@@ -194,7 +196,7 @@
                                     </select>
                                 </div>
 
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-4 mb-3" id="otherNationality" style="display: none;">
                                     <label for="other_nationality">Other Nationality</label>
                                     <input type="text" name="other_nationality" class="form-control" id="other_nationality">
                                 </div>
@@ -312,7 +314,7 @@
                                         <option value="Other">Other</option>
                                     </select>
                                 </div>
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-4 mb-3" id="otherType" style="display: none;">
                                     <label for="other_type">Other Type Of House</label>
                                     <input type="text" name="other_type" class="form-control" id="other_type">
 
@@ -370,6 +372,9 @@
     </div>
 
     @include('components.footer')
+    <div class="text-center" style="padding: 10px; background-color: #4b78cc; ">
+        <p style="margin: 0; color: white;">&copy; 2024 Your Company. All rights reserved.</p>
+    </div>
 
     <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
     <!-- Bootstrap core JS-->

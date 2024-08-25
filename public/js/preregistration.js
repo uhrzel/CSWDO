@@ -14,7 +14,7 @@ function toggleOtherNationality() {
 
 function toggleOtherReligion() {
     var religionSelect = document.getElementById("religion");
-    var otherReligionDiv = document.getElementById("otherReligion");
+    var otherReligionDiv = document.getElementById("otherReligion"); // Correct ID here
     var otherReligionInput = document.getElementById("other_religion");
 
     if (religionSelect.value === "Other") {
@@ -41,47 +41,43 @@ function toggleOtherType() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    document
-        .getElementById("preRegistrationForm")
-        .addEventListener("submit", function (event) {
-            event.preventDefault();
-            const formData = new FormData(this);
+    const form = document.getElementById("preRegistrationForm");
 
-            console.log("Form submitted"); // Debug log
-            fetch(this.action, {
-                method: this.method,
-                body: formData,
-            })
-                .then((response) => {
-                    console.log("Response received:", response); // Debug log
-                    if (response.ok) {
-                        Swal.fire({
-                            icon: "success",
-                            title: "Success!",
-                            text: "Form submitted successfully!",
-                            timer: 2000,
-                            timerProgressBar: true,
-                            willClose: () => {
-                                window.location.reload();
-                            },
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Error!",
-                            text: "An error occurred while submitting the form.",
-                        });
-                    }
-                })
-                .catch((error) => {
-                    console.error("Error:", error); // Debug log
-                    Swal.fire({
-                        icon: "error",
-                        title: "Error!",
-                        text: "An error occurred while submitting the form.",
-                    });
+    form.addEventListener("submit", function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const formData = new FormData(form);
+
+        fetch(form.action, {
+            method: "POST",
+            body: formData,
+            headers: {
+                "X-Requested-With": "XMLHttpRequest",
+                "X-CSRF-TOKEN": document
+                    .querySelector('meta[name="csrf-token"]')
+                    .getAttribute("content"),
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                Swal.fire({
+                    icon: "success",
+                    title: "Success!",
+                    text: data.message,
+                    footer: `Control Number: ${data.control_number}`,
+                }).then(() => {
+                    form.reset(); // Reset form after successful submission
                 });
-        });
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Something went wrong!",
+                });
+            });
+    });
 });
 
 document

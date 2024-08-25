@@ -29,8 +29,8 @@
             <li class="sidebar-brand"><a href="#page-top">Navigation</a></li>
             <li class="sidebar-nav-item"><a href="#page-top">Home</a></li>
             <li class="sidebar-nav-item"><a href="#services">Services</a></li>
-            <li class="sidebar-nav-item"><a href="/login">Login</a></li>
-            <li class="sidebar-nav-item"><a href="/register">Register</a></li>
+            <!--   <li class="sidebar-nav-item"><a href="/login">Login</a></li>
+            <li class="sidebar-nav-item"><a href="/register">Register</a></li> -->
             <li class="sidebar-nav-item"><a href="/preregistration">Pre registration</a></li>
             <li class="sidebar-nav-item"><a href="#contact">Contact</a></li>
         </ul>
@@ -38,9 +38,9 @@
     <!-- Header-->
     <header class="masthead d-flex align-items-center">
         <div class="container px-4 px-lg-5 text-center">
-            <h1 class="mb-1">CSWDO - RMS</h1>
+            <!--      <h1 class="mb-1">CSWDO - RMS</h1>
             <h3 class="mb-5"><em>Efficient and Secure Record Management for Social Welfare Services</em></h3>
-            <a class="btn btn-primary btn-xl" href="#services">Find Out More</a>
+            <a class="btn btn-primary btn-xl" href="#services">Find Out More</a> -->
         </div>
     </header>
 
@@ -80,6 +80,9 @@
     </section>
 
     @include('components.custom-footer')
+    <div class="text-center" style="padding: 10px; background-color: #4b78cc; ">
+        <p style="margin: 0; color: white;">&copy; 2024 Your Company. All rights reserved.</p>
+    </div>
 
     <!--  <footer class="footer text-center" id="contact">
         <div class="container px-4 px-lg-5">

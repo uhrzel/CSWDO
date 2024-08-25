@@ -8472,7 +8472,7 @@ fieldset:disabled .btn {
 
 .bg-primary {
     --bs-bg-opacity: 1;
-    background-color: #313c53;
+    background-color: var(--bs-red);
     /*   background-color: rgba(var(--bs-primary-rgb), var(--bs-bg-opacity)) !important; */
 }
 
@@ -11251,7 +11251,7 @@ html {
     height: 100%;
     transition: all 0.4s ease 0s;
     transform: translateX(250px);
-    background: #313c53;
+    background: var(--bs-red);
     border-left: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -11387,7 +11387,22 @@ footer.footer .social-link:hover {
         height: 75%;
     }
 }
+/* Adjust for larger screens */
+/* @media (min-width: 1200px) {
+    .masthead {
+        background-size: 100% auto;
+    }
+}
+ */
+/* Adjust for smaller screens */
+/* @media (max-width: 767px) {
+    .masthead {
+        background-size: cover;
+    }
+}
+ */
 .masthead {
+    margin-top: 10px;
     min-height: 30rem;
     position: relative;
     display: table;
@@ -11400,11 +11415,10 @@ footer.footer .social-link:hover {
             rgba(255, 255, 255, 0.1) 0%,
             rgba(255, 255, 255, 0.1) 100%
         ),
-        url("../img/bg-masthead.jpg");
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
+        url("../img/taguig.png") no-repeat center center;
+    background-size: cover; /* Ensures the entire image is visible */
 }
+
 .masthead h1,
 .masthead .h1 {
     font-size: 4rem;

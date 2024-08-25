@@ -95,7 +95,8 @@ class ClientController extends Controller
         }
 
         // Generated number
-        $validatedData['control_number'] = "APL " . $nextNumber;
+        $controlNumber = "APL " . $nextNumber;
+        $validatedData['control_number'] = $controlNumber;
 
         if ($request->input('nationality') === 'Other') {
             $validatedData['nationality'] = $request->input('other_nationality');
@@ -109,10 +110,14 @@ class ClientController extends Controller
             $validatedData['other_religion'] = null;
         }
 
-        Client::create($validatedData);
+        $client = Client::create($validatedData);
 
-        return redirect()->route('preregistration');
+        return response()->json([
+            'message' => 'Form submitted successfully!',
+            'control_number' => $controlNumber,
+        ]);
     }
+
 
     public function caselist()
     {

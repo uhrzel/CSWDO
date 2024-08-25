@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,6 +26,7 @@
     <!-- Scripts -->
     <!-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) -->
 </head>
+
 <body>
     <div id="app">
         <div class="main-wrapper">
@@ -33,12 +35,16 @@
 
             <!-- Sidebar -->
             @include('components.sidebar')
-            
+
             <!-- Content -->
             @yield('content')
 
-            <!-- Footer -->
-            @include('components.footer')
+            <!-- Footer --> @unless(request()->is('login') || request()->is('register') || request()->is('password/reset'))
+
+            @include('components.admin-footer')
+            @endunless
+
+
         </div>
     </div>
 
@@ -57,4 +63,5 @@
     <script src="{{ asset('js/scripts.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
 </body>
+
 </html>
