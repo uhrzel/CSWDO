@@ -11388,21 +11388,21 @@ footer.footer .social-link:hover {
     }
 }
 /* Adjust for larger screens */
-/* @media (min-width: 1200px) {
+@media (min-width: 1200px) {
     .masthead {
         background-size: 100% auto;
     }
 }
- */
+
 /* Adjust for smaller screens */
-/* @media (max-width: 767px) {
+@media (max-width: 767px) {
     .masthead {
         background-size: cover;
     }
 }
- */
+
 .masthead {
-    margin-top: 10px;
+    /*    margin-top: 10px; */
     min-height: 30rem;
     position: relative;
     display: table;
@@ -11416,7 +11416,7 @@ footer.footer .social-link:hover {
             rgba(255, 255, 255, 0.1) 100%
         ),
         url("../img/taguig.png") no-repeat center center;
-    background-size: cover; /* Ensures the entire image is visible */
+    background-size: cover;
 }
 
 .masthead h1,
