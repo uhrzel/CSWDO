@@ -81,7 +81,7 @@
 
     @include('components.custom-footer')
     <div class="text-center" style="padding: 10px; background-color: #4b78cc; ">
-        <p style="margin: 0; color: white;">&copy; 2024 Your Company. All rights reserved.</p>
+        <p style="margin: 0; color: white;">&copy; 2024 CSWDO - RMS. All rights reserved.</p>
     </div>
 
     <!--  <footer class="footer text-center" id="contact">

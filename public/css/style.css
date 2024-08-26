@@ -196,8 +196,7 @@ h5,
 h6 {
     font-weight: 700;
 }
-
-p,
+z p,
 ul:not(.list-unstyled),
 ol {
     line-height: 28px;

@@ -21,7 +21,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 
-    <!-- Existing links and meta tags -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.7.1/sweetalert2.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.7.1/sweetalert2.all.min.js"></script>
 
@@ -54,7 +53,7 @@
         </ul>
     </nav>
 
-    <div class="main-content">
+    <div class="main">
         <section class="section">
             <div class="section-header">
                 <h1>Pre-Registration Form</h1>
@@ -361,9 +360,10 @@
                                 </div>
                             </div>
                             <div class="col-md-4 mb-3">
-                                <button type="submit" class="btn-primary">Submit</button>
-                                <button type="reset" class="btn-secondary">Reset</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="reset" class="btn btn-secondary">Reset</button>
                             </div>
+
                         </form>
                     </div>
                 </div>
@@ -373,7 +373,7 @@
 
     @include('components.footer')
     <div class="text-center" style="padding: 10px; background-color: #4b78cc; ">
-        <p style="margin: 0; color: white;">&copy; 2024 Your Company. All rights reserved.</p>
+        <p style="margin: 0; color: white;">&copy; 2024 CSWDO - RMS. All rights reserved.</p>
     </div>
 
     <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>

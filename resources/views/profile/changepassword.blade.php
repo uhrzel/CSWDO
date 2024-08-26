@@ -13,7 +13,7 @@
                     <form method="POST" action="{{ route('profile.password') }}">
                         @csrf
                         @method('PUT')
-                        <div class="form-group row">
+                        <div class="form-group">
                             @if (session('status'))
                             <div class="alert alert-success">
                                 {{ session('status') }}
@@ -31,7 +31,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group ">
                             <label for="new_password" class="col-md-4 col-form-label text-md-right">{{ __('New Password') }}</label>
 
                             <div class="col-md-6">
@@ -44,7 +44,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group">
                             <label for="new_password_confirmation" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
 
                             <div class="col-md-6">
@@ -61,7 +61,7 @@
                         <!-- Add more fields as necessary -->
 
                         <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
+                            <div class="col-md-6 ">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Change Password') }}
                                 </button>

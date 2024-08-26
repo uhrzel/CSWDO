@@ -3,49 +3,78 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-7">
             <div class="card">
-            <div class="card-header text-center d-flex justify-content-center">
-            <div class="card-header">{{ __('Reset Password') }}</div>
+                <div class="card-header text-center">
+                    {{ __('Reset Password') }}
                 </div>
                 <div class="card-body">
                     @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
+                    <div class="alert alert-success" role="alert">
+                        {{ session('status') }}
+                    </div>
                     @endif
 
-                    <form method="POST" action="{{ route('password.email') }}">
+                    <form method="POST" action="{{ route('password.email') }}" class="form-reset-password">
                         @csrf
 
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
+                        <div class="form-group">
+                            <label for="email" class="form-label">{{ __('Email Address') }}</label>
+                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                            @error('email')
+                            <span class="invalid-feedback d-block text-center mt-2" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
                         </div>
 
-                        <div class="row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Send Password Reset Link') }}
-                                </button>
-                            </div>
+                        <div class="form-group mt-3">
+                            <button type="submit" class="btn btn-primary w-100">
+                                {{ __('Send Password Reset Link') }}
+                            </button>
                         </div>
                     </form>
+                    <div class="card-footer ">
+                        <a href="{{ route('login') }}">Login</a>
+                    </div>
                 </div>
-                <div class="card-footer text-center">
-                    <a href="{{ route('login') }}">Login</a>
-                </div>
+
             </div>
         </div>
     </div>
 </div>
 @endsection
+
+<style>
+    .form-reset-password .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-reset-password .form-label {
+        display: block;
+        margin-bottom: .5rem;
+    }
+
+    .form-reset-password .form-control {
+        max-width: 76%;
+    }
+
+    .form-reset-password .btn {
+        max-width: 100%;
+    }
+
+
+    .form-reset-password .btn {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .card-footer {
+        margin-left: 50px;
+    }
+
+    .form-group {
+        margin-left: 70px;
+    }
+</style>
