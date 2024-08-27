@@ -94,7 +94,6 @@ class ClientController extends Controller
             $nextNumber = '0000001';
         }
 
-        // Generated number
         $controlNumber = "APL " . $nextNumber;
         $validatedData['control_number'] = $controlNumber;
 

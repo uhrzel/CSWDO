@@ -23,7 +23,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/blank-page', [App\Http\Controllers\HomeController::class, 'blank'])->name('blank');
 
     Route::get('/admin', [ClientController::class, 'caselist'])->name('admin.index')->middleware('admin');
+    Route::delete('/admin/delete/{id}', [App\Http\Controllers\ClientController::class, 'destroy'])->name('admin.delete')->middleware('admin');
     Route::get('/search', [ClientController::class, 'search'])->name('clients.search');
+    Route::delete('/clients/{client}', [ClientController::class, 'destroy'])->name('admin.delete');
 
     /*  Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.index')->middleware('admin'); */
 

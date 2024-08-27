@@ -2,11 +2,8 @@
 
 @section('title', 'Access Data')
 
-@push('style')
-<!-- CSS Libraries -->
-@endpush
-
 @section('content')
+
 <div class="main-content">
     <section class="section">
         <div class="section-header">
@@ -22,6 +19,17 @@
             {{ session('error') }}
         </div>
         @endif
+        @if (session('success'))
+        <script>
+            Swal.fire({
+                title: 'Success!',
+                text: "{{ session('success') }}",
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK'
+            });
+        </script>
+        @endif
         <div class="section-body">
             <div class="table-responsive">
                 <div class="row mb-3">
@@ -32,7 +40,6 @@
                                 <button class="btn btn-primary" style="margin-left:5px;" type="submit">Search</button>
                             </div>
                         </div>
-
                     </div>
                 </div>
                 <table class="table table-bordered">
@@ -54,9 +61,8 @@
                             <th>Montyly Income </th>
                             <th>Contact Number </th>
                             <th>View</th>
-                            <th>Edit</th>
+                            <!--         <th>Edit</th> -->
                             <th>Delete</th>
-                        </tr>
                         </tr>
                     </thead>
                     <tbody id="searchResults">
@@ -77,6 +83,20 @@
                             <td class="occupation">{{ $client->occupation }}</td>
                             <td class="income">{{ $client->monthly_income }}</td>
                             <td class="contact-number">{{ $client->contact_number }}</td>
+                            <td>
+                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#viewClientModal{{ $client->id }}">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </td>
+                            <td>
+                                <form action="{{ route('admin.delete', $client->id) }}" method="POST" class="d-inline" id="delete-form-{{ $client->id }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $client->id }})">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
 
                         </tr>
                         @endforeach
@@ -107,7 +127,6 @@
                     const income = row.querySelector('.income').textContent.toLowerCase();
                     const contactNum = row.querySelector('.contact-number').textContent.toLowerCase();
 
-
                     if (controlNum.includes(searchTerm) || fName.includes(searchTerm) || lName.includes(searchTerm) || mName.includes(searchTerm) ||
                         suffix.includes(searchTerm) || age.includes(searchTerm) || sex.includes(searchTerm) || birthday.includes(searchTerm) ||
                         place.includes(searchTerm) || civilStatus.includes(searchTerm) || religion.includes(searchTerm) || nationality.includes(searchTerm) ||
@@ -122,11 +141,88 @@
         </script>
     </section>
 </div>
-
 @endsection
 
-@push('scripts')
-<!-- JS Libraries -->
+@foreach ($clients as $client)
+<!-- Modal for Viewing Client Details -->
+<div class="modal fade" id="viewClientModal{{ $client->id }}" tabindex="-1" role="dialog" aria-labelledby="viewClientModalLabel{{ $client->id }}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewClientModalLabel{{ $client->id }}">Client Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h5>View Client History</h5>
+                <ul>
+                    <li>✔️ Problem Identification</li>
+                    <li>✔️ Data Gathering</li>
+                    <li>✔️ Assessment</li>
+                    <li>✔️ Evaluation And Resolution</li>
+                </ul>
+                <p><strong>Control No.:</strong> {{ $client->control_number }}</p>
+                <p><strong>First Name:</strong> {{ $client->first_name }}</p>
+                <p><strong>Last Name:</strong> {{ $client->last_name }}</p>
+                <p><strong>Middle Name:</strong> {{ $client->middle }}</p>
+                <p><strong>Suffix:</strong> {{ $client->suffix }}</p>
+                <p><strong>Age:</strong> {{ $client->age }}</p>
+                <p><strong>Sex:</strong> {{ $client->sex }}</p>
+                <p><strong>Date of Birth:</strong> {{ $client->date_of_birth }}</p>
+                <p><strong>Place of Birth:</strong> {{ $client->pob }}</p>
+                <p><strong>Educational Attainment:</strong> {{ $client->educational_attainment }}</p>
+                <p><strong>Civil Status:</strong> {{ $client->civil_status }}</p>
+                <p><strong>Religion:</strong> {{ $client->religion }}</p>
+                <p><strong>Nationality:</strong> {{ $client->nationality }}</p>
+                <p><strong>Occupation:</strong> {{ $client->occupation }}</p>
+                <p><strong>Monthly Income:</strong> {{ $client->monthly_income }}</p>
+                <p><strong>Address:</strong> {{ $client->address }}</p>
+                <p><strong>Contact Number:</strong> {{ $client->contact_number }}</p>
+                <p><strong>Source of Referral:</strong> {{ $client->source_of_referral }}</p>
+                <p><strong>House Structure:</strong> {{ $client->house_structure }}</p>
+                <p><strong>Floor:</strong> {{ $client->floor }}</p>
+                <p><strong>Type:</strong> {{ $client->type }}</p>
+                <p><strong>Number of Rooms:</strong> {{ $client->number_of_rooms }}</p>
+                <p><strong>Appliances:</strong> {{ $client->appliances }}</p>
+                <p><strong>Monthly Expenses:</strong> {{ $client->monthly_expenses }}</p>
+                <p><strong>Services and Requirements:</strong> {{ $client->services_and_requirements }}</p>
+                <p><strong>Indicate:</strong> {{ $client->indicate }}</p>
+                <p><strong>Status:</strong> {{ $client->status }}</p>
+                <p><strong>Created At:</strong> {{ $client->created_at }}</p>
+                <p><strong>Updated At:</strong> {{ $client->updated_at }}</p>
+                <p><strong>Circumstances of Referral:</strong> {{ $client->circumstances_of_referral }}</p>
+                <p><strong>Family Background:</strong> {{ $client->family_background }}</p>
+                <p><strong>Health History Of The Applicant:</strong> {{ $client->health_history }}</p>
+                <p><strong>Economic Situation:</strong> {{ $client->economic_situation }}</p>
+                <p><strong>Assessment:</strong> {{ $client->assessment }}</p>
+                <p><strong>Recommendation:</strong> {{ $client->recommendation }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Generate PDF</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-<!-- Page Specific JS File -->
-@endpush
+@endforeach
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmDelete(clientId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById(`delete-form-${clientId}`).submit();
+            }
+        });
+    }
+</script>
