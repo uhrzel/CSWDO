@@ -122,7 +122,7 @@ class ClientController extends Controller
     public function caselist()
     {
         $clients = Client::all();
-        return view('dataentry', compact('clients'));
+        return view('layouts.admin.index', compact('clients'));
     }
 
     public function index()
