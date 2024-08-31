@@ -39,5 +39,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin', [SocialWorkerAccountController::class, 'index'])
         ->name('admin.index')
         ->middleware('auth');
+    Route::put('/admin/update/{id}', [SocialWorkerAccountController::class, 'update'])->name('admin.update')->middleware('auth');
+
     Route::delete('/admin/delete/{id}', [SocialWorkerAccountController::class, 'destroy'])->name('admin.delete')->middleware('auth');
 });

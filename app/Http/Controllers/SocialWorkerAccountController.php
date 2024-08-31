@@ -19,6 +19,25 @@ class SocialWorkerAccountController extends Controller
         return view('admin.index', compact('socialWorkers'));
     }
 
+    public function update(Request $request, $id)
+    {
+        $worker = Social::find($id);
+        if (!$worker) {
+            return redirect()->route('admin.index')->with('error', 'Social worker not found.');
+        }
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+        ]);
+
+        $worker->name = $request->input('name');
+        $worker->email = $request->input('email');
+        $worker->save();
+
+        return redirect()->route('admin.index')->with('success', 'Social worker details updated successfully.');
+    }
+
     public function destroy($id)
     {
         $worker = Social::find($id);

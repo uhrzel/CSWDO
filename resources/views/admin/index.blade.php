@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Access Data')
+@section('title', 'Social Worker Accounts')
 
 @section('content')
 
@@ -47,6 +47,7 @@
                         <tr>
                             <th>Name</th>
                             <th>Email</th>
+                            <th>Edit</th>
                             <th>Delete</th>
                         </tr>
                     </thead>
@@ -55,6 +56,12 @@
                         <tr>
                             <td class="name">{{ $worker->name }}</td>
                             <td class="email">{{ $worker->email }}</td>
+                            <td>
+                                <button class="btn btn-primary" onclick="openEditModal({{ $worker->id }}, '{{ $worker->name }}', '{{ $worker->email }}')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </td>
+
                             <td>
                                 <form action="{{ route('admin.delete', $worker->id) }}" method="POST" class="d-inline" id="delete-form-{{ $worker->id }}">
                                     @csrf
@@ -90,7 +97,54 @@
         </script>
     </section>
 </div>
+
 @endsection
+
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Social Worker</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editForm" method="POST" action="">
+                @csrf
+                @method('PUT')
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openEditModal(id, name, email) {
+        // Set form action URL
+        document.getElementById('editForm').action = `/admin/update/${id}`;
+
+        // Set form field values
+        document.getElementById('name').value = name;
+        document.getElementById('email').value = email;
+
+        // Show modal
+        $('#editModal').modal('show');
+    }
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
