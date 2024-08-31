@@ -121,7 +121,7 @@ class ClientController extends Controller
     public function caselist()
     {
         $clients = Client::all();
-        return view('layouts.admin.index', compact('clients'));
+        return view('layouts.social-worker.index', compact('clients'));
     }
 
     public function index()

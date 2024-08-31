@@ -16,12 +16,22 @@
             <li class="{{ Request::is('home') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ url('home') }}" style="color: white;"><i class="fas fa-fire"></i><span>Dashboard</span></a>
             </li>
-            @if (Auth::user()->role == 'admin')
+            @if (Auth::user()->role == 'social-worker')
             <li class="menu-header">Case Listing</li>
-            <li class="{{ Request::is('admin') ? 'active' : '' }}">
-                <a class="nav-link" href="{{ url('admin') }}" style="color: white;"><i class="fas fa-user-shield"></i> <span>Case Listing</span></a>
+            <li class="{{ Request::is('social-worker') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ url('social-worker') }}" style="color: white;"><i class="fas fa-user-shield"></i> <span>Case Listing</span></a>
             </li>
             @endif
+
+            @if (Auth::user()->role == 'admin')
+            <li class="menu-header">Social Workers</li>
+            <li class="{{ Request::is('admin') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin.index') }}" style="color: white;">
+                    <i class="fas fa-user-shield"></i> <span>Social Workers</span>
+                </a>
+            </li>
+            @endif
+
             <!-- profile ganti password -->
             <li class="menu-header">Profile</li>
             <li class="{{ Request::is('profile/edit') ? 'active' : '' }}">

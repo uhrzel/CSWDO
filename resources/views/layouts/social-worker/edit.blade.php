@@ -12,13 +12,13 @@
         <div class="section-header">
             <h1>Edit Data</h1>
         </div>
-        <form action="{{ route('admin.update', $admin->id) }}" method="POST">
+        <form action="{{ route('social-worker.update', $social-worker->id) }}" method="POST">
             @csrf
             @method('PUT')
 
             <div class="form-group">
                 <label for="name">Access Data</label>
-                <input type="text" name="role" id="role" class="form-control" value="{{ $admin->role }}">
+                <input type="text" name="role" id="role" class="form-control" value="{{ $social-worker->role }}">
             </div>
 
 

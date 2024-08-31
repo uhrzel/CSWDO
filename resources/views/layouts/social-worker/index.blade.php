@@ -89,7 +89,7 @@
                                 </button>
                             </td>
                             <td>
-                                <form action="{{ route('admin.delete', $client->id) }}" method="POST" class="d-inline" id="delete-form-{{ $client->id }}">
+                                <form action="{{ route('social-worker.delete', $client->id) }}" method="POST" class="d-inline" id="delete-form-{{ $client->id }}">
                                     @csrf
                                     @method('DELETE')
                                     <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $client->id }})">

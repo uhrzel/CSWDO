@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthManager; // Import the AuthManager class
+use App\Http\Controllers\SocialWorkerController; // Import the SocialWorkerController class
+use App\Http\Controllers\SocialWorkerAccountController; // Import the SocialWorkerAccountController class
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,14 +24,20 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/profile/password', [ProfileController::class, 'password'])->name('profile.password');
     Route::get('/blank-page', [App\Http\Controllers\HomeController::class, 'blank'])->name('blank');
 
-    Route::get('/admin', [ClientController::class, 'caselist'])->name('admin.index')->middleware('admin');
-    Route::delete('/admin/delete/{id}', [App\Http\Controllers\ClientController::class, 'destroy'])->name('admin.delete')->middleware('admin');
+    Route::get('/social-worker', [ClientController::class, 'caselist'])->name('social-worker.index')->middleware('social');
+    Route::delete('/social-worker/delete/{id}', [App\Http\Controllers\ClientController::class, 'destroy'])->name('social-worker.delete')->middleware('social-worker');
     Route::get('/search', [ClientController::class, 'search'])->name('clients.search');
-    Route::delete('/clients/{client}', [ClientController::class, 'destroy'])->name('admin.delete');
+    Route::delete('/clients/{client}', [ClientController::class, 'destroy'])->name('social-worker.delete');
 
-    /*  Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.index')->middleware('admin'); */
+    /*  Route::get('/admin', [App\Http\Controllers\SocialWorkerController::class, 'index'])->name('admin.index')->middleware('admin'); */
 
-    Route::get('/admin/edit/{id}', [App\Http\Controllers\AdminController::class, 'edit'])->name('admin.edit')->middleware('admin');
-    Route::put('/admin/update/{id}', [App\Http\Controllers\AdminController::class, 'update'])->name('admin.update')->middleware('admin');
-    Route::delete('/admin/delete/{id}', [App\Http\Controllers\AdminController::class, 'destroy'])->name('admin.delete')->middleware('admin');
+    Route::get('/social-worker/edit/{id}', [App\Http\Controllers\SocialWorkerController::class, 'edit'])->name('social-worker.edit')->middleware('social-worker');
+    Route::put('/social-worker/update/{id}', [App\Http\Controllers\SocialWorkerController::class, 'update'])->name('social-worker.update')->middleware('social-worker');
+    Route::delete('/social-worker/delete/{id}', [App\Http\Controllers\SocialWorkerController::class, 'destroy'])->name('social-worker.delete')->middleware('social-worker');
+
+
+    Route::get('/admin', [SocialWorkerAccountController::class, 'index'])
+        ->name('admin.index')
+        ->middleware('auth');
+    Route::delete('/admin/delete/{id}', [SocialWorkerAccountController::class, 'destroy'])->name('admin.delete')->middleware('auth');
 });
