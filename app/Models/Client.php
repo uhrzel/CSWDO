@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\FamilyMember;
+
 
 class Client extends Model
 {
@@ -257,5 +259,9 @@ class Client extends Model
     public function setRecommendationAttribute($value)
     {
         $this->attributes['recommendation'] = ucwords($value);
+    }
+    public function familyMembers()
+    {
+        return $this->hasMany(FamilyMember::class, 'client_id');
     }
 }

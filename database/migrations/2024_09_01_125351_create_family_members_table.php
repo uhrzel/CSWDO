@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddFamilyColumnsToClientsTable extends Migration
+class CreateFamilyMembersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,24 @@ class AddFamilyColumnsToClientsTable extends Migration
      */
     public function up()
     {
-        Schema::table('clients', function (Blueprint $table) {
+        Schema::create('family_members', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('client_id');
             $table->string('fam_lastname')->nullable();
             $table->string('fam_firstname')->nullable();
             $table->string('fam_middlename')->nullable();
             $table->string('fam_relationship')->nullable();
-            $table->string('fam_birthday')->nullable();
-            $table->string('fam_age')->nullable();
+            $table->date('fam_birthday')->nullable();
+            $table->integer('fam_age')->nullable();
             $table->string('fam_gender')->nullable();
             $table->string('fam_status')->nullable();
             $table->string('fam_education')->nullable();
             $table->string('fam_occupation')->nullable();
-            $table->string('fam_income')->nullable();
+            $table->decimal('fam_income', 10, 2)->nullable();
+            $table->timestamps();
+
+            // Define the foreign key constraint
+            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
         });
     }
 
@@ -35,20 +41,6 @@ class AddFamilyColumnsToClientsTable extends Migration
      */
     public function down()
     {
-        Schema::table('clients', function (Blueprint $table) {
-            $table->dropColumn([
-                'fam_lastname',
-                'fam_firstname',
-                'fam_middlename',
-                'fam_relationship',
-                'fam_birthday',
-                'fam_age',
-                'fam_gender',
-                'fam_status',
-                'fam_education',
-                'fam_occupation',
-                'fam_income',
-            ]);
-        });
+        Schema::dropIfExists('family_members');
     }
 }

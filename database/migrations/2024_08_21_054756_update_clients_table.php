@@ -33,17 +33,6 @@ class UpdateClientsTable extends Migration
             $table->string('source_of_referral')->nullable()->change();
             $table->longText('circumstances_of_referral')->nullable()->change();
             $table->longText('family_background')->nullable()->change();
-            $table->string('fam_lastname')->nullable()->change();
-            $table->string('fam_firstname')->nullable()->change();
-            $table->string('fam_middlename')->nullable()->change();
-            $table->string('fam_relationship')->nullable()->change();
-            $table->string('fam_birthday')->nullable()->change();
-            $table->string('fam_age')->nullable()->change();
-            $table->string('fam_gender')->nullable()->change();
-            $table->string('fam_status')->nullable()->change();
-            $table->string('fam_education')->nullable()->change();
-            $table->string('fam_occupation')->nullable()->change();
-            $table->string('fam_income')->nullable()->change();
             $table->longText('health_history')->nullable()->change();
             $table->longText('economic_situation')->nullable()->change();
             $table->string('house_structure')->nullable()->change();
@@ -106,7 +95,6 @@ class UpdateClientsTable extends Migration
             $table->string('source_of_referral')->change();
             $table->longText('circumstances_of_referral')->change();
             $table->longText('family_background')->change();
-
             $table->longText('health_history')->change();
             $table->longText('economic_situation')->change();
             $table->string('house_structure')->change();
