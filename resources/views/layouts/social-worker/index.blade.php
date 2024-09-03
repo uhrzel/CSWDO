@@ -422,16 +422,466 @@
                                             <i class="fas fa-arrow-right"></i>
                                         </button>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="nextModal2{{ $client->id }}" tabindex="-1" role="dialog" aria-labelledby="nextModal2{{ $client->id }}Label" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="nextModal2{{ $client->id }}Label">Edit Applicant</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="circumstances_of_referral">Circumstances of Referral</label>
+                                            <textarea name="circumstances_of_referral" class="form-control" id="circumstances_of_referral" placeholder="Referred by barangay due to inability to afford expenses." rows="3">{{ $client->circumstances_of_referral }}</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="family_background">Family Background</label>
+                                            <textarea name="family_background" class="form-control" id="family_background" placeholder="Lives with spouse and three children, aged 10, 8, and 5." rows="3">{{ $client->family_background }}</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="health_history">Health History of the Applicant</label>
+                                            <textarea name="health_history" class="form-control" id="health_history" placeholder="Diagnosed with hypertension and diabetes." rows="3">{{ $client->health_history }}</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="economic_situation">Economic Situation</label>
+                                            <textarea name="economic_situation" class="form-control" id="economic_situation" placeholder="Primary earner of the family with no other sources of income." rows="3">{{ $client->economic_situation }}</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" id="prevBtn1{{ $client->id }}"> <i class="fas fa-arrow-left"></i>Back</button>
+                                        <button type="button" class="btn btn-primary" id="nextBtn3{{ $client->id }}">
+                                            <i class="fas fa-arrow-right"></i>
+                                        </button>
+                                    </div>
 
                                 </div>
                             </div>
                         </div>
-                        @endforeach
-                    </tbody>
-                </table>
+
+                        <div class="modal fade" id="nextModal3{{ $client->id }}" tabindex="-1" role="dialog" aria-labelledby="nextModal3{{ $client->id }}Label" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="nextModal3{{ $client->id }}Label">Edit Applicant</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="problem_presented">Problem Presented</label>
+                                            <textarea name="problem_presented" class="form-control" id="problem_presented" placeholder="The request for burial assistance was submitted due to the financial difficulties faced by the family in managing funeral expenses." rows="5" style="width: 100%; min-height: 150px;">{{ $client->problem_presented }}</textarea>
+                                        </div>
+                                        <div class="form-group" style="margin-top:20px;">
+                                            <label for="problem_identification">Problem Identification</label>
+                                            <select name="problem_identification" class="form-control" id="problem_identification">
+                                                <option value="" disabled selected>Select Problem Identification</option>
+                                                <option value="Done" {{ $client->problem_identification == 'Done' ? 'selected' : '' }}>✔️ Done</option>
+                                                <option value="Incomplete" {{ $client->problem_identification == 'Incomplete' ? 'selected' : '' }}>❌ Incomplete</option>
+                                                <option value="Processing" {{ $client->problem_identification == 'Processing' ? 'selected' : '' }}>🔄 Processing</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" id="prevBtn2{{ $client->id }}"> <i class="fas fa-arrow-left"></i>Back</button>
+
+                                        <button type="button" class="btn btn-primary" id="nextBtn4{{ $client->id }}">
+                                            <i class="fas fa-arrow-right"></i>
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="nextModal4{{ $client->id }}" tabindex="-1" role="dialog" aria-labelledby="nextModal4{{ $client->id }}Label" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="nextModal4{{ $client->id }}Label">Edit Applicant</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <h2>Services</h2>
+                                            <hr>
+                                            <h5><label>Burial Assistance</label></h5><br>
+                                            <div class="form-check-row">
+                                                <?php
+                                                $clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
+                                                $clientServices = is_array($clientServices) ? $clientServices : [];
+
+                                                $services = ['Burial', 'Financial', 'Funeral'];
+                                                ?>
+                                                @foreach($services as $service)
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input" name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">{{ $service }}</label>
+                                                </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <h5><label>Requirements</label></h5>
+                                        <div class="col">
+                                            <div class="form-check-row">
+                                                <?php
+                                                $clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
+                                                $clientServices = is_array($clientServices) ? $clientServices : [];
+
+                                                $services = ['Death Certificate', 'Funeral Contract', 'Valid ID', 'Proof Of Relation'];
+                                                ?>
+                                                @foreach($services as $service)
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input" name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">{{ $service }}</label>
+                                                </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <h5><label>Crisis Intervention Unit</label></h5><br>
+                                        <div class="col">
+                                            <div class="form-check-row">
+                                                <?php
+                                                $clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
+                                                $clientServices = is_array($clientServices) ? $clientServices : [];
+
+                                                $services = ['Crisis Intervention Unit = Valid ID', 'Barangay Clearance.', 'Medical Certificate.', 'Incident Report.', 'Funeral Contract.', 'Death Certificate.'];
+                                                ?>
+                                                @foreach($services as $service)
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input" name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">
+                                                        @if ($service === 'Crisis Intervention Unit = Valid ID')
+                                                        Valid ID
+                                                        @else
+                                                        {{ $service }}
+                                                        @endif
+                                                    </label>
+                                                </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <h5><label>Solo Parent Services</label></h5>
+                                        <div class="col">
+                                            <div class="form-check-row">
+                                                <?php
+                                                $clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
+                                                $clientServices = is_array($clientServices) ? $clientServices : [];
+
+                                                $services = [
+                                                    'Solo Parent = Agency Referral',
+                                                    'Residency Cert.',
+                                                    'Medical Cert.',
+                                                    'Billing Proof',
+                                                    'Birth Cert.',
+                                                    'ID Copy',
+                                                    'Senior Citizen ID (60+)'
+                                                ];
+                                                ?>
+                                                @foreach($services as $service)
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input" name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">
+                                                        @if ($service === 'Solo Parent = Agency Referral')
+                                                        Agency Referral
+                                                        @else
+                                                        {{ $service }}
+                                                        @endif
+                                                    </label>
+                                                </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <h5><label>Pre-marriage Counseling</label></h5><br>
+                                        <div class="col">
+                                            <div class="form-check-row">
+                                                <?php
+                                                $clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
+                                                $clientServices = is_array($clientServices) ? $clientServices : [];
+
+                                                $services = [
+                                                    'Pre-marriage Counseling = Valid ID',
+                                                    'Birth Certificate',
+                                                    'CENOMAR',
+                                                    'Barangay Clearance',
+                                                    'Passport-sized Photos',
+                                                ];
+                                                ?>
+                                                @foreach($services as $service)
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input" name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">
+                                                        @if ($service === 'Pre-marriage = Valid ID')
+                                                        Valid ID
+                                                        @else
+                                                        {{ $service }}
+                                                        @endif
+                                                    </label>
+                                                </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <h5><label>After-Care Services</label></h5><br>
+                                        <div class="col">
+                                            <div class="form-check-row">
+                                                <?php
+                                                $clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
+                                                $clientServices = is_array($clientServices) ? $clientServices : [];
+
+                                                $services = [
+                                                    'After-Care Services = Valid ID',
+                                                    'Birth Certificate.',
+                                                    'Residence Certificate.',
+                                                    'SCSR',
+                                                    'Medical Records',
+                                                ];
+                                                ?>
+                                                @foreach($services as $service)
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input" name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">
+                                                        @if ($service === 'After-Care Services = Valid ID')
+                                                        Valid ID
+                                                        @else
+                                                        {{ $service }}
+                                                        @endif
+                                                    </label>
+                                                </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+
+                                        <hr>
+                                        <h5><label>Poverty Alleviation Program</label></h5><br>
+                                        <div class="col">
+                                            <div class="form-check-row">
+                                                <?php
+                                                $clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
+                                                $clientServices = is_array($clientServices) ? $clientServices : [];
+
+                                                $services = [
+                                                    'Poverty Alleviation Program = Valid ID',
+                                                    'Residence Certificate',
+                                                    'Income Certificate',
+                                                    'SCSR.',
+                                                    'Application Form',
+                                                ];
+                                                ?>
+                                                @foreach($services as $service)
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input" name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">
+                                                        @if ($service === 'Poverty Alleviation Program = Valid ID')
+                                                        Valid ID
+                                                        @else
+                                                        {{ $service }}
+                                                        @endif
+                                                    </label>
+                                                </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary" id="prevBtn3{{ $client->id }}"> <i class="fas fa-arrow-left"></i>Back</button>
+
+                                            <button type="button" class="btn btn-primary" id="nextBtn5{{ $client->id }}">
+                                                <i class="fas fa-arrow-right"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
             </div>
+
+
+            <div class="modal fade" id="nextModal5{{ $client->id }}" tabindex="-1" role="dialog" aria-labelledby="nextModal5{{ $client->id }}Label" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="nextModal5{{ $client->id }}Label">Data Gathering</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-3 form-group">
+                                    <label for="home_visit">Home Visit Date</label>
+                                    <input type="date" name="home_visit" class="form-control" id="home_visit" value="{{ $client->home_visit }}">
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="interviewee">Interviewee</label>
+                                    <input type="text" class="form-control" id="interviewee" name="interviewee" value="{{ $client->interviewee }}" placeholder="Enter Interviewee">
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="interviewed_by">Interviewed By</label>
+                                    <input type="text" class="form-control" id="interviewed_by" name="interviewed_by" value="{{ $client->interviewed_by }}" placeholder="Enter Interviewed By">
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <label for="layunin">Layunin Ng Pagbisita</label>
+                                    <textarea name="layunin" class="form-control" id="layunin" placeholder="the social worker confirmed that the Applicant's household has stable electricity, clean running water with adequate pressure, and operational sanitation facilities. These findings will guide future support and interventions as necessary." style="width: 100%; height: 150px;">{{ $client->layunin }}</textarea>
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <label for="resulta">Resulta Ng Pagbisita</label>
+                                    <textarea name="resulta" class="form-control" id="resulta" placeholder="Applicant resides in a one-bedroom apartment with adequate space and basic furnishings. The environment appears clean and well-maintained" style="width: 100%; height: 150px;">{{ $client->resulta }}</textarea>
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <label for="initial_agreement">Initial Agreement</label>
+                                    <textarea name="initial_agreement" class="form-control" id="initial_agreement" placeholder="The initial agreement outlines that the organization will provide financial assistance for the funeral expenses. The family agrees to submit all required documentation and cooperate with the assessment process to ensure timely support." style="width: 100%; height: 150px;">{{ $client->initial_agreement }}</textarea>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="data_gather">Data Gathering</label>
+                                    <select name="data_gather" class="form-control" id="data_gather">
+                                        <option value="" disabled selected>Select Data Gathering</option>
+                                        <option value="Done" {{ $client->data_gather == 'Done' ? 'selected' : '' }}>✔️ Done</option>
+                                        <option value="Incomplete" {{ $client->data_gather == 'Incomplete' ? 'selected' : '' }}>❌ Incomplete</option>
+                                        <option value="Processing" {{ $client->data_gather == 'Processing' ? 'selected' : '' }}>🔄 Processing</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="prevBtn4{{ $client->id }}">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </button>
+                            <button type="button" class="btn btn-primary" id="nextBtn6{{ $client->id }}">
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal fade" id="nextModal6{{ $client->id }}" tabindex="-1" role="dialog" aria-labelledby="nextModal6{{ $client->id }}Label" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="nextModal6{{ $client->id }}Label">Assessment</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class="row">
+                                <!-- Assessment Text Area -->
+                                <div class="col-md-18 form-group">
+                                    <label for="assessment1">Assessment (may include psycho-social functioning, family functioning, environmental factors)</label>
+                                    <textarea name="assessment1" class="form-control custom-textarea" id="assessment1" style="width: 100%; height: 150px;" placeholder="The family is experiencing severe emotional distress and financial hardship due to a recent loss. Communication is strained, leading to conflicts, but there is a strong desire to support each other. Their living conditions are modest with limited access to resources and community services, further complicating their situation.">{{ $client->assessment1 }}</textarea>
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <label for="assessment">Assessment</label>
+                                    <select name="assessment" class="form-control" id="assessment">
+                                        <option value="" disabled selected>Select Assessment</option>
+                                        <option value="Done" {{ $client->assessment == 'Done' ? 'selected' : '' }}>✔️ Done</option>
+                                        <option value="Incomplete" {{ $client->assessment == 'Incomplete' ? 'selected' : '' }}>❌ Incomplete</option>
+                                        <option value="Processing" {{ $client->assessment == 'Processing' ? 'selected' : '' }}>🔄 Processing</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="prevBtn5{{ $client->id }}">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </button>
+                            <button type="button" class="btn btn-primary" id="nextBtn7{{ $client->id }}">
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal fade" id="nextModal7{{ $client->id }}" tabindex="-1" role="dialog" aria-labelledby="nextModal7{{ $client->id }}Label" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="nextModal7{{ $client->id }}Label">Evaluation and Resolution</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class="row">
+
+                                <div class="col-md-12 form-group">
+                                    <label for="case_management_evaluation">Case Management Evaluation</label>
+                                    <textarea name="case_management_evaluation" class="form-control" style="width: 100%; height: 150px;" id="case_management_evaluation" placeholder="Immediate financial assistance was provided for funeral expenses. Psycho-social support services were initiated, showing improved family communication and emotional stability. Continued financial support is recommended due to ongoing instability." style="width: 50%;">{{ $client->case_management_evaluation }}</textarea>
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <label for="case_resolution">Case Resolution</label>
+                                    <textarea name="case_resolution" class="form-control" id="case_resolution" style="width: 100%; height: 150px;" placeholder="Financial aid for funeral costs was provided, and the family received counseling and community resource referrals. The family is now on a path to recovery and improved stability." style="width: 50%;">{{ $client->case_resolution }}</textarea>
+                                </div>
+                                <div class="col-md-10 form-group">
+                                    <label for="tracking">Case Status</label>
+                                    <select name="tracking" class="form-control" id="tracking">
+                                        <option value="" selected disabled>Select Case Status</option>
+                                        <option value="Approve" {{ $client->tracking == 'Approve' ? 'selected' : '' }}>Approve (and close this case)</option>
+                                        <option value="Re-access" {{ $client->tracking == 'Re-access' ? 'selected' : '' }}>Re-access (On-Going case)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-10 form-group">
+                                    <label for="approving">Approving Officer</label>
+                                    <input type="text" class="form-control" id="approving" name="approving" value="{{ $client->approving }}" placeholder="Enter Approving Officer">
+                                </div>
+
+                                <div class="col-md-10 form-group">
+                                    <label for="eval">Evaluation</label>
+                                    <select name="eval" class="form-control" id="eval">
+                                        <option value="" disabled selected>Select Evaluation</option>
+                                        <option value="Done" {{ $client->eval == 'Done' ? 'selected' : '' }}>✔️ Done</option>
+                                        <option value="Incomplete" {{ $client->eval == 'Incomplete' ? 'selected' : '' }}>❌ Incomplete</option>
+                                        <option value="Processing" {{ $client->eval == 'Processing' ? 'selected' : '' }}>🔄 Processing</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="prevBtn6{{ $client->id }}">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </button>
+                            <button type="button" class="btn btn-success" id="saveBtn">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            @endforeach
+            </tbody>
+            </table>
         </div>
-    </section>
+</div>
+</section>
 </div>
 
 <div class="modal fade" id="nextModal{{ $client->id }}" tabindex="-1" role="dialog" aria-labelledby="nextModal{{ $client->id }}Label" aria-hidden="true">
@@ -448,7 +898,6 @@
                 @csrf
                 @method('PUT')
 
-                <!-- Modal Body -->
                 <div class="modal-body">
                     <!-- Table -->
                     <div class="table-responsive">
@@ -491,9 +940,7 @@
                                         <button type="button" class="btn btn-warning btn-sm d-flex align-items-center" data-toggle="modal" data-target="#editFamilyMemberModal{{ $familyMember->id }}">
                                             <i class="fas fa-edit me-1"></i> Edit
                                         </button>
-
                                     </td>
-
                                     <td>
                                         <!-- Delete Button -->
                                         <form action="{{ route('social-worker.family.destroy', $familyMember->id) }}" method="POST" class="d-inline" id="famform-{{ $familyMember->id }}">
@@ -504,23 +951,214 @@
                                             </button>
                                         </form>
                                     </td>
-
                                 </tr>
+
+                                <div class=" modal fade" id="editFamilyMemberModal{{ $familyMember->id }}" tabindex="-1" role="dialog" aria-labelledby="editFamilyMemberLabel{{ $familyMember->id }}" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="editFamilyMemberLabel{{ $familyMember->id }}">Edit Family Member</h5>
+
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="{{ route('social-worker.family.update', $familyMember->id) }}" id="formIdEdit" method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+
+                                                    <div class="form-group">
+                                                        <label for="fam_lastname">Last Name</label>
+                                                        <input type="text" name="fam_lastname" class="form-control" value="{{ $familyMember->fam_lastname }}" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="fam_firstname">First Name</label>
+                                                        <input type="text" name="fam_firstname" class="form-control" value="{{ $familyMember->fam_firstname }}" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="fam_middlename">Middle Name</label>
+                                                        <input type="text" name="fam_middlename" class="form-control" value="{{ $familyMember->fam_middlename }}">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="fam_relationship">Relationship</label>
+                                                        <select name="fam_relationship" id="fam_relationship" class="form-control">
+                                                            <option value="">Select Relationship</option>
+                                                            <option value="Parent" {{ $familyMember->fam_relationship == 'Parent' ? 'selected' : '' }}>Parent</option>
+                                                            <option value="Sibling" {{ $familyMember->fam_relationship == 'Sibling' ? 'selected' : '' }}>Sibling</option>
+                                                            <option value="Child" {{ $familyMember->fam_relationship == 'Child' ? 'selected' : '' }}>Child</option>
+                                                            <option value="Spouse" {{ $familyMember->fam_relationship == 'Spouse' ? 'selected' : '' }}>Spouse</option>
+                                                            <option value="Relative" {{ $familyMember->fam_relationship == 'Relative' ? 'selected' : '' }}>Relative</option>
+                                                            <option value="Other" {{ $familyMember->fam_relationship == 'Other' ? 'selected' : '' }}>Other</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="fam_birthday">Birthday</label>
+                                                        <input type="date" name="fam_birthday" class="form-control" value="{{ $familyMember->fam_birthday }}">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="fam_age">Age</label>
+                                                        <input type="number" name="fam_age" class="form-control" value="{{ $familyMember->fam_age }}">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="fam_gender">Gender</label>
+                                                        <select name="fam_gender" id="fam_gender" class="form-control">
+                                                            <option value="">Select Gender</option>
+                                                            <option value="Male" {{ $familyMember->fam_gender == 'Male' ? 'selected' : '' }}>Male</option>
+                                                            <option value="Female" {{ $familyMember->fam_gender == 'Female' ? 'selected' : '' }}>Female</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="fam_status">Status</label>
+                                                        <select name="fam_status" id="fam_status" class="form-control">
+                                                            <option value="">Select Status</option>
+                                                            <option value="Single" {{ $familyMember->fam_status == 'Single' ? 'selected' : '' }}>Single</option>
+                                                            <option value="Married" {{ $familyMember->fam_status == 'Married' ? 'selected' : '' }}>Married</option>
+                                                            <option value="Widowed" {{ $familyMember->fam_status == 'Widowed' ? 'selected' : '' }}>Widowed</option>
+                                                            <option value="Separated" {{ $familyMember->fam_status == 'Separated' ? 'selected' : '' }}>Separated</option>
+                                                            <option value="Divorced" {{ $familyMember->fam_status == 'Divorced' ? 'selected' : '' }}>Divorced</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="fam_education">Education</label>
+                                                        <input type="text" name="fam_education" class="form-control" value="{{ $familyMember->fam_education }}">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="fam_occupation">Occupation</label>
+                                                        <input type="text" name="fam_occupation" class="form-control" value="{{ $familyMember->fam_occupation }}">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="fam_income">Monthly Income</label>
+                                                        <select name="fam_income" id="fam_income" class="form-control">
+                                                            <option value="">Select Income Range</option>
+                                                            <option value="0" {{ $familyMember->fam_income == '0' ? 'selected' : '' }}>Below 5,000</option>
+                                                            <option value="5000" {{ $familyMember->fam_income == '5000' ? 'selected' : '' }}>5,000 - 10,000</option>
+                                                            <option value="10000" {{ $familyMember->fam_income == '10000' ? 'selected' : '' }}>10,000 - 20,000</option>
+                                                            <option value="20000" {{ $familyMember->fam_income == '20000' ? 'selected' : '' }}>20,000 - 30,000</option>
+                                                            <option value="30000" {{ $familyMember->fam_income == '30000' ? 'selected' : '' }}>30,000 - 40,000</option>
+                                                            <option value="40000" {{ $familyMember->fam_income == '40000' ? 'selected' : '' }}>40,000 - 50,000</option>
+                                                            <option value="50000" {{ $familyMember->fam_income == '50000' ? 'selected' : '' }}>50,000 and above</option>
+                                                        </select>
+
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary" onclick="successEdit('formIdEdit', event)">Update</button>
+
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade" id="addFamilyMemberModal{{ $client->id }}" tabindex="-1" role="dialog" aria-labelledby="addFamilyMemberLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="addFamilyMemberLabel">Add Family Member</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form id="formId" action="{{ route('social-worker.family.store') }}" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="client_id" value="{{ $client->id }}">
+
+                                                    <div class="form-group">
+                                                        <label for="fam_lastname">Last Name</label>
+                                                        <input type="text" name="fam_lastname" class="form-control" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="fam_firstname">First Name</label>
+                                                        <input type="text" name="fam_firstname" class="form-control" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="fam_middlename">Middle Name</label>
+                                                        <input type="text" name="fam_middlename" class="form-control">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="fam_relationship">Relationship</label>
+                                                        <select name="fam_relationship" id="fam_relationship" class="form-control">
+                                                            <option value="">Select Relationship</option>
+                                                            <option value="Parent">Parent</option>
+                                                            <option value="Sibling">Sibling</option>
+                                                            <option value="Child">Child</option>
+                                                            <option value="Spouse">Spouse</option>
+                                                            <option value="Relative">Relative</option>
+                                                            <option value="Other">Other</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label for="fam_birthday">Birthday</label>
+                                                        <input type="date" name="fam_birthday" class="form-control">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="fam_gender">Gender</label>
+                                                        <select name="fam_gender" class="form-control">
+                                                            <option value="">Select Gender</option>
+                                                            <option value="Male">Male</option>
+                                                            <option value="Female">Female</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="fam_status">Status</label>
+                                                        <select name="fam_status" id="fam_status" class="form-control">
+                                                            <option value="">Select Status</option>
+                                                            <option value="Single">Single</option>
+                                                            <option value="Married">Married</option>
+                                                            <option value="Widowed">Widowed</option>
+                                                            <option value="Separated">Separated</option>
+                                                            <option value="Divorced">Divorced</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="fam_education">Education</label>
+                                                        <input type="text" name="fam_education" class="form-control">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="fam_occupation">Occupation</label>
+                                                        <input type="text" name="fam_occupation" class="form-control">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="fam_income">Monthly Income</label>
+                                                        <select name="fam_income" id="fam_income" class="form-control">
+                                                            <option value="">Select Income Range</option>
+                                                            <option value="0">Below 5,000</option>
+                                                            <option value="5000">5,000 - 10,000</option>
+                                                            <option value="10000">10,000 - 20,000</option>
+                                                            <option value="20000">20,000 - 30,000</option>
+                                                            <option value="30000">30,000 - 40,000</option>
+                                                            <option value="40000">40,000 - 50,000</option>
+                                                            <option value="50000">50,000 and above</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-primary" onclick="successAlert('formId')">Save changes</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 @empty
                                 <tr>
                                     <td colspan="12" class="text-center">No family members found</td>
                                 </tr>
+
                                 @endforelse
                             </tbody>
                         </table>
                     </div>
-                    <!-- Add Family Member Button -->
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addFamilyMemberModal{{ $client->id }}">
                         <i class="fas fa-plus"></i> Add Family Member
                     </button>
                 </div>
-
-                <!-- Modal Footer -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" id="prevBtnFam{{ $client->id }}">
                         <i class="fas fa-arrow-left"></i> Back
@@ -533,666 +1171,6 @@
         </div>
     </div>
 </div>
-
-@isset($familyMember)
-<!-- Edit Family Member Modal -->
-<div class=" modal fade" id="editFamilyMemberModal{{ $familyMember->id }}" tabindex="-1" role="dialog" aria-labelledby="editFamilyMemberLabel{{ $familyMember->id }}" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editFamilyMemberLabel{{ $familyMember->id }}">Edit Family Member</h5>
-
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('social-worker.family.update', $familyMember->id) }}" id="formIdEdit" method="POST">
-                    @csrf
-                    @method('PUT')
-
-                    <div class="form-group">
-                        <label for="fam_lastname">Last Name</label>
-                        <input type="text" name="fam_lastname" class="form-control" value="{{ $familyMember->fam_lastname }}" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="fam_firstname">First Name</label>
-                        <input type="text" name="fam_firstname" class="form-control" value="{{ $familyMember->fam_firstname }}" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="fam_middlename">Middle Name</label>
-                        <input type="text" name="fam_middlename" class="form-control" value="{{ $familyMember->fam_middlename }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="fam_relationship">Relationship</label>
-                        <select name="fam_relationship" id="fam_relationship" class="form-control">
-                            <option value="">Select Relationship</option>
-                            <option value="Parent" {{ $familyMember->fam_relationship == 'Parent' ? 'selected' : '' }}>Parent</option>
-                            <option value="Sibling" {{ $familyMember->fam_relationship == 'Sibling' ? 'selected' : '' }}>Sibling</option>
-                            <option value="Child" {{ $familyMember->fam_relationship == 'Child' ? 'selected' : '' }}>Child</option>
-                            <option value="Spouse" {{ $familyMember->fam_relationship == 'Spouse' ? 'selected' : '' }}>Spouse</option>
-                            <option value="Relative" {{ $familyMember->fam_relationship == 'Relative' ? 'selected' : '' }}>Relative</option>
-                            <option value="Other" {{ $familyMember->fam_relationship == 'Other' ? 'selected' : '' }}>Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="fam_birthday">Birthday</label>
-                        <input type="date" name="fam_birthday" class="form-control" value="{{ $familyMember->fam_birthday }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="fam_age">Age</label>
-                        <input type="number" name="fam_age" class="form-control" value="{{ $familyMember->fam_age }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="fam_gender">Gender</label>
-                        <select name="fam_gender" id="fam_gender" class="form-control">
-                            <option value="">Select Gender</option>
-                            <option value="Male" {{ $familyMember->fam_gender == 'Male' ? 'selected' : '' }}>Male</option>
-                            <option value="Female" {{ $familyMember->fam_gender == 'Female' ? 'selected' : '' }}>Female</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="fam_status">Status</label>
-                        <select name="fam_status" id="fam_status" class="form-control">
-                            <option value="">Select Status</option>
-                            <option value="Single" {{ $familyMember->fam_status == 'Single' ? 'selected' : '' }}>Single</option>
-                            <option value="Married" {{ $familyMember->fam_status == 'Married' ? 'selected' : '' }}>Married</option>
-                            <option value="Widowed" {{ $familyMember->fam_status == 'Widowed' ? 'selected' : '' }}>Widowed</option>
-                            <option value="Separated" {{ $familyMember->fam_status == 'Separated' ? 'selected' : '' }}>Separated</option>
-                            <option value="Divorced" {{ $familyMember->fam_status == 'Divorced' ? 'selected' : '' }}>Divorced</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="fam_education">Education</label>
-                        <input type="text" name="fam_education" class="form-control" value="{{ $familyMember->fam_education }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="fam_occupation">Occupation</label>
-                        <input type="text" name="fam_occupation" class="form-control" value="{{ $familyMember->fam_occupation }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="fam_income">Monthly Income</label>
-                        <select name="fam_income" id="fam_income" class="form-control">
-                            <option value="">Select Income Range</option>
-                            <option value="0" {{ $familyMember->fam_income == '0' ? 'selected' : '' }}>Below 5,000</option>
-                            <option value="5000" {{ $familyMember->fam_income == '5000' ? 'selected' : '' }}>5,000 - 10,000</option>
-                            <option value="10000" {{ $familyMember->fam_income == '10000' ? 'selected' : '' }}>10,000 - 20,000</option>
-                            <option value="20000" {{ $familyMember->fam_income == '20000' ? 'selected' : '' }}>20,000 - 30,000</option>
-                            <option value="30000" {{ $familyMember->fam_income == '30000' ? 'selected' : '' }}>30,000 - 40,000</option>
-                            <option value="40000" {{ $familyMember->fam_income == '40000' ? 'selected' : '' }}>40,000 - 50,000</option>
-                            <option value="50000" {{ $familyMember->fam_income == '50000' ? 'selected' : '' }}>50,000 and above</option>
-                        </select>
-
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" onclick="successEdit('formIdEdit', event)">Update</button>
-
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-@endisset
-
-
-<!-- Add Family Member Modal -->
-<div class="modal fade" id="addFamilyMemberModal{{ $client->id }}" tabindex="-1" role="dialog" aria-labelledby="addFamilyMemberLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addFamilyMemberLabel">Add Family Member</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="formId" action="{{ route('social-worker.family.store') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="client_id" value="{{ $client->id }}">
-
-                    <div class="form-group">
-                        <label for="fam_lastname">Last Name</label>
-                        <input type="text" name="fam_lastname" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="fam_firstname">First Name</label>
-                        <input type="text" name="fam_firstname" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="fam_middlename">Middle Name</label>
-                        <input type="text" name="fam_middlename" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="fam_relationship">Relationship</label>
-                        <select name="fam_relationship" id="fam_relationship" class="form-control">
-                            <option value="">Select Relationship</option>
-                            <option value="Parent">Parent</option>
-                            <option value="Sibling">Sibling</option>
-                            <option value="Child">Child</option>
-                            <option value="Spouse">Spouse</option>
-                            <option value="Relative">Relative</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="fam_birthday">Birthday</label>
-                        <input type="date" name="fam_birthday" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="fam_gender">Gender</label>
-                        <select name="fam_gender" class="form-control">
-                            <option value="">Select Gender</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="fam_status">Status</label>
-                        <select name="fam_status" id="fam_status" class="form-control">
-                            <option value="">Select Status</option>
-                            <option value="Single">Single</option>
-                            <option value="Married">Married</option>
-                            <option value="Widowed">Widowed</option>
-                            <option value="Separated">Separated</option>
-                            <option value="Divorced">Divorced</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="fam_education">Education</label>
-                        <input type="text" name="fam_education" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="fam_occupation">Occupation</label>
-                        <input type="text" name="fam_occupation" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="fam_income">Monthly Income</label>
-                        <select name="fam_income" id="fam_income" class="form-control">
-                            <option value="">Select Income Range</option>
-                            <option value="0">Below 5,000</option>
-                            <option value="5000">5,000 - 10,000</option>
-                            <option value="10000">10,000 - 20,000</option>
-                            <option value="20000">20,000 - 30,000</option>
-                            <option value="30000">30,000 - 40,000</option>
-                            <option value="40000">40,000 - 50,000</option>
-                            <option value="50000">50,000 and above</option>
-                        </select>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" onclick="successAlert('formId')">Save changes</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-@isset($client)
-<div class="modal fade" id="nextModal2{{ $client->id }}" tabindex="-1" role="dialog" aria-labelledby="nextModal2{{ $client->id }}Label" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="nextModal2{{ $client->id }}Label">Edit Applicant</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="circumstances_of_referral">Circumstances of Referral</label>
-                    <textarea name="circumstances_of_referral" class="form-control" id="circumstances_of_referral" placeholder="Referred by barangay due to inability to afford expenses." rows="3">{{ $client->circumstances_of_referral }}</textarea>
-                </div>
-                <div class="form-group">
-                    <label for="family_background">Family Background</label>
-                    <textarea name="family_background" class="form-control" id="family_background" placeholder="Lives with spouse and three children, aged 10, 8, and 5." rows="3">{{ $client->family_background }}</textarea>
-                </div>
-                <div class="form-group">
-                    <label for="health_history">Health History of the Applicant</label>
-                    <textarea name="health_history" class="form-control" id="health_history" placeholder="Diagnosed with hypertension and diabetes." rows="3">{{ $client->health_history }}</textarea>
-                </div>
-                <div class="form-group">
-                    <label for="economic_situation">Economic Situation</label>
-                    <textarea name="economic_situation" class="form-control" id="economic_situation" placeholder="Primary earner of the family with no other sources of income." rows="3">{{ $client->economic_situation }}</textarea>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="prevBtn1{{ $client->id }}"> <i class="fas fa-arrow-left"></i>Back</button>
-                <button type="button" class="btn btn-primary" id="nextBtn3{{ $client->id }}">
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
-
-        </div>
-    </div>
-</div>
-@endisset
-@isset($client)
-<div class="modal fade" id="nextModal3{{ $client->id }}" tabindex="-1" role="dialog" aria-labelledby="nextModal3{{ $client->id }}Label" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="nextModal3{{ $client->id }}Label">Edit Applicant</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="problem_presented">Problem Presented</label>
-                    <textarea name="problem_presented" class="form-control" id="problem_presented" placeholder="The request for burial assistance was submitted due to the financial difficulties faced by the family in managing funeral expenses." rows="5" style="width: 100%; min-height: 150px;">{{ $client->problem_presented }}</textarea>
-                </div>
-                <div class="form-group" style="margin-top:20px;">
-                    <label for="problem_identification">Problem Identification</label>
-                    <select name="problem_identification" class="form-control" id="problem_identification">
-                        <option value="" disabled selected>Select Problem Identification</option>
-                        <option value="Done" {{ $client->problem_identification == 'Done' ? 'selected' : '' }}>✔️ Done</option>
-                        <option value="Incomplete" {{ $client->problem_identification == 'Incomplete' ? 'selected' : '' }}>❌ Incomplete</option>
-                        <option value="Processing" {{ $client->problem_identification == 'Processing' ? 'selected' : '' }}>🔄 Processing</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="prevBtn2{{ $client->id }}"> <i class="fas fa-arrow-left"></i>Back</button>
-
-                <button type="button" class="btn btn-primary" id="nextBtn4{{ $client->id }}">
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
-
-        </div>
-    </div>
-</div>
-@endisset
-@isset($client)
-<div class="modal fade" id="nextModal4{{ $client->id }}" tabindex="-1" role="dialog" aria-labelledby="nextModal4{{ $client->id }}Label" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="nextModal4{{ $client->id }}Label">Edit Applicant</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <div class="modal-body">
-                <div class="form-group">
-                    <h2>Services</h2>
-                    <hr>
-                    <h5><label>Burial Assistance</label></h5><br>
-                    <div class="form-check-row">
-                        <?php
-                        $clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
-                        $clientServices = is_array($clientServices) ? $clientServices : [];
-
-                        $services = ['Burial', 'Financial', 'Funeral'];
-                        ?>
-                        @foreach($services as $service)
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">{{ $service }}</label>
-                        </div>
-                        @endforeach
-                    </div>
-                </div>
-                <hr>
-                <h5><label>Requirements</label></h5>
-                <div class="col">
-                    <div class="form-check-row">
-                        <?php
-                        $clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
-                        $clientServices = is_array($clientServices) ? $clientServices : [];
-
-                        $services = ['Death Certificate', 'Funeral Contract', 'Valid ID', 'Proof Of Relation'];
-                        ?>
-                        @foreach($services as $service)
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">{{ $service }}</label>
-                        </div>
-                        @endforeach
-                    </div>
-                </div>
-                <hr>
-                <h5><label>Crisis Intervention Unit</label></h5><br>
-                <div class="col">
-                    <div class="form-check-row">
-                        <?php
-                        $clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
-                        $clientServices = is_array($clientServices) ? $clientServices : [];
-
-                        $services = ['Crisis Intervention Unit = Valid ID', 'Barangay Clearance.', 'Medical Certificate.', 'Incident Report.', 'Funeral Contract.', 'Death Certificate.'];
-                        ?>
-                        @foreach($services as $service)
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">
-                                @if ($service === 'Crisis Intervention Unit = Valid ID')
-                                Valid ID
-                                @else
-                                {{ $service }}
-                                @endif
-                            </label>
-                        </div>
-                        @endforeach
-                    </div>
-                </div>
-                <hr>
-                <h5><label>Solo Parent Services</label></h5>
-                <div class="col">
-                    <div class="form-check-row">
-                        <?php
-                        $clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
-                        $clientServices = is_array($clientServices) ? $clientServices : [];
-
-                        $services = [
-                            'Solo Parent = Agency Referral',
-                            'Residency Cert.',
-                            'Medical Cert.',
-                            'Billing Proof',
-                            'Birth Cert.',
-                            'ID Copy',
-                            'Senior Citizen ID (60+)'
-                        ];
-                        ?>
-                        @foreach($services as $service)
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">
-                                @if ($service === 'Solo Parent = Agency Referral')
-                                Agency Referral
-                                @else
-                                {{ $service }}
-                                @endif
-                            </label>
-                        </div>
-                        @endforeach
-                    </div>
-                </div>
-                <hr>
-                <h5><label>Pre-marriage Counseling</label></h5><br>
-                <div class="col">
-                    <div class="form-check-row">
-                        <?php
-                        $clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
-                        $clientServices = is_array($clientServices) ? $clientServices : [];
-
-                        $services = [
-                            'Pre-marriage Counseling = Valid ID',
-                            'Birth Certificate',
-                            'CENOMAR',
-                            'Barangay Clearance',
-                            'Passport-sized Photos',
-                        ];
-                        ?>
-                        @foreach($services as $service)
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">
-                                @if ($service === 'Pre-marriage = Valid ID')
-                                Valid ID
-                                @else
-                                {{ $service }}
-                                @endif
-                            </label>
-                        </div>
-                        @endforeach
-                    </div>
-                </div>
-                <hr>
-                <h5><label>After-Care Services</label></h5><br>
-                <div class="col">
-                    <div class="form-check-row">
-                        <?php
-                        $clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
-                        $clientServices = is_array($clientServices) ? $clientServices : [];
-
-                        $services = [
-                            'After-Care Services = Valid ID',
-                            'Birth Certificate.',
-                            'Residence Certificate.',
-                            'SCSR',
-                            'Medical Records',
-                        ];
-                        ?>
-                        @foreach($services as $service)
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">
-                                @if ($service === 'After-Care Services = Valid ID')
-                                Valid ID
-                                @else
-                                {{ $service }}
-                                @endif
-                            </label>
-                        </div>
-                        @endforeach
-                    </div>
-                </div>
-
-                <hr>
-                <h5><label>Poverty Alleviation Program</label></h5><br>
-                <div class="col">
-                    <div class="form-check-row">
-                        <?php
-                        $clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
-                        $clientServices = is_array($clientServices) ? $clientServices : [];
-
-                        $services = [
-                            'Poverty Alleviation Program = Valid ID',
-                            'Residence Certificate',
-                            'Income Certificate',
-                            'SCSR.',
-                            'Application Form',
-                        ];
-                        ?>
-                        @foreach($services as $service)
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">
-                                @if ($service === 'Poverty Alleviation Program = Valid ID')
-                                Valid ID
-                                @else
-                                {{ $service }}
-                                @endif
-                            </label>
-                        </div>
-                        @endforeach
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="prevBtn3{{ $client->id }}"> <i class="fas fa-arrow-left"></i>Back</button>
-
-                    <button type="button" class="btn btn-primary" id="nextBtn5{{ $client->id }}">
-                        <i class="fas fa-arrow-right"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
-</div>
-@endisset
-
-@isset($client)
-
-
-<div class="modal fade" id="nextModal5{{ $client->id }}" tabindex="-1" role="dialog" aria-labelledby="nextModal5{{ $client->id }}Label" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="nextModal5{{ $client->id }}Label">Data Gathering</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-3 form-group">
-                        <label for="home_visit">Home Visit Date</label>
-                        <input type="date" name="home_visit" class="form-control" id="home_visit" value="{{ $client->home_visit }}">
-                    </div>
-                    <div class="col-md-3 form-group">
-                        <label for="interviewee">Interviewee</label>
-                        <input type="text" class="form-control" id="interviewee" name="interviewee" value="{{ $client->interviewee }}" placeholder="Enter Interviewee">
-                    </div>
-                    <div class="col-md-3 form-group">
-                        <label for="interviewed_by">Interviewed By</label>
-                        <input type="text" class="form-control" id="interviewed_by" name="interviewed_by" value="{{ $client->interviewed_by }}" placeholder="Enter Interviewed By">
-                    </div>
-                    <div class="col-md-12 form-group">
-                        <label for="layunin">Layunin Ng Pagbisita</label>
-                        <textarea name="layunin" class="form-control" id="layunin" placeholder="the social worker confirmed that the Applicant's household has stable electricity, clean running water with adequate pressure, and operational sanitation facilities. These findings will guide future support and interventions as necessary." style="width: 100%; height: 150px;">{{ $client->layunin }}</textarea>
-                    </div>
-                    <div class="col-md-12 form-group">
-                        <label for="resulta">Resulta Ng Pagbisita</label>
-                        <textarea name="resulta" class="form-control" id="resulta" placeholder="Applicant resides in a one-bedroom apartment with adequate space and basic furnishings. The environment appears clean and well-maintained" style="width: 100%; height: 150px;">{{ $client->resulta }}</textarea>
-                    </div>
-                    <div class="col-md-12 form-group">
-                        <label for="initial_agreement">Initial Agreement</label>
-                        <textarea name="initial_agreement" class="form-control" id="initial_agreement" placeholder="The initial agreement outlines that the organization will provide financial assistance for the funeral expenses. The family agrees to submit all required documentation and cooperate with the assessment process to ensure timely support." style="width: 100%; height: 150px;">{{ $client->initial_agreement }}</textarea>
-                    </div>
-                    <div class="col-md-3 form-group">
-                        <label for="data_gather">Data Gathering</label>
-                        <select name="data_gather" class="form-control" id="data_gather">
-                            <option value="" disabled selected>Select Data Gathering</option>
-                            <option value="Done" {{ $client->data_gather == 'Done' ? 'selected' : '' }}>✔️ Done</option>
-                            <option value="Incomplete" {{ $client->data_gather == 'Incomplete' ? 'selected' : '' }}>❌ Incomplete</option>
-                            <option value="Processing" {{ $client->data_gather == 'Processing' ? 'selected' : '' }}>🔄 Processing</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="prevBtn4{{ $client->id }}">
-                    <i class="fas fa-arrow-left"></i> Back
-                </button>
-                <button type="button" class="btn btn-primary" id="nextBtn6{{ $client->id }}">
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
-
-        </div>
-    </div>
-</div>
-@endisset
-@isset($client)
-
-<div class="modal fade" id="nextModal6{{ $client->id }}" tabindex="-1" role="dialog" aria-labelledby="nextModal6{{ $client->id }}Label" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="nextModal6{{ $client->id }}Label">Assessment</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <div class="modal-body">
-                <div class="row">
-                    <!-- Assessment Text Area -->
-                    <div class="col-md-18 form-group">
-                        <label for="assessment1">Assessment (may include psycho-social functioning, family functioning, environmental factors)</label>
-                        <textarea name="assessment1" class="form-control custom-textarea" id="assessment1" style="width: 100%; height: 150px;" placeholder="The family is experiencing severe emotional distress and financial hardship due to a recent loss. Communication is strained, leading to conflicts, but there is a strong desire to support each other. Their living conditions are modest with limited access to resources and community services, further complicating their situation.">{{ $client->assessment1 }}</textarea>
-                    </div>
-                    <div class="col-md-12 form-group">
-                        <label for="assessment">Assessment</label>
-                        <select name="assessment" class="form-control" id="assessment">
-                            <option value="" disabled selected>Select Assessment</option>
-                            <option value="Done" {{ $client->assessment == 'Done' ? 'selected' : '' }}>✔️ Done</option>
-                            <option value="Incomplete" {{ $client->assessment == 'Incomplete' ? 'selected' : '' }}>❌ Incomplete</option>
-                            <option value="Processing" {{ $client->assessment == 'Processing' ? 'selected' : '' }}>🔄 Processing</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="prevBtn5{{ $client->id }}">
-                    <i class="fas fa-arrow-left"></i> Back
-                </button>
-                <button type="button" class="btn btn-primary" id="nextBtn7{{ $client->id }}">
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
-
-        </div>
-    </div>
-</div>
-@endisset
-@isset($client)
-
-<div class="modal fade" id="nextModal7{{ $client->id }}" tabindex="-1" role="dialog" aria-labelledby="nextModal7{{ $client->id }}Label" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="nextModal7{{ $client->id }}Label">Evaluation and Resolution</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <div class="modal-body">
-                <div class="row">
-
-                    <div class="col-md-12 form-group">
-                        <label for="case_management_evaluation">Case Management Evaluation</label>
-                        <textarea name="case_management_evaluation" class="form-control" style="width: 100%; height: 150px;" id="case_management_evaluation" placeholder="Immediate financial assistance was provided for funeral expenses. Psycho-social support services were initiated, showing improved family communication and emotional stability. Continued financial support is recommended due to ongoing instability." style="width: 50%;">{{ $client->case_management_evaluation }}</textarea>
-                    </div>
-                    <div class="col-md-12 form-group">
-                        <label for="case_resolution">Case Resolution</label>
-                        <textarea name="case_resolution" class="form-control" id="case_resolution" style="width: 100%; height: 150px;" placeholder="Financial aid for funeral costs was provided, and the family received counseling and community resource referrals. The family is now on a path to recovery and improved stability." style="width: 50%;">{{ $client->case_resolution }}</textarea>
-                    </div>
-                    <div class="col-md-10 form-group">
-                        <label for="tracking">Case Status</label>
-                        <select name="tracking" class="form-control" id="tracking">
-                            <option value="" selected disabled>Select Case Status</option>
-                            <option value="Approve" {{ $client->tracking == 'Approve' ? 'selected' : '' }}>Approve (and close this case)</option>
-                            <option value="Re-access" {{ $client->tracking == 'Re-access' ? 'selected' : '' }}>Re-access (On-Going case)</option>
-                        </select>
-                    </div>
-                    <div class="col-md-10 form-group">
-                        <label for="approving">Approving Officer</label>
-                        <input type="text" class="form-control" id="approving" name="approving" value="{{ $client->approving }}" placeholder="Enter Approving Officer">
-                    </div>
-
-                    <div class="col-md-10 form-group">
-                        <label for="eval">Evaluation</label>
-                        <select name="eval" class="form-control" id="eval">
-                            <option value="" disabled selected>Select Evaluation</option>
-                            <option value="Done" {{ $client->eval == 'Done' ? 'selected' : '' }}>✔️ Done</option>
-                            <option value="Incomplete" {{ $client->eval == 'Incomplete' ? 'selected' : '' }}>❌ Incomplete</option>
-                            <option value="Processing" {{ $client->eval == 'Processing' ? 'selected' : '' }}>🔄 Processing</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="prevBtn6{{ $client->id }}">
-                    <i class="fas fa-arrow-left"></i> Back
-                </button>
-                <button type="button" class="btn btn-success" id="saveBtn">
-                    <i class="fas fa-save"></i> Save
-                </button>
-            </div>
-
-        </div>
-    </div>
-</div>
-
 <style>
     .modal-backdrop {
         /* bug fix - no overlay */
@@ -1647,5 +1625,4 @@
         handleNavigation('prevBtn6', 'nextModal6', true);
     });
 </script>
-@endisset
 @endsection
