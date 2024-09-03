@@ -41,7 +41,12 @@ Route::middleware(['auth'])->group(function () {
 
     /*  Route::get('/admin', [App\Http\Controllers\SocialWorkerController::class, 'index'])->name('admin.index')->middleware('admin'); */
 
+
+
+    Route::post('/social-worker/update/{id}', [ClientController::class, 'update'])->name('social-worker.update');
+
     //managing social worker account
+
     Route::put('/social-worker/update/{id}', [App\Http\Controllers\SocialWorkerController::class, 'update'])->name('social-worker.update')->middleware('social-worker');
     Route::get('/social-worker/edit/{id}', [App\Http\Controllers\SocialWorkerController::class, 'edit'])->name('social-worker.edit')->middleware('social-worker');
     Route::put('/social-worker/update/{id}', [App\Http\Controllers\SocialWorkerController::class, 'update'])->name('social-worker.update')->middleware('social-worker');

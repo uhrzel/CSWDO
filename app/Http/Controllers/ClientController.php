@@ -175,8 +175,9 @@ class ClientController extends Controller
 
         $client->update($validatedData);
 
-        return redirect()->back()->with('success', 'Client updated successfully.');
+        return response()->json(['message' => 'Client updated successfully.']);
     }
+
 
     public function destroy(Client $client)
     {
