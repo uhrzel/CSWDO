@@ -29,13 +29,10 @@
                             <th>Age</th>
                             <th>Sex</th>
                             <th>Date of Birth</th>
-                            <th>Place of Birth </th>
                             <th>Civil Status </th>
-                            <th>Religion</th>
                             <th>Nationality</th>
-                            <th>Occupation</th>
-                            <th>Monthly Income </th>
                             <th>Contact Number </th>
+                            <th>Case Status </th>
                             <th>View</th>
                             <th>Family Member</th>
                             <th>Edit</th>
@@ -45,21 +42,27 @@
                     <tbody id="searchResults">
                         @foreach ($clients as $client)
                         <tr>
-                            <td>{{ $client->control_number }}</td>
-                            <td>{{ $client->first_name }}</td>
-                            <td>{{ $client->last_name }}</td>
-                            <td>{{ $client->middle_name }}</td>
-                            <td>{{ $client->suffix }}</td>
-                            <td>{{ $client->age }}</td>
-                            <td>{{ $client->sex }}</td>
-                            <td>{{ $client->date_of_birth }}</td>
-                            <td>{{ $client->place_of_birth }}</td>
-                            <td>{{ $client->civil_status }}</td>
-                            <td>{{ $client->religion }}</td>
-                            <td>{{ $client->nationality }}</td>
-                            <td>{{ $client->occupation }}</td>
-                            <td>{{ $client->monthly_income }}</td>
-                            <td>{{ $client->contact_number }}</td>
+                            <td class="control-num">{{ $client->control_number }}</td>
+                            <td class="first-name">{{ $client->first_name }}</td>
+                            <td class="last-name">{{ $client->last_name }}</td>
+                            <td class="middle-name">{{ $client->middle }}</td>
+                            <td class="suffix">{{ $client->suffix }}</td>
+                            <td class="age">{{ $client->age }}</td>
+                            <td class="sex">{{ $client->sex }}</td>
+                            <td class="birthday">{{ $client->date_of_birth }}</td>
+                            <td class="civil-status">{{ $client->civil_status }}</td>
+                            <td class="nationality">{{ $client->nationality }}</td>
+                            <td class="contact-number">{{ $client->contact_number }}</td>
+                            <td class="case-status" style="padding: 5px; text-align: center;">
+                                <span style="
+        background-color: {{ $client->tracking == 'Re-access' ? 'orange' : ($client->tracking == 'Approve' ? 'green' : 'transparent') }};
+        color: white;
+        padding: 2px 4px;
+        border-radius: 4px;">
+                                    {{ $client->tracking == 'Re-access' ? 'Ongoing' : ($client->tracking == 'Approve' ? 'Closed' : $client->tracking) }}
+                                </span>
+                            </td>
+
 
                             <td>
                                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#viewClientModal{{ $client->id }}">
@@ -93,6 +96,37 @@
         </div>
     </section>
 </div>
+<script>
+    document.getElementById('searchInput').addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const tableRows = document.querySelectorAll('#searchResults tr');
+
+        tableRows.forEach(row => {
+            const controlNum = row.querySelector('.control-num').textContent.toLowerCase();
+            const fName = row.querySelector('.first-name').textContent.toLowerCase();
+            const lName = row.querySelector('.last-name').textContent.toLowerCase();
+            const mName = row.querySelector('.middle-name').textContent.toLowerCase();
+            const suffix = row.querySelector('.suffix').textContent.toLowerCase();
+            const age = row.querySelector('.age').textContent.toLowerCase();
+            const sex = row.querySelector('.sex').textContent.toLowerCase();
+            const birthday = row.querySelector('.birthday').textContent.toLowerCase();
+            const civilStatus = row.querySelector('.civil-status').textContent.toLowerCase();
+            const nationality = row.querySelector('.nationality').textContent.toLowerCase();
+            const contactNum = row.querySelector('.contact-number').textContent.toLowerCase();
+            const caseStatus = row.querySelector('.case-status').textContent.toLowerCase();
+
+            if (controlNum.includes(searchTerm) || fName.includes(searchTerm) || lName.includes(searchTerm) || mName.includes(searchTerm) ||
+                suffix.includes(searchTerm) || age.includes(searchTerm) || sex.includes(searchTerm) || birthday.includes(searchTerm) ||
+                civilStatus.includes(searchTerm) || nationality.includes(searchTerm) ||
+                contactNum.includes(searchTerm) ||
+                caseStatus.includes(searchTerm)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+</script>
 @foreach($clients as $client)
 <div class="modal fade" id="viewClientModal{{ $client->id }}" tabindex="-1" role="dialog" aria-labelledby="viewClientModalLabel{{ $client->id }}" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -735,11 +769,41 @@
 </div>
 @endforeach
 
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
+    function confirmDelete(clientId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Submit the form via AJAX to avoid reloading the page immediately
+                fetch(document.getElementById(`delete-form-${clientId}`).action, {
+                    method: 'POST',
+                    body: new FormData(document.getElementById(`delete-form-${clientId}`)),
+                }).then(() => {
+                    Swal.fire({
+                        title: 'Deleted!',
+                        text: 'The client has been deleted.',
+                        icon: 'success',
+                        confirmButtonColor: '#3085d6',
+                    }).then(() => {
+                        // Reload the page or redirect after the user clicks "OK"
+                        window.location.reload();
+                    });
+                });
+            }
+        });
+    }
+
+
     function submitEditForm(clientId) {
         var form = $('#editClientForm' + clientId);
         var formData = form.serializeArray(); // Get form data as an array of objects
@@ -855,7 +919,7 @@
 
 @foreach ($clients as $client)
 <div class="modal fade" id="familyMembersModal{{ $client->id }}" tabindex="-1" role="dialog" aria-labelledby="familyMembersModalLabel{{ $client->id }}" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="familyMembersModalLabel{{ $client->id }}">Family Members of {{ $client->first_name }} {{ $client->last_name }}</h5>
@@ -864,34 +928,155 @@
                 </button>
             </div>
             <div class="modal-body">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Relationship</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($client->familyMembers as $familyMember)
-                        <tr>
-                            <td>{{ $familyMember->fam_firstname }} {{ $familyMember->fam_lastname }}</td>
-                            <td>{{ $familyMember->fam_relationship }}</td>
-                            <td>
-                                <button class="btn btn-warning btn-sm editFamilyMember" data-id="{{ $familyMember->id }}">Edit</button>
-                                <button class="btn btn-danger btn-sm deleteFamilyMember" data-id="{{ $familyMember->id }}">Delete</button>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Last Name</th>
+                                <th>First Name</th>
+                                <th>Middle Name</th>
+                                <th>Relationship to the Client</th>
+                                <th>Birthday</th>
+                                <th>Age</th>
+                                <th>Sex</th>
+                                <th>Civil Status</th>
+                                <th>Educatonal Attainment</th>
+                                <th>Occupation</th>
+                                <th>Monthly Income</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($client->familyMembers as $familyMember)
+                            <tr>
+                                <td>{{ $familyMember->fam_firstname }}</td>
+                                <td> {{ $familyMember->fam_lastname }}</td>
+                                <td>{{ $familyMember->fam_middlename }}</td>
+                                <td> {{ $familyMember->fam_relationship }}</td>
+                                <td>{{ $familyMember->fam_birthday }}</td>
+                                <td> {{ $familyMember->fam_age }}</td>
+                                <td>{{ $familyMember->fam_gender }}</td>
+                                <td> {{ $familyMember->fam_status }}</td>
+                                <td>{{ $familyMember->fam_education }}</td>
+                                <td> {{ $familyMember->fam_occupation }}</td>
+                                <td>{{ $familyMember->fam_income }}</td>
+                                <td>
+                                    <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editFamilyMemberModal{{ $familyMember->id }}">Edit</button>
+                                </td>
+                                <td>
+                                    <form action="{{ route('social-worker.family.destroy', $familyMember->id) }}" method="POST" class="d-inline" id="delete-family-form-{{ $familyMember->id }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-danger btn-sm d-flex align-items-center" onclick="confirmDeleteFam({{ $familyMember->id }})">
+                                            <i class="fas fa-trash me-1"></i> Delete
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <!-- Edit Family Member Modal -->
+                            <div class="modal fade" id="editFamilyMemberModal{{ $familyMember->id }}" tabindex="-1" role="dialog" aria-labelledby="editFamilyMemberModalLabel{{ $familyMember->id }}" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <form method="POST" action="{{ route('social-worker.family.update', $familyMember->id) }}">
+                                            @csrf
+                                            @method('PUT')
+                                            <input type="hidden" name="client_id" value="{{ $client->id }}">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="editFamilyMemberModalLabel{{ $familyMember->id }}">Edit Family Member</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="fam_lastname">Last Name</label>
+                                                    <input type="text" name="fam_lastname" class="form-control" value="{{ $familyMember->fam_lastname }}" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="fam_firstname">First Name</label>
+                                                    <input type="text" name="fam_firstname" class="form-control" value="{{ $familyMember->fam_firstname }}" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="fam_middlename">Middle Name</label>
+                                                    <input type="text" name="fam_middlename" class="form-control" value="{{ $familyMember->fam_middlename }}">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="fam_relationship">Relationship</label>
+                                                    <select name="fam_relationship" class="form-control">
+                                                        <option value="Parent" {{ $familyMember->fam_relationship == 'Parent' ? 'selected' : '' }}>Parent</option>
+                                                        <option value="Sibling" {{ $familyMember->fam_relationship == 'Sibling' ? 'selected' : '' }}>Sibling</option>
+                                                        <option value="Child" {{ $familyMember->fam_relationship == 'Child' ? 'selected' : '' }}>Child</option>
+                                                        <option value="Spouse" {{ $familyMember->fam_relationship == 'Spouse' ? 'selected' : '' }}>Spouse</option>
+                                                        <option value="Relative" {{ $familyMember->fam_relationship == 'Relative' ? 'selected' : '' }}>Relative</option>
+                                                        <option value="Other" {{ $familyMember->fam_relationship == 'Other' ? 'selected' : '' }}>Other</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="fam_birthday">Birthday</label>
+                                                    <input type="date" name="fam_birthday" class="form-control" value="{{ $familyMember->fam_birthday }}">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="fam_age">Age</label>
+                                                    <input type="text" name="fam_age" class="form-control" value="{{ $familyMember->fam_age }}">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="fam_gender">Gender</label>
+                                                    <select name="fam_gender" class="form-control">
+                                                        <option value="Male" {{ $familyMember->fam_gender == 'Male' ? 'selected' : '' }}>Male</option>
+                                                        <option value="Female" {{ $familyMember->fam_gender == 'Female' ? 'selected' : '' }}>Female</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="fam_status">Status</label>
+                                                    <select name="fam_status" class="form-control">
+                                                        <option value="Single" {{ $familyMember->fam_status == 'Single' ? 'selected' : '' }}>Single</option>
+                                                        <option value="Married" {{ $familyMember->fam_status == 'Married' ? 'selected' : '' }}>Married</option>
+                                                        <option value="Widowed" {{ $familyMember->fam_status == 'Widowed' ? 'selected' : '' }}>Widowed</option>
+                                                        <option value="Separated" {{ $familyMember->fam_status == 'Separated' ? 'selected' : '' }}>Separated</option>
+                                                        <option value="Divorced" {{ $familyMember->fam_status == 'Divorced' ? 'selected' : '' }}>Divorced</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="fam_education">Education</label>
+                                                    <input type="text" name="fam_education" class="form-control" value="{{ $familyMember->fam_education }}">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="fam_occupation">Occupation</label>
+                                                    <input type="text" name="fam_occupation" class="form-control" value="{{ $familyMember->fam_occupation }}">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="fam_income">Monthly Income</label>
+                                                    <select name="fam_income" class="form-control">
+                                                        <option value="0" {{ $familyMember->fam_income == '0' ? 'selected' : '' }}>Below 5,000</option>
+                                                        <option value="5000" {{ $familyMember->fam_income == '5000' ? 'selected' : '' }}>5,000 - 10,000</option>
+                                                        <option value="10000" {{ $familyMember->fam_income == '10000' ? 'selected' : '' }}>10,000 - 20,000</option>
+                                                        <option value="20000" {{ $familyMember->fam_income == '20000' ? 'selected' : '' }}>20,000 - 30,000</option>
+                                                        <option value="30000" {{ $familyMember->fam_income == '30000' ? 'selected' : '' }}>30,000 - 40,000</option>
+                                                        <option value="40000" {{ $familyMember->fam_income == '40000' ? 'selected' : '' }}>40,000 - 50,000</option>
+                                                        <option value="50000" {{ $familyMember->fam_income == '50000' ? 'selected' : '' }}>50,000 and above</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Update Family Member</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
                 <button class="btn btn-success" data-toggle="modal" data-target="#addFamilyMemberModal{{ $client->id }}">Add Family Member</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Add Family Member Modal -->
+
 <div class="modal fade" id="addFamilyMemberModal{{ $client->id }}" tabindex="-1" role="dialog" aria-labelledby="addFamilyMemberModalLabel{{ $client->id }}" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -906,18 +1091,78 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="fam_firstname">First Name</label>
-                        <input type="text" class="form-control" name="fam_firstname" required>
+                        <label for="fam_lastname">Last Name</label>
+                        <input type="text" name="fam_lastname" class="form-control" required>
                     </div>
                     <div class="form-group">
-                        <label for="fam_lastname">Last Name</label>
-                        <input type="text" class="form-control" name="fam_lastname" required>
+                        <label for="fam_firstname">First Name</label>
+                        <input type="text" name="fam_firstname" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fam_middlename">Middle Name</label>
+                        <input type="text" name="fam_middlename" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="fam_relationship">Relationship</label>
-                        <input type="text" class="form-control" name="fam_relationship" required>
+                        <select name="fam_relationship" id="fam_relationship" class="form-control">
+                            <option value="">Select Relationship</option>
+                            <option value="Parent">Parent</option>
+                            <option value="Sibling">Sibling</option>
+                            <option value="Child">Child</option>
+                            <option value="Spouse">Spouse</option>
+                            <option value="Relative">Relative</option>
+                            <option value="Other">Other</option>
+                        </select>
                     </div>
-                    <!-- Add other fields as needed -->
+
+                    <div class="form-group">
+                        <label for="fam_birthday">Birthday</label>
+                        <input type="date" name="fam_birthday" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="fam_age">Age</label>
+                        <input type="text" name="fam_age" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="fam_gender">Gender</label>
+                        <select name="fam_gender" class="form-control">
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="fam_status">Status</label>
+                        <select name="fam_status" id="fam_status" class="form-control">
+                            <option value="">Select Status</option>
+                            <option value="Single">Single</option>
+                            <option value="Married">Married</option>
+                            <option value="Widowed">Widowed</option>
+                            <option value="Separated">Separated</option>
+                            <option value="Divorced">Divorced</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="fam_education">Education</label>
+                        <input type="text" name="fam_education" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="fam_occupation">Occupation</label>
+                        <input type="text" name="fam_occupation" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="fam_income">Monthly Income</label>
+                        <select name="fam_income" id="fam_income" class="form-control">
+                            <option value="">Select Income Range</option>
+                            <option value="0">Below 5,000</option>
+                            <option value="5000">5,000 - 10,000</option>
+                            <option value="10000">10,000 - 20,000</option>
+                            <option value="20000">20,000 - 30,000</option>
+                            <option value="30000">30,000 - 40,000</option>
+                            <option value="40000">40,000 - 50,000</option>
+                            <option value="50000">50,000 and above</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -927,6 +1172,60 @@
         </div>
     </div>
 </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmDeleteFam(familyMemberId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById(`delete-family-form-${familyMemberId}`).submit();
+            }
+        });
+    }
+</script>
+@if(session('add_success'))
+<script>
+    Swal.fire({
+        title: 'Success!',
+        text: 'Family Members Added Successfully.',
+        icon: 'success',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#3085d6'
+    });
+</script>
+@endif
+@if(session('delete_success'))
+<script>
+    Swal.fire({
+        title: 'Success!',
+        text: 'Family Member Deleted Successfully.',
+        icon: 'success',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#3085d6'
+    });
+</script>
+@endif
+@if(session('update_success'))
+<script>
+    Swal.fire({
+        title: 'Success!',
+        text: 'Family Member Updated Successfully.',
+        icon: 'success',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#3085d6'
+    });
+</script>
+@endif
+
 @endforeach
 
 @section('scripts')
@@ -936,119 +1235,5 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<script>
-    $(document).ready(function() {
-        $('#searchInput').on('input', function() {
-            const searchTerm = this.value.toLowerCase();
-            const tableRows = $('#searchResults tr');
-
-            tableRows.each(function() {
-                const $row = $(this);
-                const cells = $row.find('td');
-
-                let visible = false;
-                cells.each(function() {
-                    const cellText = $(this).text().toLowerCase();
-                    if (cellText.includes(searchTerm)) {
-                        visible = true;
-                        return false;
-                    }
-                });
-
-                if (visible) {
-                    $row.show();
-                } else {
-                    $row.hide();
-                }
-            });
-        });
-
-        function successAlert(formId) {
-            Swal.fire({
-                title: 'Success!',
-                text: 'Your changes have been saved.',
-                icon: 'success',
-                confirmButtonText: 'OK',
-                confirmButtonColor: '#3085d6'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById(formId).submit();
-                }
-            });
-        }
-
-        function confirmDelete(clientId) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById(`delete-form-${clientId}`).submit();
-                }
-            });
-        }
-
-        function confirmDeleteFam(familyMemberId) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById(`delete-family-form-${familyMemberId}`).submit();
-                }
-            });
-        }
-
-        // Bind the delete confirmation for clients
-        $('.btn-danger').on('click', function() {
-            const clientId = $(this).data('id');
-            confirmDelete(clientId);
-        });
-
-        // Bind the delete confirmation for family members
-        $('.deleteFamilyMember').on('click', function() {
-            const familyMemberId = $(this).data('id');
-            confirmDeleteFam(familyMemberId);
-        });
-    });
-
-
-    $(document).ready(function() {
-        function handleNavigation(buttonPrefix, nextModalPrefix, isNext) {
-            $('[id^=' + buttonPrefix + ']').on('click', function() {
-                let clientId = $(this).attr('id').replace(buttonPrefix, '');
-                let currentModalId = $(this).closest('.modal').attr('id');
-                let targetModalId = (isNext ? nextModalPrefix : buttonPrefix) + clientId;
-
-                $('#' + currentModalId).modal('hide');
-
-                $('#' + currentModalId).on('hidden.bs.modal', function() {
-                    $('#' + targetModalId).modal('show');
-                    $(this).off('hidden.bs.modal');
-                });
-            });
-        }
-
-        // Navigation for next modals
-        handleNavigation('nextBtn1', 'nextModal2', true);
-
-
-
-
-        // Navigation for previous modals
-        handleNavigation('prevBtnFam', 'openEditModal', true);
-
-    });
-</script>
 @endsection
 @endsection

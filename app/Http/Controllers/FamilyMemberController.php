@@ -30,7 +30,7 @@ class FamilyMemberController extends Controller
 
         FamilyMember::create($request->all());
 
-        return back()->with('success', 'Family member added successfully.');
+        return back()->with('add_success', 'Family member added successfully.');
     }
 
     public function update(Request $request, $id)
@@ -52,7 +52,7 @@ class FamilyMemberController extends Controller
         $familyMember = FamilyMember::findOrFail($id);
         $familyMember->update($request->all());
 
-        return back()->with('success', 'Family member update successfully.');
+        return back()->with('update_success', 'Family member update successfully.');
     }
 
     public function destroy($id)
@@ -60,6 +60,6 @@ class FamilyMemberController extends Controller
         $familyMember = FamilyMember::findOrFail($id);
         $familyMember->delete();
 
-        return back()->with('success', 'Family member deleted successfully.');
+        return back()->with('delete_success', 'Family member deleted successfully.');
     }
 }

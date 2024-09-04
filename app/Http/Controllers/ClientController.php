@@ -274,16 +274,10 @@ class ClientController extends Controller
         }
     }
 
-
-
-
-
-
-
     public function destroy(Client $client)
     {
         $client->delete();
-        return redirect()->back()->with('success', 'Client deleted successfully.');
+        return redirect()->back()->with('deleted_client_success', 'Client deleted successfully.');
     }
 
     public function receivedList()
