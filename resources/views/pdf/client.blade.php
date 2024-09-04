@@ -8,16 +8,38 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
         }
 
-
-        h1,
-        h2 {
+        .header {
             text-align: center;
+
+            padding-bottom: 10px;
+            margin-bottom: 20px;
         }
 
         .header img {
-            height: 80px;
+            vertical-align: middle;
+            width: 80px;
+            height: auto;
+        }
+
+        .header .title {
+            display: inline-block;
+            vertical-align: middle;
+            text-align: center;
+            margin: 0 20px;
+        }
+
+        .header .title h1 {
+            margin: 5px 0;
+            font-size: 20px;
+        }
+
+        .header .title h2 {
+            margin: 0;
+            font-size: 16px;
         }
 
         .form-section {
@@ -31,11 +53,12 @@
             position: relative;
         }
 
+
         .form-section .label::after {
             content: ":";
             position: absolute;
-            right: -5px;
-            /* Adjust this value to move the colon */
+            right: 15px;
+
         }
 
         .form-section .input {
@@ -73,14 +96,16 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="header">
-            <img src="city_logo.png" alt="City Logo" />
-            <h1>City Social Welfare and Development Office</h1>
-            <h2>General Intake Sheet</h2>
+    <div class="header">
+        <img src="img/logo.png" width="120" height="120" alt="City of Taguig Logo">
+        <div class="title">
+            <h2>CITY SOCIAL WELFARE AND DEVELOPMENT OFFICE</h2>
+            <h1>GENERAL INTAKE SHEET</h1>
         </div>
-
-        <div class="form-section">
+        <img src="img/logo2.png" width="100" height="90" alt="Right Logo">
+    </div>
+    <div class="container">
+        <div class="form-date">
             <label class="label">Date & Time</label>
             <span class="input">{{ $client->date_time}}</span>
         </div>
