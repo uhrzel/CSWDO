@@ -122,8 +122,15 @@ class Client extends Model
     }
     public function setServicesAttribute($value)
     {
+        if (is_array($value)) {
+            // Handle the array case: convert it to a string or handle it as needed
+            $value = implode(', ', $value); // Convert array to a comma-separated string
+        }
+
+        // Now $value should be a string
         $this->attributes['services'] = ucwords($value);
     }
+
     public function setTrackingAttribute($value)
     {
         $this->attributes['tracking'] = ucwords($value);
@@ -233,8 +240,14 @@ class Client extends Model
 
     public function setAppliancesAttribute($value)
     {
-        $this->attributes['appliances'] = ucwords($value);
+        if (is_array($value)) {
+            $value = array_map('ucwords', $value); // Apply ucwords to each element
+        } else {
+            $value = ucwords($value); // Apply ucwords to the string
+        }
+        $this->attributes['appliances'] = $value;
     }
+
 
     public function setOtherAppliancesAttribute($value)
     {

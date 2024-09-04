@@ -28,6 +28,7 @@ Route::middleware(['auth'])->group(function () {
 
     //fetching social worker
     Route::get('/social-worker', [ClientController::class, 'caselist'])->name('social-worker.index')->middleware('social');
+
     Route::get('/social-worker/{clientId}', [ClientController::class, 'show'])->name('social-worker.index')->middleware('social');
 
     //for family members
@@ -42,8 +43,8 @@ Route::middleware(['auth'])->group(function () {
     /*  Route::get('/admin', [App\Http\Controllers\SocialWorkerController::class, 'index'])->name('admin.index')->middleware('admin'); */
 
 
+    Route::put('/social-worker/update/{client}', [ClientController::class, 'update']);
 
-    Route::post('/social-worker/update/{id}', [ClientController::class, 'update'])->name('social-worker.update');
 
     //managing social worker account
 
