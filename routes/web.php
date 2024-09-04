@@ -30,6 +30,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/social-worker', [ClientController::class, 'caselist'])->name('social-worker.index')->middleware('social');
 
     Route::get('/social-worker/{clientId}', [ClientController::class, 'show'])->name('social-worker.index')->middleware('social');
+    // generate pdf
+    Route::get('/generate-pdf/{id}', [ClientController::class, 'generatePdf'])->name('generate.pdf');
+
 
     //for family members
     Route::post('/social-worker/family/store', [FamilyMemberController::class, 'store'])->name('social-worker.family.store');

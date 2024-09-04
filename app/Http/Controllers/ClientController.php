@@ -7,6 +7,8 @@ use App\Models\FamilyMember;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
+use Barryvdh\DomPDF\Facade\Pdf;
+
 class ClientController extends Controller
 {
     protected function validateClient(Request $request)
@@ -124,6 +126,18 @@ class ClientController extends Controller
         $clients = Client::all();
         return view('layouts.social-worker.index', compact('clients'));
     }
+
+    public function generatePdf($id)
+    {
+        $client = Client::with('familyMembers')->findOrFail($id);
+
+        // Load the view for the PDF
+        $pdf = PDF::loadView('pdf.client', ['client' => $client]);
+
+        // Download the PDF
+        return $pdf->download('client-details.pdf');
+    }
+
 
     public function show(Client $client)
     {

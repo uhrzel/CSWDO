@@ -182,13 +182,21 @@
                 <p><strong>Recommendation:</strong> {{ $client->recommendation }}</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Generate PDF</button>
+                <button type="button" class="btn btn-primary" onclick="generatePdf({{ $client->id }})">Generate PDF</button>
+
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 @endforeach
+
+<script>
+    function generatePdf(clientId) {
+        window.location.href = '/generate-pdf/' + clientId;
+    }
+</script>
+
 
 @foreach($clients as $client)
 <div class="modal fade" id="openEditModal{{ $client->id }}" tabindex="-1" role="dialog" aria-labelledby="openEditModal{{ $client->id }}Label" aria-hidden="true">
