@@ -463,29 +463,29 @@
                         <hr>
                         <div class="form-group">
                             <label for="circumstances_of_referral">Circumstances of Referral</label>
-                            <textarea name="circumstances_of_referral" class="form-control" id="circumstances_of_referral" placeholder="Referred by barangay due to inability to afford expenses." rows="3">{{ $client->circumstances_of_referral }}</textarea>
+                            <textarea name="circumstances_of_referral" class="form-control" id="circumstances_of_referral" placeholder="Referred by barangay due to inability to afford expenses." rows="3" style="max-width: 500px; width: 100%;">{{ $client->circumstances_of_referral }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="family_background">Family Background</label>
-                            <textarea name="family_background" class="form-control" id="family_background" placeholder="Lives with spouse and three children, aged 10, 8, and 5." rows="3">{{ $client->family_background }}</textarea>
+                            <textarea name="family_background" class="form-control" id="family_background" placeholder="Lives with spouse and three children, aged 10, 8, and 5." rows="3" style="max-width: 500px; width: 100%;">{{ $client->family_background }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="health_history">Health History of the Applicant</label>
-                            <textarea name="health_history" class="form-control" id="health_history" placeholder="Diagnosed with hypertension and diabetes." rows="3">{{ $client->health_history }}</textarea>
+                            <textarea name="health_history" class="form-control" id="health_history" placeholder="Diagnosed with hypertension and diabetes." rows="3" style="max-width: 500px; width: 100%;">{{ $client->health_history }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="economic_situation">Economic Situation</label>
-                            <textarea name="economic_situation" class="form-control" id="economic_situation" placeholder="Primary earner of the family with no other sources of income." rows="3">{{ $client->economic_situation }}</textarea>
+                            <textarea name="economic_situation" class="form-control" id="economic_situation" placeholder="Primary earner of the family with no other sources of income." rows="3" style="max-width: 500px; width: 100%;">{{ $client->economic_situation }}</textarea>
                         </div>
 
                         <br>
                         <div class="form-group">
                             <label for="problem_presented">Problem Presented</label>
-                            <textarea name="problem_presented" class="form-control" id="problem_presented" placeholder="The request for burial assistance was submitted due to the financial difficulties faced by the family in managing funeral expenses." rows="5" style="width: 100%; min-height: 150px;">{{ $client->problem_presented }}</textarea>
+                            <textarea name="problem_presented" class="form-control" id="problem_presented" placeholder="The request for burial assistance was submitted due to the financial difficulties faced by the family in managing funeral expenses." rows="5" style="width: 500px; min-height: 150px;">{{ $client->problem_presented }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="problem_identification">Problem Identification</label>
-                            <select name="problem_identification" class="form-control" id="problem_identification">
+                            <select name="problem_identification" class="form-control" id="problem_identification" style="max-width: 500px; width: 100%;">
                                 <option value="" disabled selected>Select Problem Identification</option>
                                 <option value="Done" {{ $client->problem_identification == 'Done' ? 'selected' : '' }}>✔️ Done</option>
                                 <option value="Incomplete" {{ $client->problem_identification == 'Incomplete' ? 'selected' : '' }}>❌ Incomplete</option>
@@ -688,19 +688,19 @@
                         </div>
                         <div class="col-md-12 form-group">
                             <label for="layunin">Layunin Ng Pagbisita</label>
-                            <textarea name="layunin" class="form-control" id="layunin" placeholder="the social worker confirmed that the Applicant's household has stable electricity, clean running water with adequate pressure, and operational sanitation facilities. These findings will guide future support and interventions as necessary." style="width: 100%; height: 150px;">{{ $client->layunin }}</textarea>
+                            <textarea name="layunin" class="form-control" id="layunin" placeholder="the social worker confirmed that the Applicant's household has stable electricity, clean running water with adequate pressure, and operational sanitation facilities. These findings will guide future support and interventions as necessary." style="width: 500px; height: 150px;">{{ $client->layunin }}</textarea>
                         </div>
                         <div class="col-md-12 form-group">
                             <label for="resulta">Resulta Ng Pagbisita</label>
-                            <textarea name="resulta" class="form-control" id="resulta" placeholder="Applicant resides in a one-bedroom apartment with adequate space and basic furnishings. The environment appears clean and well-maintained" style="width: 100%; height: 150px;">{{ $client->resulta }}</textarea>
+                            <textarea name="resulta" class="form-control" id="resulta" placeholder="Applicant resides in a one-bedroom apartment with adequate space and basic furnishings. The environment appears clean and well-maintained" style="width: 500px; height: 150px;">{{ $client->resulta }}</textarea>
                         </div>
                         <div class="col-md-12 form-group">
                             <label for="initial_agreement">Initial Agreement</label>
-                            <textarea name="initial_agreement" class="form-control" id="initial_agreement" placeholder="The initial agreement outlines that the organization will provide financial assistance for the funeral expenses. The family agrees to submit all required documentation and cooperate with the assessment process to ensure timely support." style="width: 100%; height: 150px;">{{ $client->initial_agreement }}</textarea>
+                            <textarea name="initial_agreement" class="form-control" id="initial_agreement" placeholder="The initial agreement outlines that the organization will provide financial assistance for the funeral expenses. The family agrees to submit all required documentation and cooperate with the assessment process to ensure timely support." style="width: 500px; height: 150px;">{{ $client->initial_agreement }}</textarea>
                         </div>
                         <div class="col-md-3 form-group">
                             <label for="data_gather">Data Gathering</label>
-                            <select name="data_gather" class="form-control" id="data_gather">
+                            <select name="data_gather" class="form-control" id="data_gather" style="max-width: 500px; width: 100%;">
                                 <option value="" disabled selected>Select Data Gathering</option>
                                 <option value="Done" {{ $client->data_gather == 'Done' ? 'selected' : '' }}>✔️ Done</option>
                                 <option value="Incomplete" {{ $client->data_gather == 'Incomplete' ? 'selected' : '' }}>❌ Incomplete</option>
@@ -709,11 +709,11 @@
                         </div>
                         <div class="col-md-18 form-group">
                             <label for="assessment1">Assessment (may include psycho-social functioning, family functioning, environmental factors)</label>
-                            <textarea name="assessment1" class="form-control custom-textarea" id="assessment1" style="width: 100%; height: 150px;" placeholder="The family is experiencing severe emotional distress and financial hardship due to a recent loss. Communication is strained, leading to conflicts, but there is a strong desire to support each other. Their living conditions are modest with limited access to resources and community services, further complicating their situation.">{{ $client->assessment1 }}</textarea>
+                            <textarea name="assessment1" class="form-control custom-textarea" id="assessment1" style="width: 500px; height: 150px;" placeholder="The family is experiencing severe emotional distress and financial hardship due to a recent loss. Communication is strained, leading to conflicts, but there is a strong desire to support each other. Their living conditions are modest with limited access to resources and community services, further complicating their situation.">{{ $client->assessment1 }}</textarea>
                         </div>
                         <div class="col-md-12 form-group">
                             <label for="assessment">Assessment</label>
-                            <select name="assessment" class="form-control" id="assessment">
+                            <select name="assessment" class="form-control" id="assessment" style="max-width: 500px; width: 100%;">
                                 <option value="" disabled selected>Select Assessment</option>
                                 <option value="Done" {{ $client->assessment == 'Done' ? 'selected' : '' }}>✔️ Done</option>
                                 <option value="Incomplete" {{ $client->assessment == 'Incomplete' ? 'selected' : '' }}>❌ Incomplete</option>
@@ -722,15 +722,15 @@
                         </div>
                         <div class="col-md-12 form-group">
                             <label for="case_management_evaluation">Case Management Evaluation</label>
-                            <textarea name="case_management_evaluation" class="form-control" style="width: 100%; height: 150px;" id="case_management_evaluation" placeholder="Immediate financial assistance was provided for funeral expenses. Psycho-social support services were initiated, showing improved family communication and emotional stability. Continued financial support is recommended due to ongoing instability." style="width: 50%;">{{ $client->case_management_evaluation }}</textarea>
+                            <textarea name="case_management_evaluation" class="form-control" style="width: 500px; height: 150px;" id="case_management_evaluation" placeholder="Immediate financial assistance was provided for funeral expenses. Psycho-social support services were initiated, showing improved family communication and emotional stability. Continued financial support is recommended due to ongoing instability." style="width: 50%;">{{ $client->case_management_evaluation }}</textarea>
                         </div>
                         <div class="col-md-12 form-group">
                             <label for="case_resolution">Case Resolution</label>
-                            <textarea name="case_resolution" class="form-control" id="case_resolution" style="width: 100%; height: 150px;" placeholder="Financial aid for funeral costs was provided, and the family received counseling and community resource referrals. The family is now on a path to recovery and improved stability." style="width: 50%;">{{ $client->case_resolution }}</textarea>
+                            <textarea name="case_resolution" class="form-control" id="case_resolution" style="width: 500px; height: 150px;" placeholder="Financial aid for funeral costs was provided, and the family received counseling and community resource referrals. The family is now on a path to recovery and improved stability." style="width: 50%;">{{ $client->case_resolution }}</textarea>
                         </div>
                         <div class="col-md-10 form-group">
                             <label for="tracking">Case Status</label>
-                            <select name="tracking" class="form-control" id="tracking">
+                            <select name="tracking" class="form-control" id="tracking" style="max-width: 500px; width: 100%;">
                                 <option value="" selected disabled>Select Case Status</option>
                                 <option value="Approve" {{ $client->tracking == 'Approve' ? 'selected' : '' }}>Approve (and close this case)</option>
                                 <option value="Re-access" {{ $client->tracking == 'Re-access' ? 'selected' : '' }}>Re-access (On-Going case)</option>
@@ -738,16 +738,16 @@
                         </div>
                         <div class="col-md-10 form-group">
                             <label for="reviewing">Reviewing Officer (Social Welfare Offices)</label>
-                            <input type="text" class="form-control" id="reviewing" name="reviewing" value="{{ $client->reviewing }}" placeholder="Enter Reviewing Officer">
+                            <input type="text" class="form-control" id="reviewing" name="reviewing" value="{{ $client->reviewing }}" placeholder="Enter Reviewing Officer" style="max-width: 500px; width: 100%;">
                         </div>
                         <div class="col-md-10 form-group">
                             <label for="approving">Approving Officer</label>
-                            <input type="text" class="form-control" id="approving" name="approving" value="{{ $client->approving }}" placeholder="Enter Approving Officer">
+                            <input type="text" class="form-control" id="approving" name="approving" value="{{ $client->approving }}" placeholder="Enter Approving Officer" style="max-width: 500px; width: 100%;">
                         </div>
 
                         <div class="col-md-10 form-group">
                             <label for="eval">Evaluation</label>
-                            <select name="eval" class="form-control" id="eval">
+                            <select name="eval" class="form-control" id="eval" style="max-width: 500px; width: 100%;">
                                 <option value="" disabled selected>Select Evaluation</option>
                                 <option value="Done" {{ $client->eval == 'Done' ? 'selected' : '' }}>✔️ Done</option>
                                 <option value="Incomplete" {{ $client->eval == 'Incomplete' ? 'selected' : '' }}>❌ Incomplete</option>
