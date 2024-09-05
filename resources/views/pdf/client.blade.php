@@ -134,7 +134,7 @@
     <div class="container">
         <div class="form-date">
             <label class="label">Date & Time</label>
-            <span class="input">{{ $client->date_time}}</span>
+            <span class="input">{{ date('F j, Y') }}</span>
         </div>
 
         <div class="form-section">
@@ -337,13 +337,12 @@
         <div class="form-section-page2">
             <h3>III. CIRCUMSTANCES OF REFERAL
             </h3>
-            <br><br>
+            <br>
             <span class="inputpage2">{{ $client->circumstances_of_referral }}</span>
             <span class="inputpage2">&nbsp;</span>
             <span class="inputpage2">&nbsp;</span>
-            <span class="inputpage2">&nbsp;</span>
-            <span class="inputpage2">&nbsp;</span>
-            <span class="inputpage2">&nbsp;</span>
+
+
             <br>
             <h3>IV. FAMILY BACKGROUND
             </h3>
@@ -351,10 +350,8 @@
             <span class="inputpage2">{{ $client->family_background }}</span>
             <span class="inputpage2">&nbsp;</span>
             <span class="inputpage2">&nbsp;</span>
-            <span class="inputpage2">&nbsp;</span>
-            <span class="inputpage2">&nbsp;</span>
-            <span class="inputpage2">&nbsp;</span>
-            <span class="inputpage2">&nbsp;</span>
+
+
             <br>
             <h3>A. HEALTH HISTORY OF THE CLIENT
             </h3>
@@ -362,8 +359,7 @@
             <span class="inputpage2">{{ $client->health_history }}</span>
             <span class="inputpage2">&nbsp;</span>
             <span class="inputpage2">&nbsp;</span>
-            <span class="inputpage2">&nbsp;</span>
-            <span class="inputpage2">&nbsp;</span>
+
             <br>
             <h3>B. ECONOMIC SITUATION
             </h3>
@@ -371,8 +367,7 @@
             <span class="inputpage2">{{ $client->economic_situation }}</span>
             <span class="inputpage2">&nbsp;</span>
             <span class="inputpage2">&nbsp;</span>
-            <span class="inputpage2">&nbsp;</span>
-            <span class="inputpage2">&nbsp;</span>
+
         </div>
     </div>
 
@@ -513,29 +508,97 @@
         <!-- Left side of the form -->
         <div class="form-left">
             <div class="form-section">
-                <label>1. House Structure:</label><br />
-                <br>
-                <input type="text" class="input-line" style="width: 20%;" /> Wood<br />
-                <input type="text" class="input-line" style="width: 20%;" /> Semi-concrete<br />
-                <input type="text" class="input-line" style="width: 20%;" /> Concrete<br />
-                <input type="text" class="input-line" style="width: 20%;" /> Others<br />
+                <label>1. House Structure:</label><br /><br />
+
+                <!-- Checkmark only in the input field if it matches the selected value -->
+                <div>
+                    <input type="text" class="input-line" style="width: 20%; text-align: center;"
+                        @if ($client->house_structure === 'Wood')
+                    value="Checked"
+                    readonly
+                    @endif
+                    />
+                    Wood
+                </div>
+
+                <div>
+                    <input type="text" class="input-line" style="width: 20%; text-align: center;"
+                        @if ($client->house_structure === 'Semi-concrete')
+                    value="Checked"
+                    readonly
+                    @endif
+                    />
+                    Semi-concrete
+                </div>
+
+                <div>
+                    <input type="text" class="input-line" style="width: 20%; text-align: center;"
+                        @if ($client->house_structure === 'Concrete')
+                    value="Checked"
+                    readonly
+                    @endif
+                    />
+                    Concrete
+                </div>
+
+                <div>
+                    <input type="text" class="input-line" style="width: 20%; text-align: center;"
+                        @if ($client->house_structure === 'Others')
+                    value="Checked"
+                    readonly
+                    @endif
+                    />
+                    Others
+                </div>
             </div>
 
             <div class="form-section">
                 <label>2. Floor/ Lot Area:</label> <br> <br>
-                <input type="text" class="input-line" style="width: 30%;" />
+                <input type="text" class="input-line" style="width: 30%;" value="{{ $client->floor }}" readonly />
+
             </div>
 
             <div class="form-section">
                 <label>3. Type:</label><br /> <br>
-                <input type="text" class="input-line" style="width: 20%;" /> Single/ Studio Type<br />
-                <input type="text" class="input-line" style="width: 20%;" /> 2 Storey<br />
-                <input type="text" class="input-line" style="width: 20%;" /> Others<br />
+                <div>
+                    <input type="text" class="input-line" style="width: 20%; text-align: center;"
+                        @if ($client->type === 'Apartment')
+                    value="Checked"
+                    readonly
+                    @endif
+                    />
+                    Apartment<br />
+
+                    <input type="text" class="input-line" style="width: 20%; text-align: center;"
+                        @if ($client->type === 'Townhouse')
+                    value="Checked"
+                    readonly
+                    @endif
+                    />
+                    Townhouse<br />
+
+                    <input type="text" class="input-line" style="width: 20%; text-align: center;"
+                        @if ($client->type === 'Single-Family Home')
+                    value="Checked"
+                    readonly
+                    @endif
+                    />
+                    Single-Family Home<br />
+
+                    <input type="text" class="input-line" style="width: 20%; text-align: center;"
+                        @if ($client->type === 'Other')
+                    value="Checked"
+                    readonly
+                    @endif
+                    />
+                    Other<br />
+                </div>
+
             </div>
 
             <div class="form-section">
                 <label>4. Number of Rooms:</label> <br><br>
-                <input type="text" class="input-line" style="width: 30%;" />
+                <input type="text" class="input-line" value="{{ $client->number_of_rooms }}" readonly style=" width: 30%;" />
             </div>
         </div>
 
@@ -544,65 +607,111 @@
             <div class="form-section">
                 <label>5. Appliances</label> <br> <br>
                 <div class="appliances">
-                    <div><label>a.</label><input type="text" class="input-line" style="width: 50%;" /></div>
-                    <div><label>b.</label><input type="text" class="input-line" style="width: 50%;" /></div>
-                    <div><label>c.</label><input type="text" class="input-line" style="width: 50%;" /></div>
-                    <div><label>d.</label><input type="text" class="input-line" style="width: 50%;" /></div>
-                    <div><label>e.</label><input type="text" class="input-line" style="width: 50%;" /></div>
-                </div>
-            </div>
+                    @php
+                    // Decode JSON string to array if needed
+                    $appliances = json_decode($client->appliances, true);
+                    if (!is_array($appliances)) {
+                    $appliances = []; // Default to empty array if decoding fails
+                    }
+                    @endphp
 
-            <div class="form-section">
-                <label>6. Monthly Expenses</label> <br><br>
+                    @foreach ($appliances as $index => $appliance)
+                    <div>
+                        <label>{{ chr(97 + $index) }}.</label>
+                        <input type="text" value="{{ $appliance }}" readonly class="input-line" style="width: 50%;" />
+                    </div>
+                    @endforeach
+
+                    <!-- Handle cases where there are fewer appliances than input fields -->
+                    @for ($i = count($appliances); $i < 5; $i++)
+                        <div>
+                        <label>{{ chr(97 + $i) }}.</label>
+                        <input type="text" class="input-line" style="width: 50%;" />
+                </div>
+                @endfor
+            </div>
+        </div>
+
+
+        <div class="form-section">
+            <label>6. Monthly Expenses</label> <br><br>
+            <div>
+                <div><label>a. Electricity</label><input type="text" value="{{ $client->monthly_expenses }}" class="input-line" style="width: 40%;" /></div>
+                <div><label>b. Water</label><input type="text" class="input-line" style="width: 40%;" /></div>
+                <div><label>c. House Rent</label><input type="text" class="input-line" style="width: 40%;" /></div>
+                <div><label>d. Others</label><input type="text" class="input-line" style="width: 40%;" /></div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <label>7. Indicate if the client is:</label> <br><br>
+            <div>
                 <div>
-                    <div><label>a. Electricity</label><input type="text" class="input-line" style="width: 40%;" /></div>
-                    <div><label>b. Water</label><input type="text" class="input-line" style="width: 40%;" /></div>
-                    <div><label>c. House Rent</label><input type="text" class="input-line" style="width: 40%;" /></div>
-                    <div><label>d. Others</label><input type="text" class="input-line" style="width: 40%;" /></div>
-                </div>
-            </div>
+                    <input type="text" class="input-line" style="width: 30%; text-align: center;"
+                        @if ($client->indicate === 'House owner')
+                    value="Checked"
+                    readonly
+                    @endif
+                    />
+                    <label>House owner</label><br />
 
-            <div class="form-section">
-                <label>7. Indicate if the client is:</label> <br><br>
-                <div>
-                    <input type="text" class="input-line" style="width: 30%;" /> <label>House owner</label><br />
-                    <input type="text" class="input-line" style="width: 30%;" /> <label>House renter</label><br />
-                    <input type="text" class="input-line" style="width: 30%;" /><label>Sharer</label><br />
-                    <input type="text" class="input-line" style="width: 30%;" /> <label>Squatter</label>
+                    <input type="text" class="input-line" style="width: 30%; text-align: center;"
+                        @if ($client->indicate === 'House renter')
+                    value="Checked"
+                    readonly
+                    @endif
+                    />
+                    <label>House renter</label><br />
+
+                    <input type="text" class="input-line" style="width: 30%; text-align: center;"
+                        @if ($client->indicate === 'Sharer')
+                    value="Checked"
+                    readonly
+                    @endif
+                    />
+                    <label>Sharer</label><br />
+
+                    <input type="text" class="input-line" style="width: 30%; text-align: center;"
+                        @if ($client->indicate === 'Settler')
+                    value="Checked"
+                    readonly
+                    @endif
+                    />
+                    <label>Settler</label>
                 </div>
+
             </div>
         </div>
+    </div>
 
-        <div class="form-section-page3">
-            <div class="form-section">
-                <h3>V. ASSESSMENT</h3>
-                <div class="form-section-page3">
-                    <span class="inputpage3">&nbsp;</span>
-                    <span class="inputpage3">&nbsp;</span>
-                    <span class="inputpage3">&nbsp;</span>
-                    <span class="inputpage3">&nbsp;</span>
+    <div class="form-section-page3">
+        <div class="form-section">
+            <h3>V. ASSESSMENT</h3>
+            <div class="form-section-page3">
+                <span class="inputpage3">{{ $client->assessment }}</span>
+                <span class="inputpage3">&nbsp;</span>
 
-                </div>
-            </div>
-            <div class="form-section">
-                <h3>VI. RECOMMENDATION</h3>
-                <div class="form-section-page3">
-                    <span class="inputpage3">&nbsp;</span>
-                    <span class="inputpage3">&nbsp;</span>
-                    <span class="inputpage3">&nbsp;</span>
-                    <span class="inputpage3">&nbsp;</span>
-                </div>
+
             </div>
         </div>
-        <div class="signature-section">
-            <div class="signature">
-                <div class="signature-line"></div>
-                Informant's Name and Signature
-                <br> <br>
-                <div class="signature-line"></div>
-                Name of Social Worker
+        <div class="form-section">
+            <h3>VI. RECOMMENDATION</h3>
+            <div class="form-section-page3">
+                <span class="inputpage3">{{ $client->recommendation }}</span>
+                <span class="inputpage3">&nbsp;</span>
+
             </div>
         </div>
+    </div>
+    <div class="signature-section">
+        <div class="signature">
+            <div class="signature-line"></div>
+            Informant's Name and Signature
+            <br> <br>
+            <div class="signature-line">{{ $client->approving }}</div>
+            Name of Social Worker
+        </div>
+    </div>
     </div>
 
     <div class="footer">
