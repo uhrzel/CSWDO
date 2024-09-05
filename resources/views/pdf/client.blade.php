@@ -69,6 +69,33 @@
             /* Adjust if needed for spacing */
         }
 
+        .form-date {
+            margin-bottom: 20px;
+        }
+
+        .form-date .label {
+            display: inline-block;
+            width: 30%;
+            font-weight: bold;
+            position: relative;
+        }
+
+
+        .form-date .label::after {
+            content: ":";
+            position: absolute;
+            right: 15px;
+
+        }
+
+        .form-date .input {
+            display: inline-block;
+            width: 40%;
+            border-bottom: 1px solid #000;
+            padding-left: 5px;
+            /* Adjust if needed for spacing */
+        }
+
         .form-table {
             width: 100%;
             border-collapse: collapse;
@@ -111,7 +138,7 @@
         </div>
 
         <div class="form-section">
-            <h3>I. IDENTIFYING INFORMATION</h3>
+            <h3>I. IDENTIFYING INFORMATION</h3> <br>
             <div>
                 <label class="label">Name</label>
                 <span class="input">{{ $client->first_name }} {{ $client->last_name }}</span>
@@ -382,7 +409,7 @@
         }
 
         .form-section {
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .input-line {
@@ -435,7 +462,7 @@
             clear: both;
             display: flex;
             justify-content: space-between;
-            margin-top: 40px;
+            margin-top: 20px;
         }
 
         .signature {
@@ -456,14 +483,25 @@
             font-size: 12px;
         }
 
-        .form-section-page3 .inputpage3 {
+
+
+
+        .inputpage3,
+        .inputpage2 {
             display: inline-block;
             width: 100%;
             min-height: 20px;
             /* Ensures each line takes up space even if empty */
             border-bottom: 1px solid #000;
             padding-left: 5px;
-            /* Add space between lines */
+            margin-bottom: 5px;
+            /* Ensure padding and border are included in width/height */
+        }
+
+        /* Additional styles for specific sections if needed */
+        .form-section-page3 {
+            margin-top: 10px;
+            clear: both;
         }
     </style>
 </head>
@@ -536,22 +574,24 @@
         </div>
 
         <div class="form-section-page3">
-            <h3>V. ASSESSMENT</h3>
             <div class="form-section">
-                <span class="inputpage3">&nbsp;</span>
-                <span class="inputpage3">&nbsp;</span>
-                <span class="inputpage3">&nbsp;</span>
-                <span class="inputpage3">&nbsp;</span>
-                <span class="inputpage3">&nbsp;</span>
-            </div>
+                <h3>V. ASSESSMENT</h3>
+                <div class="form-section-page3">
+                    <span class="inputpage3">&nbsp;</span>
+                    <span class="inputpage3">&nbsp;</span>
+                    <span class="inputpage3">&nbsp;</span>
+                    <span class="inputpage3">&nbsp;</span>
 
-            <h3>VI. RECOMMENDATION</h3>
+                </div>
+            </div>
             <div class="form-section">
-                <span class="inputpage3">&nbsp;</span>
-                <span class="inputpage3">&nbsp;</span>
-                <span class="inputpage3">&nbsp;</span>
-                <span class="inputpage3">&nbsp;</span>
-                <span class="inputpage3">&nbsp;</span>
+                <h3>VI. RECOMMENDATION</h3>
+                <div class="form-section-page3">
+                    <span class="inputpage3">&nbsp;</span>
+                    <span class="inputpage3">&nbsp;</span>
+                    <span class="inputpage3">&nbsp;</span>
+                    <span class="inputpage3">&nbsp;</span>
+                </div>
             </div>
         </div>
         <div class="signature-section">
