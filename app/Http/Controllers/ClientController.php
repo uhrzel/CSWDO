@@ -6,7 +6,8 @@ use App\Models\Client;
 use App\Models\FamilyMember;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Client as GuzzleClient;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class ClientController extends Controller
@@ -222,61 +223,74 @@ class ClientController extends Controller
             $client = Client::findOrFail($id);
 
             // Process fields with ucwords() if they are strings
-            $client->first_name = is_string($request->input('first_name')) ? ucwords($request->input('first_name')) : $client->first_name;
-            $client->last_name = is_string($request->input('last_name')) ? ucwords($request->input('last_name')) : $client->last_name;
-            $client->middle = is_string($request->input('middle')) ? ucwords($request->input('middle')) : $client->middle;
-            $client->suffix = is_string($request->input('suffix')) ? ucwords($request->input('suffix')) : $client->suffix;
-            $client->address = is_string($request->input('address')) ? ucwords($request->input('address')) : $client->address;
-            $client->pob = is_string($request->input('pob')) ? ucwords($request->input('pob')) : $client->pob;
-            $client->sex = is_string($request->input('sex')) ? ucwords($request->input('sex')) : $client->sex;
-            $client->educational_attainment = is_string($request->input('educational_attainment')) ? ucwords($request->input('educational_attainment')) : $client->educational_attainment;
-            $client->civil_status = is_string($request->input('civil_status')) ? ucwords($request->input('civil_status')) : $client->civil_status;
-            $client->religion = is_string($request->input('religion')) ? ucwords($request->input('religion')) : $client->religion;
-            $client->nationality = is_string($request->input('nationality')) ? ucwords($request->input('nationality')) : $client->nationality;
-            $client->occupation = is_string($request->input('occupation')) ? ucwords($request->input('occupation')) : $client->occupation;
-            $client->monthly_income = is_string($request->input('monthly_income')) ? ucwords($request->input('monthly_income')) : $client->monthly_income;
-            $client->contact_number = is_string($request->input('contact_number')) ? ucwords($request->input('contact_number')) : $client->contact_number;
-            $client->source_of_referral = is_string($request->input('source_of_referral')) ? ucwords($request->input('source_of_referral')) : $client->source_of_referral;
-            $client->house_structure = is_string($request->input('house_structure')) ? ucwords($request->input('house_structure')) : $client->house_structure;
-            $client->floor = is_string($request->input('floor')) ? ucwords($request->input('floor')) : $client->floor;
-            $client->type = is_string($request->input('type')) ? ucwords($request->input('type')) : $client->type;
-            $client->number_of_rooms = is_string($request->input('number_of_rooms')) ? ucwords($request->input('number_of_rooms')) : $client->number_of_rooms;
-            $client->monthly_expenses = is_string($request->input('monthly_expenses')) ? ucwords($request->input('monthly_expenses')) : $client->monthly_expenses;
-            $client->indicate = is_string($request->input('indicate')) ? ucwords($request->input('indicate')) : $client->indicate;
-            $client->tracking = is_string($request->input('tracking')) ? ucwords($request->input('tracking')) : $client->tracking;
-            $client->other_appliances = is_string($request->input('other_appliances')) ? ucwords($request->input('other_appliances')) : $client->other_appliances;
-            $client->circumstances_of_referral = is_string($request->input('circumstances_of_referral')) ? ucwords($request->input('circumstances_of_referral')) : $client->circumstances_of_referral;
-            $client->family_background = is_string($request->input('family_background')) ? ucwords($request->input('family_background')) : $client->family_background;
-            $client->health_history = is_string($request->input('health_history')) ? ucwords($request->input('health_history')) : $client->health_history;
-            $client->economic_situation = is_string($request->input('economic_situation')) ? ucwords($request->input('economic_situation')) : $client->economic_situation;
-            $client->problem_presented = is_string($request->input('problem_presented')) ? ucwords($request->input('problem_presented')) : $client->problem_presented;
-            $client->problem_identification = is_string($request->input('problem_identification')) ? ucwords($request->input('problem_identification')) : $client->problem_identification;
-            $client->home_visit = is_string($request->input('home_visit')) ? ucwords($request->input('home_visit')) : $client->home_visit;
-            $client->interviewee = is_string($request->input('interviewee')) ? ucwords($request->input('interviewee')) : $client->interviewee;
-            $client->interviewed_by = is_string($request->input('interviewed_by')) ? ucwords($request->input('interviewed_by')) : $client->interviewed_by;
-            $client->layunin = is_string($request->input('layunin')) ? ucwords($request->input('layunin')) : $client->layunin;
-            $client->resulta = is_string($request->input('resulta')) ? ucwords($request->input('resulta')) : $client->resulta;
-            $client->initial_agreement = is_string($request->input('initial_agreement')) ? ucwords($request->input('initial_agreement')) : $client->initial_agreement;
-            $client->data_gather = is_string($request->input('data_gather')) ? ucwords($request->input('data_gather')) : $client->data_gather;
-            $client->assessment1 = is_string($request->input('assessment1')) ? ucwords($request->input('assessment1')) : $client->assessment1;
-            $client->assessment = is_string($request->input('assessment')) ? ucwords($request->input('assessment')) : $client->assessment;
-            $client->case_management_evaluation = is_string($request->input('case_management_evaluation')) ? ucwords($request->input('case_management_evaluation')) : $client->case_management_evaluation;
-            $client->case_resolution = is_string($request->input('case_resolution')) ? ucwords($request->input('case_resolution')) : $client->case_resolution;
-            $client->tracking = is_string($request->input('tracking')) ? ucwords($request->input('tracking')) : $client->tracking;
-            $client->reviewing = is_string($request->input('reviewing')) ? ucwords($request->input('reviewing')) : $client->reviewing;
-            $client->approving = is_string($request->input('approving')) ? ucwords($request->input('approving')) : $client->approving;
-            $client->eval = is_string($request->input('eval')) ? ucwords($request->input('eval')) : $client->eval;
+            $fields = [
+                'first_name',
+                'last_name',
+                'middle',
+                'suffix',
+                'address',
+                'pob',
+                'sex',
+                'educational_attainment',
+                'civil_status',
+                'religion',
+                'nationality',
+                'occupation',
+                'monthly_income',
+                'contact_number',
+                'source_of_referral',
+                'house_structure',
+                'floor',
+                'type',
+                'number_of_rooms',
+                'monthly_expenses',
+                'indicate',
+                'tracking',
+                'other_appliances',
+                'circumstances_of_referral',
+                'family_background',
+                'health_history',
+                'economic_situation',
+                'problem_presented',
+                'problem_identification',
+                'home_visit',
+                'interviewee',
+                'interviewed_by',
+                'layunin',
+                'resulta',
+                'initial_agreement',
+                'data_gather',
+                'assessment1',
+                'assessment',
+                'case_management_evaluation',
+                'case_resolution',
+                'reviewing',
+                'approving',
+                'eval'
+            ];
+
+            foreach ($fields as $field) {
+                if (is_string($request->input($field))) {
+                    $client->$field = ucwords($request->input($field));
+                }
+            }
 
             // Handle appliances field if it's an array
             if ($request->has('appliances')) {
                 $client->appliances = implode(',', $request->input('appliances'));
             }
+
+            // Handle services field if it's an array
             if ($request->has('services')) {
                 $client->services = implode(',', $request->input('services'));
             }
 
-            // Update the client record
-            $client->fill($validatedData);
+            // Send a message if the tracking status changes to 'Approve' or 'Re-access'
+            if (in_array($client->tracking, ['Approve', 'Re-access'])) {
+                $this->sendMessage($client->contact_number, $client->first_name, $client->last_name, $client->tracking);
+            }
+
+            // Save the client model with updated data
             $client->save();
 
             return response()->json(['client' => $client]);
@@ -287,6 +301,66 @@ class ClientController extends Controller
             return response()->json(['error' => 'An error occurred while updating the client.'], 500);
         }
     }
+
+    private function sendMessage($contactNumber, $firstName, $lastName, $tracking)
+    {
+        $apiKey = env('SEMAPHORE_API_KEY');
+        $message = "Dear $firstName $lastName, your status is now {$tracking}. Thank you!";
+        $senderName = 'SEMAPHORE';
+
+        $client = new GuzzleClient([
+            'base_uri' => 'https://semaphore.co/api/v4/',
+            'timeout'  => 10.0,
+        ]);
+
+        try {
+            $response = $client->post('messages', [
+                'form_params' => [
+                    'apikey' => $apiKey,
+                    'number' => $contactNumber,
+                    'message' => $message,
+                    'sendername' => $senderName
+                ]
+            ]);
+
+            $body = $response->getBody();
+            $responseData = json_decode($body, true);
+
+            Log::info('Semaphore API response: ' . $body);
+
+            if (isset($responseData['error'])) {
+                Log::error('Semaphore API error: ' . $responseData['error']);
+            }
+        } catch (RequestException $e) {
+            Log::error('Request Exception: ' . $e->getMessage());
+        }
+    }
+
+    private function checkDeliveryStatus($messageId)
+    {
+        $apiKey = env('SEMAPHORE_API_KEY');
+
+        $ch = curl_init();
+        $parameters = [
+            'apikey' => $apiKey,
+        ];
+
+        curl_setopt($ch, CURLOPT_URL, 'https://semaphore.co/api/v4/messages/' . $messageId . '?' . http_build_query($parameters));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $output = curl_exec($ch);
+        if (curl_errno($ch)) {
+            Log::error('cURL error: ' . curl_error($ch));
+        } else {
+            Log::info('Semaphore delivery status response: ' . $output);
+        }
+
+        curl_close($ch);
+
+        return json_decode($output, true);
+    }
+
+
 
     public function destroy(Client $client)
     {
