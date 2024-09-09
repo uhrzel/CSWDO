@@ -173,7 +173,7 @@
 
 	// Calculate the progress percentage
 	$progressPercentage = ($completedTasks / $totalTasks) * 100;
-	$progressColor = $completedTasks == $totalTasks ? 'bg-success' : 'bg-dark'; // Green if all are done, else dark
+	$progressColor = $completedTasks == $totalTasks ? 'bg-success' : 'bg-dark';
 	@endphp
 	<div class="modal fade" id="viewClientModal{{ $client->id }}" tabindex="-1" role="dialog" aria-labelledby="viewClientModalLabel{{ $client->id }}" aria-hidden="true">
 		<div class="modal-dialog modal-xl" role="document">
@@ -194,7 +194,6 @@
 										<div class="progress-bar {{ $progressColor }}" role="progressbar" style="width: {{ $progressPercentage }}%" aria-valuenow="{{ $progressPercentage }}" aria-valuemin="0" aria-valuemax="100"></div>
 									</div>
 									<div class="order-tracker">
-										<!-- Problem Identification Step -->
 										<div class="order-step">
 											<i class="fas fa-search 
                             @if($client->problem_identification == 'Done') text-success
@@ -204,7 +203,6 @@
 											<p>Problem Identification</p>
 										</div>
 
-										<!-- Data Gathering Step -->
 										<div class="order-step">
 											<i class="fas fa-database 
                             @if($client->data_gather == 'Done') text-success
@@ -214,7 +212,6 @@
 											<p>Data Gathering</p>
 										</div>
 
-										<!-- Assessment Step -->
 										<div class="order-step">
 											<i class="fas fa-chart-line 
                             @if($client->assessment == 'Done') text-success
@@ -224,7 +221,6 @@
 											<p>Assessment</p>
 										</div>
 
-										<!-- Evaluation And Resolution Step -->
 										<div class="order-step">
 											<i class="fas fa-check-circle 
                             @if($client->eval == 'Done') text-success
@@ -239,8 +235,6 @@
 							</div>
 						</div>
 					</section>
-
-
 					<p><strong>Control No.:</strong> {{ $client->control_number }}</p>
 					<p><strong>First Name:</strong> {{ $client->first_name }}</p>
 					<p><strong>Last Name:</strong> {{ $client->last_name }}</p>
