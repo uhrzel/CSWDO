@@ -277,14 +277,13 @@ class ClientController extends Controller
 
             // Handle appliances field if it's an array
             if ($request->has('appliances')) {
-                $client->appliances = implode(',', $request->input('appliances'));
+                $client->appliances = json_encode($request->input('appliances', []));
             }
 
-            // Handle services field if it's an array
+            // Handle services field if it's an array and store as JSON
             if ($request->has('services')) {
-                $client->services = implode(',', $request->input('services'));
+                $client->services = json_encode($request->input('services', []));
             }
-
             // Send a message if the tracking status changes to 'Approve' or 'Re-access'
             if (in_array($client->tracking, ['Approve', 'Re-access'])) {
                 $this->sendMessage($client->contact_number, $client->first_name, $client->last_name, $client->tracking);
@@ -359,7 +358,6 @@ class ClientController extends Controller
 
         return json_decode($output, true);
     }
-
 
 
     public function destroy(Client $client)
