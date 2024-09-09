@@ -7,9 +7,7 @@ use Illuminate\Http\Request;
 
 class SocialWorkerAccountController extends Controller
 {
-    /**
-     * Display a listing of the social workers.
-     */
+   
     public function index()
     {
         // Fetch all users with the role of 'social-worker'
