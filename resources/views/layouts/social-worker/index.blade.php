@@ -301,52 +301,54 @@
 
 						<!-- Services Section -->
 						<h4 class="mb-3">Services</h4>
+
 						<div class="form-group">
 							<h5><label>Burial Assistance</label></h5><br>
 							<div class="form-check-row">
 								<?php
 								$clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
 								$clientServices = is_array($clientServices) ? $clientServices : [];
-
 								$services = ['Burial', 'Financial', 'Funeral'];
+								$filteredServices = array_intersect($services, $clientServices);
 								?>
-								@foreach($services as $service)
+								@foreach($filteredServices as $service)
 								<div class="form-check">
-									<input type="checkbox" class="form-check-input" readonly name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
-									<label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">{{ $service }}</label>
+									<label class="form-check-label">{{ $service }}</label>
 								</div>
 								@endforeach
 							</div>
+							@if(empty($filteredServices))
+							<p>No services available</p>
+							@endif
 						</div>
 						<hr>
+
 						<h5><label>Requirements</label></h5>
 						<div class="col">
 							<div class="form-check-row">
 								<?php
-								$clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
-								$clientServices = is_array($clientServices) ? $clientServices : [];
-
 								$services = ['Death Certificate', 'Funeral Contract', 'Valid ID', 'Proof Of Relation'];
+								$filteredServices = array_intersect($services, $clientServices);
 								?>
-								@foreach($services as $service)
+								@foreach($filteredServices as $service)
 								<div class="form-check">
-									<input type="checkbox" class="form-check-input" readonly name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
-									<label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">{{ $service }}</label>
+									<label class="form-check-label">{{ $service }}</label>
 								</div>
 								@endforeach
 							</div>
+							@if(empty($filteredServices))
+							<p>No requirements available</p>
+							@endif
 						</div>
+
 						<div class="form-check-row">
 							<?php
-							$clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
-							$clientServices = is_array($clientServices) ? $clientServices : [];
-
 							$services = ['Crisis Intervention Unit = Valid ID', 'Barangay Clearance.', 'Medical Certificate.', 'Incident Report.', 'Funeral Contract.', 'Death Certificate.'];
+							$filteredServices = array_intersect($services, $clientServices);
 							?>
-							@foreach($services as $service)
+							@foreach($filteredServices as $service)
 							<div class="form-check">
-								<input type="checkbox" class="form-check-input" readonly name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
-								<label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">
+								<label class="form-check-label">
 									@if ($service === 'Crisis Intervention Unit = Valid ID')
 									Valid ID
 									@else
@@ -355,15 +357,16 @@
 								</label>
 							</div>
 							@endforeach
+							@if(empty($filteredServices))
+							<p>No additional services available</p>
+							@endif
 						</div>
 						<hr>
+
 						<h5><label>Solo Parent Services</label></h5>
 						<div class="col">
 							<div class="form-check-row">
 								<?php
-								$clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
-								$clientServices = is_array($clientServices) ? $clientServices : [];
-
 								$services = [
 									'Solo Parent = Agency Referral',
 									'Residency Cert.',
@@ -373,11 +376,11 @@
 									'ID Copy',
 									'Senior Citizen ID (60+)'
 								];
+								$filteredServices = array_intersect($services, $clientServices);
 								?>
-								@foreach($services as $service)
+								@foreach($filteredServices as $service)
 								<div class="form-check">
-									<input type="checkbox" class="form-check-input" readonly name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
-									<label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">
+									<label class="form-check-label">
 										@if ($service === 'Solo Parent = Agency Referral')
 										Agency Referral
 										@else
@@ -386,16 +389,17 @@
 									</label>
 								</div>
 								@endforeach
+								@if(empty($filteredServices))
+								<p>No solo parent services available</p>
+								@endif
 							</div>
 						</div>
 						<hr>
+
 						<h5><label>Pre-marriage Counseling</label></h5><br>
 						<div class="col">
 							<div class="form-check-row">
 								<?php
-								$clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
-								$clientServices = is_array($clientServices) ? $clientServices : [];
-
 								$services = [
 									'Pre-marriage Counseling = Valid ID',
 									'Birth Certificate',
@@ -403,12 +407,12 @@
 									'Barangay Clearance',
 									'Passport-sized Photos',
 								];
+								$filteredServices = array_intersect($services, $clientServices);
 								?>
-								@foreach($services as $service)
+								@foreach($filteredServices as $service)
 								<div class="form-check">
-									<input type="checkbox" class="form-check-input" readonly name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
-									<label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">
-										@if ($service === 'Pre-marriage = Valid ID')
+									<label class="form-check-label">
+										@if ($service === 'Pre-marriage Counseling = Valid ID')
 										Valid ID
 										@else
 										{{ $service }}
@@ -416,16 +420,17 @@
 									</label>
 								</div>
 								@endforeach
+								@if(empty($filteredServices))
+								<p>No pre-marriage counseling services available</p>
+								@endif
 							</div>
 						</div>
 						<hr>
+
 						<h5><label>After-Care Services</label></h5><br>
 						<div class="col">
 							<div class="form-check-row">
 								<?php
-								$clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
-								$clientServices = is_array($clientServices) ? $clientServices : [];
-
 								$services = [
 									'After-Care Services = Valid ID',
 									'Birth Certificate.',
@@ -433,11 +438,11 @@
 									'SCSR',
 									'Medical Records',
 								];
+								$filteredServices = array_intersect($services, $clientServices);
 								?>
-								@foreach($services as $service)
+								@foreach($filteredServices as $service)
 								<div class="form-check">
-									<input type="checkbox" class="form-check-input" name="services[]" readonly value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
-									<label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">
+									<label class="form-check-label">
 										@if ($service === 'After-Care Services = Valid ID')
 										Valid ID
 										@else
@@ -446,18 +451,17 @@
 									</label>
 								</div>
 								@endforeach
+								@if(empty($filteredServices))
+								<p>No after-care services available</p>
+								@endif
 							</div>
-
 						</div>
-
 						<hr>
+
 						<h5><label>Poverty Alleviation Program</label></h5><br>
 						<div class="col">
 							<div class="form-check-row">
 								<?php
-								$clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
-								$clientServices = is_array($clientServices) ? $clientServices : [];
-
 								$services = [
 									'Poverty Alleviation Program = Valid ID',
 									'Residence Certificate',
@@ -465,11 +469,11 @@
 									'SCSR.',
 									'Application Form',
 								];
+								$filteredServices = array_intersect($services, $clientServices);
 								?>
-								@foreach($services as $service)
+								@foreach($filteredServices as $service)
 								<div class="form-check">
-									<input type="checkbox" class="form-check-input" readonly name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
-									<label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">
+									<label class="form-check-label">
 										@if ($service === 'Poverty Alleviation Program = Valid ID')
 										Valid ID
 										@else
@@ -478,8 +482,12 @@
 									</label>
 								</div>
 								@endforeach
+								@if(empty($filteredServices))
+								<p>No poverty alleviation program services available</p>
+								@endif
 							</div>
 						</div>
+
 						<hr>
 						<h6 class="text-muted mb-3">Additional Information</h6>
 
