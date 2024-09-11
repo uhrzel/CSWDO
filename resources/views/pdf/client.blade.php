@@ -280,18 +280,16 @@
         }
 
         .form-section-page2 .label {
-            display: inline-block;
-            width: 30%;
+            display: block;
+            width: 100%;
             font-weight: bold;
-            position: relative;
+            margin-bottom: 5px;
+            /* Add space between label and input */
         }
 
 
         .form-section-page2 .label::after {
             content: ":";
-            position: absolute;
-            right: 15px;
-
         }
 
         .form-section-page2 .inputpage2 {
@@ -335,39 +333,24 @@
 
     <div class="container">
         <div class="form-section-page2">
-            <h3>III. CIRCUMSTANCES OF REFERAL
-            </h3>
+            <h3>III. CIRCUMSTANCES OF REFERRAL</h3>
             <br>
             <span class="inputpage2">{{ $client->circumstances_of_referral }}</span>
-            <span class="inputpage2">&nbsp;</span>
-            <span class="inputpage2">&nbsp;</span>
 
-
-            <br>
-            <h3>IV. FAMILY BACKGROUND
-            </h3>
+            <br><br>
+            <h3>IV. FAMILY BACKGROUND</h3>
             <br>
             <span class="inputpage2">{{ $client->family_background }}</span>
-            <span class="inputpage2">&nbsp;</span>
-            <span class="inputpage2">&nbsp;</span>
 
-
-            <br>
-            <h3>A. HEALTH HISTORY OF THE CLIENT
-            </h3>
+            <br><br>
+            <h3>A. HEALTH HISTORY OF THE CLIENT</h3>
             <br>
             <span class="inputpage2">{{ $client->health_history }}</span>
-            <span class="inputpage2">&nbsp;</span>
-            <span class="inputpage2">&nbsp;</span>
 
-            <br>
-            <h3>B. ECONOMIC SITUATION
-            </h3>
+            <br><br>
+            <h3>B. ECONOMIC SITUATION</h3>
             <br>
             <span class="inputpage2">{{ $client->economic_situation }}</span>
-            <span class="inputpage2">&nbsp;</span>
-            <span class="inputpage2">&nbsp;</span>
-
         </div>
     </div>
 
@@ -483,17 +466,22 @@
 
         .inputpage3,
         .inputpage2 {
-            display: inline-block;
+            display: block;
+            /* Changed to block to avoid inline overflow issues */
             width: 100%;
             min-height: 20px;
             /* Ensures each line takes up space even if empty */
             border-bottom: 1px solid #000;
-            padding-left: 5px;
-            margin-bottom: 5px;
+            padding: 5px;
+            /* Added padding for better readability */
+            margin-bottom: 10px;
+            /* Increased space between lines */
+            box-sizing: border-box;
             /* Ensure padding and border are included in width/height */
+            overflow-wrap: break-word;
+            /* Allow long text to wrap */
         }
 
-        /* Additional styles for specific sections if needed */
         .form-section-page3 {
             margin-top: 10px;
             clear: both;
@@ -689,7 +677,7 @@
             <h3>V. ASSESSMENT</h3>
             <div class="form-section-page3">
                 <span class="inputpage3">{{ $client->assessment }}</span>
-                <span class="inputpage3">&nbsp;</span>
+
 
 
             </div>
@@ -698,7 +686,7 @@
             <h3>VI. RECOMMENDATION</h3>
             <div class="form-section-page3">
                 <span class="inputpage3">{{ $client->recommendation }}</span>
-                <span class="inputpage3">&nbsp;</span>
+
 
             </div>
         </div>
