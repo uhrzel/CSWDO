@@ -305,7 +305,7 @@ class ClientController extends Controller
     {
         $apiKey = env('SEMAPHORE_API_KEY');
         $message = "Dear $firstName $lastName, your status is now {$tracking}. Thank you!";
-        $senderName = 'SEMAPHORE';
+        $senderName = 'CSWDORMS';
 
         $client = new GuzzleClient([
             'base_uri' => 'https://semaphore.co/api/v4/',
@@ -335,7 +335,7 @@ class ClientController extends Controller
         }
     }
 
-    private function checkDeliveryStatus($messageId)
+    /*     private function checkDeliveryStatus($messageId)
     {
         $apiKey = env('SEMAPHORE_API_KEY');
 
@@ -357,7 +357,7 @@ class ClientController extends Controller
         curl_close($ch);
 
         return json_decode($output, true);
-    }
+    } */
 
 
     public function destroy(Client $client)

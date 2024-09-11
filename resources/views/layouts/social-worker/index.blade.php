@@ -235,41 +235,298 @@
 							</div>
 						</div>
 					</section>
-					<p><strong>Control No.:</strong> {{ $client->control_number }}</p>
-					<p><strong>First Name:</strong> {{ $client->first_name }}</p>
-					<p><strong>Last Name:</strong> {{ $client->last_name }}</p>
-					<p><strong>Middle Name:</strong> {{ $client->middle }}</p>
-					<p><strong>Suffix:</strong> {{ $client->suffix }}</p>
-					<p><strong>Age:</strong> {{ $client->age }}</p>
-					<p><strong>Sex:</strong> {{ $client->sex }}</p>
-					<p><strong>Date of Birth:</strong> {{ $client->date_of_birth }}</p>
-					<p><strong>Place of Birth:</strong> {{ $client->pob }}</p>
-					<p><strong>Educational Attainment:</strong> {{ $client->educational_attainment }}</p>
-					<p><strong>Civil Status:</strong> {{ $client->civil_status }}</p>
-					<p><strong>Religion:</strong> {{ $client->religion }}</p>
-					<p><strong>Nationality:</strong> {{ $client->nationality }}</p>
-					<p><strong>Occupation:</strong> {{ $client->occupation }}</p>
-					<p><strong>Monthly Income:</strong> {{ $client->monthly_income }}</p>
-					<p><strong>Address:</strong> {{ $client->address }}</p>
-					<p><strong>Contact Number:</strong> {{ $client->contact_number }}</p>
-					<p><strong>Source of Referral:</strong> {{ $client->source_of_referral }}</p>
-					<p><strong>House Structure:</strong> {{ $client->house_structure }}</p>
-					<p><strong>Floor:</strong> {{ $client->floor }}</p>
-					<p><strong>Type:</strong> {{ $client->type }}</p>
-					<p><strong>Number of Rooms:</strong> {{ $client->number_of_rooms }}</p>
-					<p><strong>Appliances:</strong> {{ $client->appliances }}</p>
-					<p><strong>Monthly Expenses:</strong> {{ $client->monthly_expenses }}</p>
-					<p><strong>Services and Requirements:</strong> {{ $client->services_and_requirements }}</p>
-					<p><strong>Indicate:</strong> {{ $client->indicate }}</p>
-					<p><strong>Status:</strong> {{ $client->status }}</p>
-					<p><strong>Created At:</strong> {{ $client->created_at }}</p>
-					<p><strong>Updated At:</strong> {{ $client->updated_at }}</p>
-					<p><strong>Circumstances of Referral:</strong> {{ $client->circumstances_of_referral }}</p>
-					<p><strong>Family Background:</strong> {{ $client->family_background }}</p>
-					<p><strong>Health History Of The Applicant:</strong> {{ $client->health_history }}</p>
-					<p><strong>Economic Situation:</strong> {{ $client->economic_situation }}</p>
-					<p><strong>Assessment:</strong> {{ $client->assessment }}</p>
-					<p><strong>Recommendation:</strong> {{ $client->recommendation }}</p>
+
+					<div class="client-info">
+						<h6 class="text-muted mb-3">Client Details</h6>
+
+						<div class="row mb-2">
+							<div class="col-md-6"><strong>Control No:</strong> {{ $client->control_number }}</div>
+							<div class="col-md-6"><strong>First Name:</strong> {{ $client->first_name }}</div>
+						</div>
+
+						<div class="row mb-2">
+							<div class="col-md-6"><strong>Last Name:</strong> {{ $client->last_name }}</div>
+							<div class="col-md-6"><strong>Middle Name:</strong> {{ $client->middle }}</div>
+						</div>
+
+						<div class="row mb-2">
+							<div class="col-md-6"><strong>Suffix:</strong> {{ $client->suffix }}</div>
+							<div class="col-md-6"><strong>Age:</strong> {{ $client->age }}</div>
+						</div>
+
+						<div class="row mb-2">
+							<div class="col-md-6"><strong>Sex:</strong> {{ $client->sex }}</div>
+							<div class="col-md-6"><strong>Date of Birth:</strong> {{ $client->date_of_birth }}</div>
+						</div>
+
+						<div class="row mb-2">
+							<div class="col-md-6"><strong>Place of Birth:</strong> {{ $client->pob }}</div>
+							<div class="col-md-6"><strong>Educational Attainment:</strong> {{ $client->educational_attainment }}</div>
+						</div>
+
+						<div class="row mb-2">
+							<div class="col-md-6"><strong>Civil Status:</strong> {{ $client->civil_status }}</div>
+							<div class="col-md-6"><strong>Religion:</strong> {{ $client->religion }}</div>
+						</div>
+
+						<div class="row mb-2">
+							<div class="col-md-6"><strong>Nationality:</strong> {{ $client->nationality }}</div>
+							<div class="col-md-6"><strong>Occupation:</strong> {{ $client->occupation }}</div>
+						</div>
+
+						<div class="row mb-2">
+							<div class="col-md-6"><strong>Monthly Income:</strong> {{ $client->monthly_income }}</div>
+							<div class="col-md-6"><strong>Contact Number:</strong> {{ $client->contact_number }}</div>
+						</div>
+
+						<div class="row mb-2">
+							<div class="col-md-12"><strong>Address:</strong> {{ $client->address }}</div>
+						</div>
+
+						<hr>
+
+						<h6 class="text-muted mb-3">Household Information</h6>
+
+						<div class="row mb-2">
+							<div class="col-md-6"><strong>House Structure:</strong> {{ $client->house_structure }}</div>
+							<div class="col-md-6"><strong>Number of Rooms:</strong> {{ $client->number_of_rooms }}</div>
+						</div>
+
+						<div class="row mb-2">
+							<div class="col-md-6"><strong>Appliances:</strong> {{ $client->appliances }}</div>
+							<div class="col-md-6"><strong>Monthly Expenses:</strong> {{ $client->monthly_expenses }}</div>
+						</div>
+
+						<hr>
+
+						<!-- Services Section -->
+						<h4 class="mb-3">Services</h4>
+						<div class="form-group">
+							<h5><label>Burial Assistance</label></h5><br>
+							<div class="form-check-row">
+								<?php
+								$clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
+								$clientServices = is_array($clientServices) ? $clientServices : [];
+
+								$services = ['Burial', 'Financial', 'Funeral'];
+								?>
+								@foreach($services as $service)
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input" readonly name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
+									<label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">{{ $service }}</label>
+								</div>
+								@endforeach
+							</div>
+						</div>
+						<hr>
+						<h5><label>Requirements</label></h5>
+						<div class="col">
+							<div class="form-check-row">
+								<?php
+								$clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
+								$clientServices = is_array($clientServices) ? $clientServices : [];
+
+								$services = ['Death Certificate', 'Funeral Contract', 'Valid ID', 'Proof Of Relation'];
+								?>
+								@foreach($services as $service)
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input" readonly name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
+									<label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">{{ $service }}</label>
+								</div>
+								@endforeach
+							</div>
+						</div>
+						<div class="form-check-row">
+							<?php
+							$clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
+							$clientServices = is_array($clientServices) ? $clientServices : [];
+
+							$services = ['Crisis Intervention Unit = Valid ID', 'Barangay Clearance.', 'Medical Certificate.', 'Incident Report.', 'Funeral Contract.', 'Death Certificate.'];
+							?>
+							@foreach($services as $service)
+							<div class="form-check">
+								<input type="checkbox" class="form-check-input" readonly name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
+								<label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">
+									@if ($service === 'Crisis Intervention Unit = Valid ID')
+									Valid ID
+									@else
+									{{ $service }}
+									@endif
+								</label>
+							</div>
+							@endforeach
+						</div>
+						<hr>
+						<h5><label>Solo Parent Services</label></h5>
+						<div class="col">
+							<div class="form-check-row">
+								<?php
+								$clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
+								$clientServices = is_array($clientServices) ? $clientServices : [];
+
+								$services = [
+									'Solo Parent = Agency Referral',
+									'Residency Cert.',
+									'Medical Cert.',
+									'Billing Proof',
+									'Birth Cert.',
+									'ID Copy',
+									'Senior Citizen ID (60+)'
+								];
+								?>
+								@foreach($services as $service)
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input" readonly name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
+									<label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">
+										@if ($service === 'Solo Parent = Agency Referral')
+										Agency Referral
+										@else
+										{{ $service }}
+										@endif
+									</label>
+								</div>
+								@endforeach
+							</div>
+						</div>
+						<hr>
+						<h5><label>Pre-marriage Counseling</label></h5><br>
+						<div class="col">
+							<div class="form-check-row">
+								<?php
+								$clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
+								$clientServices = is_array($clientServices) ? $clientServices : [];
+
+								$services = [
+									'Pre-marriage Counseling = Valid ID',
+									'Birth Certificate',
+									'CENOMAR',
+									'Barangay Clearance',
+									'Passport-sized Photos',
+								];
+								?>
+								@foreach($services as $service)
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input" readonly name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
+									<label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">
+										@if ($service === 'Pre-marriage = Valid ID')
+										Valid ID
+										@else
+										{{ $service }}
+										@endif
+									</label>
+								</div>
+								@endforeach
+							</div>
+						</div>
+						<hr>
+						<h5><label>After-Care Services</label></h5><br>
+						<div class="col">
+							<div class="form-check-row">
+								<?php
+								$clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
+								$clientServices = is_array($clientServices) ? $clientServices : [];
+
+								$services = [
+									'After-Care Services = Valid ID',
+									'Birth Certificate.',
+									'Residence Certificate.',
+									'SCSR',
+									'Medical Records',
+								];
+								?>
+								@foreach($services as $service)
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input" name="services[]" readonly value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
+									<label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">
+										@if ($service === 'After-Care Services = Valid ID')
+										Valid ID
+										@else
+										{{ $service }}
+										@endif
+									</label>
+								</div>
+								@endforeach
+							</div>
+
+						</div>
+
+						<hr>
+						<h5><label>Poverty Alleviation Program</label></h5><br>
+						<div class="col">
+							<div class="form-check-row">
+								<?php
+								$clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
+								$clientServices = is_array($clientServices) ? $clientServices : [];
+
+								$services = [
+									'Poverty Alleviation Program = Valid ID',
+									'Residence Certificate',
+									'Income Certificate',
+									'SCSR.',
+									'Application Form',
+								];
+								?>
+								@foreach($services as $service)
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input" readonly name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
+									<label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">
+										@if ($service === 'Poverty Alleviation Program = Valid ID')
+										Valid ID
+										@else
+										{{ $service }}
+										@endif
+									</label>
+								</div>
+								@endforeach
+							</div>
+						</div>
+						<hr>
+						<h6 class="text-muted mb-3">Additional Information</h6>
+
+						<div class="row mb-2">
+							<div class="col-md-12"><strong>Services and Requirements:</strong> {{ $client->services_and_requirements }}</div>
+						</div>
+
+						<div class="row mb-2">
+							<div class="col-md-12"><strong>Circumstances of Referral:</strong> {{ $client->circumstances_of_referral }}</div>
+						</div>
+
+						<div class="row mb-2">
+							<div class="col-md-12"><strong>Family Background:</strong> {{ $client->family_background }}</div>
+						</div>
+
+						<div class="row mb-2">
+							<div class="col-md-12"><strong>Health History:</strong> {{ $client->health_history }}</div>
+						</div>
+
+						<div class="row mb-2">
+							<div class="col-md-12"><strong>Economic Situation:</strong> {{ $client->economic_situation }}</div>
+						</div>
+
+						<div class="row mb-2">
+							<div class="col-md-12"><strong>Recommendation:</strong> {{ $client->recommendation }}</div>
+						</div>
+						<hr>
+						<h6 class="text-muted mb-3">Interview and Approval Details</h6>
+
+						<div class="row mb-2">
+							<div class="col-md-12"><strong>Interviewee:</strong> {{ $client->interviewee }}</div>
+						</div>
+
+						<div class="row mb-2">
+							<div class="col-md-12"><strong>Interview By:</strong> {{ $client->interviewed_by }}</div>
+						</div>
+
+						<div class="row mb-2">
+							<div class="col-md-12"><strong>Reviewing:</strong> {{ $client->reviewing }}</div>
+						</div>
+
+						<div class="row mb-2">
+							<div class="col-md-12"><strong>Approved by:</strong> {{ $client->approving }}</div>
+						</div>
+
+
+					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary" onclick="generatePdf({{ $client->id }})">Generate PDF</button>
@@ -278,6 +535,7 @@
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 	@endforeach
 
@@ -772,19 +1030,19 @@
 									</div>
 									@endforeach
 								</div>
-
 							</div>
-							<div class="col-md-3 form-group">
+							<hr>
+							<div class="col-md-12 form-group">
 								<label for="home_visit">Home Visit Date</label>
-								<input type="date" name="home_visit" class="form-control" id="home_visit" value="{{ $client->home_visit }}">
+								<input type="date" name="home_visit" class="form-control" id="home_visit" value="{{ $client->home_visit }}" style="border: none; border-bottom: 1px solid black; outline: none; width: 200px;">
 							</div>
-							<div class="col-md-3 form-group">
+							<div class="col-md-12 form-group">
 								<label for="interviewee">Interviewee</label>
-								<input type="text" class="form-control" id="interviewee" name="interviewee" value="{{ $client->interviewee }}" placeholder="Enter Interviewee">
+								<input type="text" class="form-control" id="interviewee" name="interviewee" value="{{ $client->interviewee }}" placeholder="Enter Interviewee" style="border: none; border-bottom: 1px solid black; outline: none; width: 200px;">
 							</div>
-							<div class="col-md-3 form-group">
+							<div class="col-md-12 form-group">
 								<label for="interviewed_by">Interviewed By</label>
-								<input type="text" class="form-control" id="interviewed_by" name="interviewed_by" value="{{ $client->interviewed_by }}" placeholder="Enter Interviewed By">
+								<input type="text" class="form-control" id="interviewed_by" name="interviewed_by" value="{{ $client->interviewed_by }}" placeholder="Enter Interviewed By" style="border: none; border-bottom: 1px solid black; outline: none; width: 200px;">
 							</div>
 							<div class="col-md-12 form-group">
 								<label for="layunin">Layunin Ng Pagbisita</label>
