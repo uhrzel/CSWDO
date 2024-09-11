@@ -285,7 +285,7 @@ class ClientController extends Controller
                 $client->services = json_encode($request->input('services', []));
             }
             // Send a message if the tracking status changes to 'Approve' or 'Re-access'
-            if (in_array($client->tracking, ['Approve', 'Re-access'])) {
+            if (in_array($client->tracking, ['Approve'])) {
                 $this->sendMessage($client->contact_number, $client->first_name, $client->last_name, $client->tracking);
             }
 
@@ -301,10 +301,12 @@ class ClientController extends Controller
         }
     }
 
-    private function sendMessage($contactNumber, $firstName, $lastName, $tracking)
+    private function sendMessage($contactNumber, $firstName, $lastName)
     {
+        $date = \Carbon\Carbon::now()->format('F j, Y');
         $apiKey = env('SEMAPHORE_API_KEY');
-        $message = "Dear $firstName $lastName, your status is now {$tracking}. Thank you!";
+        $message = "Magandang araw, $firstName $lastName! Pwede na po kayong pumunta sa CSWDO simula sa $date para kunin ang inyong hinihinging tulong. Maraming salamat.";
+
         $senderName = 'CSWDORMS';
 
         $client = new GuzzleClient([
