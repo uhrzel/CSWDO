@@ -1316,8 +1316,8 @@
 							<tbody>
 								@foreach ($client->familyMembers as $familyMember)
 								<tr>
-									<td>{{ $familyMember->fam_firstname }}</td>
 									<td> {{ $familyMember->fam_lastname }}</td>
+									<td>{{ $familyMember->fam_firstname }}</td>
 									<td>{{ $familyMember->fam_middlename }}</td>
 									<td> {{ $familyMember->fam_relationship }}</td>
 									<td>{{ $familyMember->fam_birthday }}</td>
