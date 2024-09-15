@@ -316,7 +316,7 @@ class ClientController extends Controller
             return response()->json(['error' => 'An error occurred while updating the client.'], 500);
         }
     }
-    public function showClientDetails($id)
+    /*     public function showClientDetails($id)
     {
         $client = Client::find($id);
         $servicesData = [
@@ -344,7 +344,7 @@ class ClientController extends Controller
 
         return view('layouts.social-worker.index', compact('client', 'servicesData'));
     }
-
+ */
 
     private function sendMessage($contactNumber, $firstName, $lastName)
     {

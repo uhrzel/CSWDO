@@ -487,6 +487,48 @@
 								@endif
 							</div>
 						</div>
+						<hr>
+						<h5><label>Crisis Intervention Unit</label></h5><br>
+						<div class="col">
+							<div class="form-check-row">
+								<?php
+								// Define the list of services
+								$services = [
+									'Valid ID',
+									'Residence Certificate or Barangay Clearance',
+									'Clinical abstract/medical certificate',
+									'Police Report or Incident Report',
+									'Funeral contract and registered death certificate. (if applicable)',
+								];
+
+								// Convert clientServices to an array if it's not already
+								$clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
+								$clientServices = is_array($clientServices) ? $clientServices : [];
+
+								// Normalize the case of clientServices for comparison
+								$normalizedClientServices = array_map('strtolower', $clientServices);
+
+								// Normalize the case of services for comparison
+								$normalizedServices = array_map('strtolower', $services);
+
+								// Get the intersection of services and clientServices
+								$filteredServices = array_intersect($normalizedServices, $normalizedClientServices);
+
+								// If the filteredServices is empty, it means no services match
+								?>
+								@if (!empty($filteredServices))
+								@foreach($filteredServices as $service)
+								<div class="form-check">
+									<label class="form-check-label">
+										{{ ucfirst($service) }}
+									</label>
+								</div>
+								@endforeach
+								@else
+								<p>No Crisis Intervention services available</p>
+								@endif
+							</div>
+						</div>
 
 						<hr>
 						<h6 class="text-muted mb-3">Additional Information</h6>
@@ -862,7 +904,6 @@
 										<label for="burial-assistance-{{ $client->id }}" class="service-label" onclick="toggleService('burial-assistance-{{ $client->id }}', 'requirements-{{ $client->id }}')">Burial Assistance</label>
 									</h5>
 								</div>
-								<hr>
 
 								<!-- Services Section -->
 								<div class="form-check-row hidden" id="burial-assistance-{{ $client->id }}">
@@ -881,9 +922,9 @@
 									</div>
 									@endforeach
 								</div>
-								<h5><label for="requirements">Requirements</label></h5>
-								<!-- Requirements Section -->
+
 								<div class="form-check-row hidden" id="requirements-{{ $client->id }}">
+									<h5><label for="requirements">Requirements</label></h5>
 									<?php
 									$clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
 									$clientServices = is_array($clientServices) ? $clientServices : [];
@@ -1076,14 +1117,40 @@
 									</div>
 								</div>
 							</div>
+							<hr>
+							<div class="form-group">
+								<h5><label for="crisis-intervention-{{ $client->id }}" class="service-label" onclick="toggleService('crisis-intervention-{{ $client->id }}')">Crisis Intervention Unit</label></h5>
+								<div class="col">
+									<div class="form-check-row hidden" id="crisis-intervention-{{ $client->id }}">
+										<?php
+										// Convert clientServices to an array if it's not already
+										$clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
+										$clientServices = is_array($clientServices) ? $clientServices : [];
 
-							<style>
-								.hidden {
-									display: none;
-								}
-							</style>
+										// Services list with normalized case
+										$services = [
+											'Valid ID',
+											'Residence Certificate or Barangay Clearance',
+											'Clinical abstract/medical certificate',
+											'Police Report or Incident Report',
+											'Funeral contract and registered death certificate. (if applicable)',
+										];
 
-							<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+										// Normalize client services to lowercase for comparison
+										$normalizedClientServices = array_map('strtolower', $clientServices);
+										?>
+										@foreach($services as $service)
+										<div class="form-check">
+											<input type="checkbox" class="form-check-input" name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array(strtolower($service), $normalizedClientServices) ? 'checked' : '' }}>
+											<label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">
+												{{ $service }}
+											</label>
+										</div>
+										@endforeach
+									</div>
+								</div>
+							</div>
+
 
 							<!-- 	<script>
 								function toggleService(serviceId) {
@@ -1093,6 +1160,7 @@
 							</script>
 							
  -->
+							<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 							<script>
 								// Function to toggle visibility of services and requirements sections
@@ -1109,10 +1177,7 @@
 										requirementsElement.classList.add('hidden');
 									}
 								}
-
-								// Additional logic for disabling checkboxes
 							</script>
-
 							<style>
 								.hidden {
 									display: none;
