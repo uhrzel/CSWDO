@@ -324,23 +324,6 @@
 						<hr>
 
 						<h5><label>Requirements</label></h5>
-						<div class="col">
-							<div class="form-check-row">
-								<?php
-								$services = ['Death Certificate', 'Funeral Contract', 'Valid ID', 'Proof Of Relation'];
-								$filteredServices = array_intersect($services, $clientServices);
-								?>
-								@foreach($filteredServices as $service)
-								<div class="form-check">
-									<label class="form-check-label">{{ $service }}</label>
-								</div>
-								@endforeach
-							</div>
-							@if(empty($filteredServices))
-							<p>No requirements available</p>
-							@endif
-						</div>
-
 						<div class="form-check-row">
 							<?php
 							$services = ['Crisis Intervention Unit = Valid ID', 'Barangay Clearance.', 'Medical Certificate.', 'Incident Report.', 'Funeral Contract.', 'Death Certificate.'];
@@ -897,45 +880,242 @@
 								</select>
 							</div>
 							<hr>
+							<style>
+								.hidden {
+									display: none;
+								}
+							</style>
 							<div class="form-group">
 								<h2>Services</h2>
-								<div>
-									<h5>
-										<label for="burial-assistance-{{ $client->id }}" class="service-label" onclick="toggleService('burial-assistance-{{ $client->id }}', 'requirements-{{ $client->id }}')">Burial Assistance</label>
-									</h5>
-								</div>
+								<select id="service-selector-{{ $client->id }}" style="border: none; border-bottom: 1px solid black; outline: none; width: 200px;" class="form-control" onchange="handleServiceChange(this)">
+									<option value="">Select a Service</option>
+									<option value="burial-assistance">Burial Assistance</option>
+									<option value="crisis-intervention">Crisis Intervention Unit</option>
+									<option value="solo-parent">Solo Parent Services</option>
+									<option value="premarriage-counseling">Pre-marriage Counseling</option>
+									<option value="after-care">After-Care Services</option>
+									<option value="poverty-program">Poverty Alleviation Program</option>
+								</select>
 
-								<!-- Services Section -->
+								<!-- Burial Assistance Section -->
 								<div class="form-check-row hidden" id="burial-assistance-{{ $client->id }}">
 									<?php
 									$clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
 									$clientServices = is_array($clientServices) ? $clientServices : [];
-
 									$services = ['Burial', 'Financial', 'Funeral'];
 									?>
-
 									@foreach($services as $service)
-
 									<div class="form-check">
 										<input type="checkbox" class="form-check-input service-checkbox" name="services[]" value="{{ $service }}" id="{{ strtolower($service) }}-{{ $client->id }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
 										<label class="form-check-label" for="{{ strtolower($service) }}-{{ $client->id }}">{{ $service }}</label>
 									</div>
 									@endforeach
+
+									<!-- Additional Requirements -->
+									<div class="additional-requirements hidden" id="burial-assistance-requirements-{{ $client->id }}">
+										<h3>Requirements</h3>
+										<?php
+										$additionalServices = ['Crisis Intervention Unit = Valid ID', 'Barangay Clearance.', 'Medical Certificate.', 'Incident Report.', 'Funeral Contract.', 'Death Certificate.'];
+										?>
+										@foreach($additionalServices as $service)
+										<div class="form-check">
+											<input type="checkbox" class="form-check-input" name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}-{{ $client->id }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
+											<label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}-{{ $client->id }}">
+												@if ($service === 'Crisis Intervention Unit = Valid ID')
+												Valid ID
+												@else
+												{{ $service }}
+												@endif
+											</label>
+										</div>
+										@endforeach
+									</div>
 								</div>
 
-								<div class="form-check-row hidden" id="requirements-{{ $client->id }}">
-									<h5><label for="requirements">Requirements</label></h5>
+								<script>
+									document.addEventListener('DOMContentLoaded', function() {
+										const serviceSelector = document.getElementById('service-selector-{{ $client->id }}');
+
+										function handleServiceChange(selectElement) {
+											const selectedService = selectElement.value;
+											const serviceSections = document.querySelectorAll('.form-check-row');
+											serviceSections.forEach(section => section.classList.add('hidden'));
+
+											const additionalRequirements = document.querySelectorAll('.additional-requirements');
+											additionalRequirements.forEach(req => req.classList.add('hidden'));
+
+											if (selectedService) {
+												document.getElementById(selectedService + '-{{ $client->id }}').classList.remove('hidden');
+												if (selectedService === 'burial-assistance') {
+													document.getElementById('burial-assistance-requirements-{{ $client->id }}').classList.remove('hidden');
+												}
+											}
+										}
+
+										serviceSelector.addEventListener('change', function() {
+											handleServiceChange(this);
+										});
+									});
+
+									document.addEventListener('DOMContentLoaded', function() {
+										const burialCheckbox = document.getElementById('burial-{{ $client->id }}');
+										const financialCheckbox = document.getElementById('financial-{{ $client->id }}');
+										const funeralCheckbox = document.getElementById('funeral-{{ $client->id }}');
+
+										function updateCheckboxes() {
+											const burialChecked = burialCheckbox.checked;
+											const financialChecked = financialCheckbox.checked;
+											const funeralChecked = funeralCheckbox.checked;
+
+											// Disable 'Funeral' if both 'Financial' and 'Burial' are selected
+											if (financialChecked && burialChecked) {
+												funeralCheckbox.disabled = true;
+											} else {
+												funeralCheckbox.disabled = false;
+											}
+
+											// Disable 'Burial' if both 'Financial' and 'Funeral' are selected
+											if (financialChecked && funeralChecked) {
+												burialCheckbox.disabled = true;
+											} else {
+												burialCheckbox.disabled = false;
+											}
+										}
+
+										// Attach event listeners
+										burialCheckbox.addEventListener('change', updateCheckboxes);
+										financialCheckbox.addEventListener('change', updateCheckboxes);
+										funeralCheckbox.addEventListener('change', updateCheckboxes);
+
+										// Initialize on page load
+										updateCheckboxes();
+									});
+								</script>
+
+
+								<!-- Crisis Intervention Unit Section -->
+								<div class="form-check-row hidden" id="crisis-intervention-{{ $client->id }}">
 									<?php
 									$clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
 									$clientServices = is_array($clientServices) ? $clientServices : [];
-
-									$additionalServices = ['Crisis Intervention Unit = Valid ID', 'Barangay Clearance.', 'Medical Certificate.', 'Incident Report.', 'Funeral Contract.', 'Death Certificate.'];
+									$services = [
+										'Valid ID',
+										'Residence Certificate or Barangay Clearance',
+										'Clinical abstract/medical certificate',
+										'Police Report or Incident Report',
+										'Funeral contract and registered death certificate. (if applicable)',
+									];
+									$normalizedClientServices = array_map('strtolower', $clientServices);
 									?>
-									@foreach($additionalServices as $service)
+									@foreach($services as $service)
+									<div class="form-check">
+										<input type="checkbox" class="form-check-input" name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}-{{ $client->id }}" {{ in_array(strtolower($service), $normalizedClientServices) ? 'checked' : '' }}>
+										<label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}-{{ $client->id }}">{{ $service }}</label>
+									</div>
+									@endforeach
+								</div>
+
+								<!-- Solo Parent Services Section -->
+								<div class="form-check-row hidden" id="solo-parent-{{ $client->id }}">
+									<?php
+									$clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
+									$clientServices = is_array($clientServices) ? $clientServices : [];
+									$services = [
+										'Solo Parent = Agency Referral',
+										'Residency Cert.',
+										'Medical Cert.',
+										'Billing Proof',
+										'Birth Cert.',
+										'ID Copy',
+										'Senior Citizen ID (60+)'
+									];
+									?>
+									@foreach($services as $service)
 									<div class="form-check">
 										<input type="checkbox" class="form-check-input" name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}-{{ $client->id }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
 										<label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}-{{ $client->id }}">
-											@if ($service === 'Crisis Intervention Unit = Valid ID')
+											@if ($service === 'Solo Parent = Agency Referral')
+											Agency Referral
+											@else
+											{{ $service }}
+											@endif
+										</label>
+									</div>
+									@endforeach
+								</div>
+
+								<!-- Pre-marriage Counseling Section -->
+								<div class="form-check-row hidden" id="premarriage-counseling-{{ $client->id }}">
+									<?php
+									$clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
+									$clientServices = is_array($clientServices) ? $clientServices : [];
+									$services = [
+										'Pre-marriage Counseling = Valid ID',
+										'Birth Certificate',
+										'CENOMAR',
+										'Barangay Clearance',
+										'Passport-sized Photos',
+									];
+									?>
+									@foreach($services as $service)
+									<div class="form-check">
+										<input type="checkbox" class="form-check-input" name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}-{{ $client->id }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
+										<label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}-{{ $client->id }}">
+											@if ($service === 'Pre-marriage Counseling = Valid ID')
+											Valid ID
+											@else
+											{{ $service }}
+											@endif
+										</label>
+									</div>
+									@endforeach
+								</div>
+
+								<!-- After-Care Services Section -->
+								<div class="form-check-row hidden" id="after-care-{{ $client->id }}">
+									<?php
+									$clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
+									$clientServices = is_array($clientServices) ? $clientServices : [];
+									$services = [
+										'After-Care Services = Valid ID',
+										'Birth Certificate.',
+										'Residence Certificate.',
+										'SCSR',
+										'Medical Records',
+									];
+									?>
+									@foreach($services as $service)
+									<div class="form-check">
+										<input type="checkbox" class="form-check-input" name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}-{{ $client->id }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
+										<label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}-{{ $client->id }}">
+											@if ($service === 'After-Care Services = Valid ID')
+											Valid ID
+											@else
+											{{ $service }}
+											@endif
+										</label>
+									</div>
+									@endforeach
+								</div>
+
+								<!-- Poverty Alleviation Program Section -->
+								<div class="form-check-row hidden" id="poverty-program-{{ $client->id }}">
+									<?php
+									$clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
+									$clientServices = is_array($clientServices) ? $clientServices : [];
+									$services = [
+										'Poverty Alleviation Program = Valid ID',
+										'Residence Certificate',
+										'Income Certificate',
+										'SCSR.',
+										'Application Form',
+									];
+									?>
+									@foreach($services as $service)
+									<div class="form-check">
+										<input type="checkbox" class="form-check-input" name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}-{{ $client->id }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
+										<label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}-{{ $client->id }}">
+											@if ($service === 'Poverty Alleviation Program = Valid ID')
 											Valid ID
 											@else
 											{{ $service }}
@@ -948,241 +1128,28 @@
 
 							<script>
 								document.addEventListener('DOMContentLoaded', function() {
-									const burialCheckbox = document.getElementById('burial-{{ $client->id }}');
-									const financialCheckbox = document.getElementById('financial-{{ $client->id }}');
-									const funeralCheckbox = document.getElementById('funeral-{{ $client->id }}');
+									const serviceSelector = document.getElementById('service-selector-{{ $client->id }}');
 
-									function updateCheckboxes() {
-										const burialChecked = burialCheckbox.checked;
-										const financialChecked = financialCheckbox.checked;
-										const funeralChecked = funeralCheckbox.checked;
+									function handleServiceChange(selectElement) {
+										const selectedService = selectElement.value;
+										const serviceSections = document.querySelectorAll('.form-check-row');
+										serviceSections.forEach(section => section.classList.add('hidden'));
 
-										// Disable 'Funeral' if both 'Financial' and 'Burial' are selected
-										if (financialChecked && burialChecked) {
-											funeralCheckbox.disabled = true;
-										} else {
-											funeralCheckbox.disabled = false;
-										}
-
-										// Disable 'Burial' if both 'Financial' and 'Funeral' are selected
-										if (financialChecked && funeralChecked) {
-											burialCheckbox.disabled = true;
-										} else {
-											burialCheckbox.disabled = false;
+										if (selectedService) {
+											document.getElementById(selectedService + '-{{ $client->id }}').classList.remove('hidden');
 										}
 									}
 
-									// Attach event listeners
-									burialCheckbox.addEventListener('change', updateCheckboxes);
-									financialCheckbox.addEventListener('change', updateCheckboxes);
-									funeralCheckbox.addEventListener('change', updateCheckboxes);
-
-									// Initialize on page load
-									updateCheckboxes();
+									serviceSelector.addEventListener('change', function() {
+										handleServiceChange(this);
+									});
 								});
 							</script>
-							<hr>
-							<div class="form-group">
-								<h5><label for="soloparent-services-{{ $client->id }}" class="service-label" onclick="toggleService('soloparent-services-{{ $client->id }}')">Solo Parent Services</label>
-								</h5>
-								<div class="col">
-									<div class="form-check-row hidden" id="soloparent-services-{{ $client->id }}">
-										<?php
-										$clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
-										$clientServices = is_array($clientServices) ? $clientServices : [];
-
-										$services = [
-											'Solo Parent = Agency Referral',
-											'Residency Cert.',
-											'Medical Cert.',
-											'Billing Proof',
-											'Birth Cert.',
-											'ID Copy',
-											'Senior Citizen ID (60+)'
-										];
-										?>
-										@foreach($services as $service)
-										<div class="form-check">
-											<input type="checkbox" class="form-check-input" name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
-											<label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">
-												@if ($service === 'Solo Parent = Agency Referral')
-												Agency Referral
-												@else
-												{{ $service }}
-												@endif
-											</label>
-										</div>
-										@endforeach
-									</div>
-								</div>
-							</div>
-							<hr>
-							<div class="form-group">
-								<h5><label for="premarriage-counseling-{{ $client->id }}" class="service-label" onclick="toggleService('premarriage-counseling-{{ $client->id }}')">Pre-marriage Counseling</label>
-								</h5>
-								<div class="col">
-									<div class="form-check-row hidden" id="premarriage-counseling-{{ $client->id }}">
-										<?php
-										$clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
-										$clientServices = is_array($clientServices) ? $clientServices : [];
-
-										$services = [
-											'Pre-marriage Counseling = Valid ID',
-											'Birth Certificate',
-											'CENOMAR',
-											'Barangay Clearance',
-											'Passport-sized Photos',
-										];
-										?>
-										@foreach($services as $service)
-										<div class="form-check">
-											<input type="checkbox" class="form-check-input" name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
-											<label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">
-												@if ($service === 'Pre-marriage = Valid ID')
-												Valid ID
-												@else
-												{{ $service }}
-												@endif
-											</label>
-										</div>
-										@endforeach
-									</div>
-								</div>
-							</div>
-							<hr>
-							<div class="form-group">
-								<h5><label for="after-care-{{ $client->id }}" class="service-label" onclick="toggleService('after-care-{{ $client->id }}')">After-Care Services</label>
-								</h5>
-								<div class="col">
-									<div class="form-check-row hidden" id="after-care-{{ $client->id }}">
-										<?php
-										$clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
-										$clientServices = is_array($clientServices) ? $clientServices : [];
-
-										$services = [
-											'After-Care Services = Valid ID',
-											'Birth Certificate.',
-											'Residence Certificate.',
-											'SCSR',
-											'Medical Records',
-										];
-										?>
-										@foreach($services as $service)
-										<div class="form-check ">
-											<input type="checkbox" class="form-check-input" name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
-											<label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">
-												@if ($service === 'After-Care Services = Valid ID')
-												Valid ID
-												@else
-												{{ $service }}
-												@endif
-											</label>
-										</div>
-										@endforeach
-									</div>
-
-								</div>
-							</div>
-
-							<hr>
-							<div class="form-group">
-								<h5><label for="poverty-program-{{ $client->id }}" class="service-label" onclick="toggleService('poverty-program-{{ $client->id }}')">Poverty Alleviation Program</label>
-								</h5>
-								<div class="col">
-									<div class="form-check-row hidden" id="poverty-program-{{ $client->id }}">
-										<?php
-										$clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
-										$clientServices = is_array($clientServices) ? $clientServices : [];
-
-										$services = [
-											'Poverty Alleviation Program = Valid ID',
-											'Residence Certificate',
-											'Income Certificate',
-											'SCSR.',
-											'Application Form',
-										];
-										?>
-										@foreach($services as $service)
-										<div class="form-check">
-											<input type="checkbox" class="form-check-input" name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array($service, $clientServices) ? 'checked' : '' }}>
-											<label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">
-												@if ($service === 'Poverty Alleviation Program = Valid ID')
-												Valid ID
-												@else
-												{{ $service }}
-												@endif
-											</label>
-										</div>
-										@endforeach
-									</div>
-								</div>
-							</div>
-							<hr>
-							<div class="form-group">
-								<h5><label for="crisis-intervention-{{ $client->id }}" class="service-label" onclick="toggleService('crisis-intervention-{{ $client->id }}')">Crisis Intervention Unit</label></h5>
-								<div class="col">
-									<div class="form-check-row hidden" id="crisis-intervention-{{ $client->id }}">
-										<?php
-										// Convert clientServices to an array if it's not already
-										$clientServices = is_array($client->services) ? $client->services : json_decode($client->services, true);
-										$clientServices = is_array($clientServices) ? $clientServices : [];
-
-										// Services list with normalized case
-										$services = [
-											'Valid ID',
-											'Residence Certificate or Barangay Clearance',
-											'Clinical abstract/medical certificate',
-											'Police Report or Incident Report',
-											'Funeral contract and registered death certificate. (if applicable)',
-										];
-
-										// Normalize client services to lowercase for comparison
-										$normalizedClientServices = array_map('strtolower', $clientServices);
-										?>
-										@foreach($services as $service)
-										<div class="form-check">
-											<input type="checkbox" class="form-check-input" name="services[]" value="{{ $service }}" id="{{ strtolower(str_replace(' ', '-', $service)) }}" {{ in_array(strtolower($service), $normalizedClientServices) ? 'checked' : '' }}>
-											<label class="form-check-label" for="{{ strtolower(str_replace(' ', '-', $service)) }}">
-												{{ $service }}
-											</label>
-										</div>
-										@endforeach
-									</div>
-								</div>
-							</div>
 
 
-							<!-- 	<script>
-								function toggleService(serviceId) {
-									console.log('Toggling visibility for:', serviceId);
-									$('#' + serviceId).toggleClass('hidden');
-								}
-							</script>
-							
- -->
-							<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-							<script>
-								// Function to toggle visibility of services and requirements sections
-								function toggleService(serviceId, requirementsId) {
-									const serviceElement = document.getElementById(serviceId);
-									const requirementsElement = document.getElementById(requirementsId);
 
-									// Toggle visibility by adding/removing 'hidden' class
-									if (serviceElement.classList.contains('hidden')) {
-										serviceElement.classList.remove('hidden');
-										requirementsElement.classList.remove('hidden');
-									} else {
-										serviceElement.classList.add('hidden');
-										requirementsElement.classList.add('hidden');
-									}
-								}
-							</script>
-							<style>
-								.hidden {
-									display: none;
-								}
-							</style>
+
 
 							<hr>
 							<div class="col-md-12 form-group">
