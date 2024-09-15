@@ -277,5 +277,4 @@ class Client extends Model
     {
         return $this->hasMany(FamilyMember::class, 'client_id');
     }
-    
 }

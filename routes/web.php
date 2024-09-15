@@ -33,6 +33,9 @@ Route::middleware(['auth'])->group(function () {
     // generate pdf
     Route::get('/generate-pdf/{id}', [ClientController::class, 'generatePdf'])->name('generate.pdf');
 
+    // web.php
+    Route::get('/view-closed-clients', [ClientController::class, 'viewClosedClients'])->name('social-worker.view-closed-clients')->middleware('social');
+    Route::get('/view-ongoing-clients', [ClientController::class, 'viewOngoingClients'])->name('social-worker.view-ongoing-clients')->middleware('social');
 
     //for family members
     Route::post('/social-worker/family/store', [FamilyMemberController::class, 'store'])->name('social-worker.family.store');

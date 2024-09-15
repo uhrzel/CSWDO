@@ -82,6 +82,18 @@ class ClientController extends Controller
         return redirect()->back()->with('success', "Client status updated to $statusValue.");
     }
 
+    public function viewClosedClients()
+    {
+        $clients = Client::where('tracking', 'Approve')->get();
+        return view('layouts.social-worker.view-closed-clients', compact('clients'));
+    }
+    public function viewOngoingClients()
+    {
+        $clients = Client::where('tracking', 'Re-access')->get();
+        return view('layouts.social-worker.view-ongoing-clients', compact('clients'));
+    }
+
+
     public function store(Request $request)
     {
         $validatedData = $this->validateClient($request);
@@ -280,10 +292,14 @@ class ClientController extends Controller
                 $client->appliances = json_encode($request->input('appliances', []));
             }
 
+
+
             // Handle services field if it's an array and store as JSON
             if ($request->has('services')) {
                 $client->services = json_encode($request->input('services', []));
             }
+
+
             // Send a message if the tracking status changes to 'Approve' or 'Re-access'
             if (in_array($client->tracking, ['Approve'])) {
                 $this->sendMessage($client->contact_number, $client->first_name, $client->last_name, $client->tracking);
@@ -300,6 +316,35 @@ class ClientController extends Controller
             return response()->json(['error' => 'An error occurred while updating the client.'], 500);
         }
     }
+    public function showClientDetails($id)
+    {
+        $client = Client::find($id);
+        $servicesData = [
+            'burial' => [
+                'requirements' => ['Burial', 'Financial', 'Funeral'],
+                'details' => ['Crisis Intervention Unit = Valid ID', 'Barangay Clearance', 'Medical Certificate', 'Incident Report', 'Funeral Contract', 'Death Certificate']
+            ],
+            'solo-parent' => [
+                'requirements' => ['Agency Referral', 'Residency Cert.', 'Medical Cert.', 'Billing Proof', 'Birth Cert.', 'ID Copy', 'Senior Citizen ID (60+)'],
+                'details' => []
+            ],
+            'pre-marriage' => [
+                'requirements' => ['Valid ID', 'Birth Certificate', 'CENOMAR', 'Barangay Clearance', 'Passport-sized Photos'],
+                'details' => []
+            ],
+            'after-care' => [
+                'requirements' => ['Valid ID', 'Birth Certificate', 'Residence Certificate', 'SCSR', 'Medical Records'],
+                'details' => []
+            ],
+            'poverty' => [
+                'requirements' => ['Valid ID', 'Residence Certificate', 'Income Certificate', 'SCSR', 'Application Form'],
+                'details' => []
+            ]
+        ];
+
+        return view('layouts.social-worker.index', compact('client', 'servicesData'));
+    }
+
 
     private function sendMessage($contactNumber, $firstName, $lastName)
     {
