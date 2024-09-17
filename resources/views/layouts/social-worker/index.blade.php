@@ -175,6 +175,7 @@
 	$progressPercentage = ($completedTasks / $totalTasks) * 100;
 	$progressColor = $completedTasks == $totalTasks ? 'bg-success' : 'bg-dark';
 	@endphp
+
 	<div class="modal fade" id="viewClientModal{{ $client->id }}" tabindex="-1" role="dialog" aria-labelledby="viewClientModalLabel{{ $client->id }}" aria-hidden="true">
 		<div class="modal-dialog modal-xl" role="document">
 			<div class="modal-content">
@@ -280,7 +281,21 @@
 						</div>
 
 						<div class="row mb-2">
-							<div class="col-md-12"><strong>Address:</strong> {{ $client->address }}</div>
+							<div class="col-md-12">
+								<strong>Building Number:</strong> {{ $client->building_number ?? 'N/A' }}
+							</div>
+						</div>
+
+						<div class="row mb-2">
+							<div class="col-md-12">
+								<strong>Street Name:</strong> {{ $client->street_name ?? 'N/A' }}
+							</div>
+						</div>
+
+						<div class="row mb-2">
+							<div class="col-md-12">
+								<strong>Barangay:</strong> {{ $client->barangay ?? 'N/A' }}
+							</div>
 						</div>
 
 						<hr>
@@ -618,9 +633,24 @@
 								</select>
 							</div>
 							<div class="col-md-4 form-group">
-								<label for="address">Address</label>
-								<input type="text" class="form-control" id="address" name="address" style="border: none; border-bottom: 1px solid black; outline: none; width: 200px;" value="{{ $client->address }}" required>
+								<label for="building_number">Building / House / Block No.</label>
+								<input type="text" class="form-control" name="building_number"
+									style="border: none; border-bottom: 1px solid black; outline: none; width: 200px;"
+									value="{{$client->building_number}} " required>
+							</div>
 
+							<div class="col-md-4 form-group">
+								<label for="street_name">Street No. / Name</label>
+								<input type="text" class="form-control" name="street_name"
+									style="border: none; border-bottom: 1px solid black; outline: none; width: 200px;"
+									value="{{$client->street_name}}" required>
+							</div>
+
+							<div class="col-md-4 form-group">
+								<label for="barangay">Barangay</label>
+								<input type="text" class="form-control" name="barangay"
+									style="border: none; border-bottom: 1px solid black; outline: none; width: 200px;"
+									value="{{$client->barangay}}" required>
 							</div>
 							<div class="col-md-4 form-group">
 								<label for="date_of_birth">Date of Birth</label>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:8111
--- Generation Time: Sep 14, 2024 at 02:47 PM
+-- Generation Time: Sep 17, 2024 at 11:29 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -57,7 +57,6 @@ CREATE TABLE `clients` (
   `last_name` varchar(255) DEFAULT NULL,
   `middle` varchar(255) DEFAULT NULL,
   `suffix` varchar(255) DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL,
   `age` varchar(255) DEFAULT NULL,
   `date_of_birth` date DEFAULT NULL,
   `pob` varchar(255) DEFAULT NULL,
@@ -105,16 +104,21 @@ CREATE TABLE `clients` (
   `reviewing` varchar(255) DEFAULT NULL,
   `approving` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `building_number` varchar(255) DEFAULT NULL,
+  `street_name` varchar(255) DEFAULT NULL,
+  `barangay` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `clients`
 --
 
-INSERT INTO `clients` (`id`, `first_name`, `last_name`, `middle`, `suffix`, `address`, `age`, `date_of_birth`, `pob`, `sex`, `educational_attainment`, `civil_status`, `religion`, `nationality`, `occupation`, `monthly_income`, `contact_number`, `source_of_referral`, `circumstances_of_referral`, `family_background`, `health_history`, `economic_situation`, `house_structure`, `floor`, `type`, `number_of_rooms`, `appliances`, `other_appliances`, `monthly_expenses`, `indicate`, `assessment`, `recommendation`, `tracking`, `problem_identification`, `data_gather`, `eval`, `control_number`, `problem_presented`, `services`, `requirements`, `home_visit`, `interviewee`, `interviewed_by`, `layunin`, `resulta`, `initial_findings`, `initial_agreement`, `assessment1`, `case_management_evaluation`, `case_resolution`, `reviewing`, `approving`, `created_at`, `updated_at`) VALUES
-(1, 'Arzel John', 'Zolina', 'Zolina', 'None', 'Polomolok South Cotabato', '23', '2001-09-14', 'Koronadal City', 'Male', 'College Graduate', 'Single', 'Other', 'Other', 'Freelancing', '10,000 PHP - 20,000 PHP', '09154138624', 'Ok', NULL, NULL, NULL, NULL, 'Wood', '0-50', 'Apartment', '1', '[\"Refrigerator\",\"Electric Fan\"]', '', '5,000 PHP - 10,000 PHP', 'House Renter', NULL, NULL, 'Approve', 'Done', NULL, 'Done', 'APL 0000001', NULL, '[\"Burial\",\"Refrigerator,Electric Fan\"]', '[]', '2024-09-21', 'Arzel', 'Arzel', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Arzel John Zolina', '2024-09-13 23:28:51', '2024-09-13 23:41:16'),
-(2, 'Reynald', 'Agustin', 'Sebua', 'Jr.', 'Davao City Diversion Rd', '22', '2024-09-21', 'Koronadal City', 'Male', 'College 4th Year', 'Widowed', 'Other', 'Other', 'Outsourcing', '100 PHP - 500 PHP', '09090937257', 'Ok', NULL, NULL, NULL, NULL, 'Semi-concrete', '151-200', 'Apartment', '10', '[\"Refrigerator\"]', '', '20,000 PHP - 25,000 PHP', 'House Renter', NULL, NULL, 'Approve', NULL, NULL, 'Done', 'APL 0000002', NULL, '[\"After-Care Services = Valid ID\",\"Refrigerator\"]', '[]', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Arzel John Zolina', '2024-09-13 23:29:59', '2024-09-13 23:41:47');
+INSERT INTO `clients` (`id`, `first_name`, `last_name`, `middle`, `suffix`, `age`, `date_of_birth`, `pob`, `sex`, `educational_attainment`, `civil_status`, `religion`, `nationality`, `occupation`, `monthly_income`, `contact_number`, `source_of_referral`, `circumstances_of_referral`, `family_background`, `health_history`, `economic_situation`, `house_structure`, `floor`, `type`, `number_of_rooms`, `appliances`, `other_appliances`, `monthly_expenses`, `indicate`, `assessment`, `recommendation`, `tracking`, `problem_identification`, `data_gather`, `eval`, `control_number`, `problem_presented`, `services`, `requirements`, `home_visit`, `interviewee`, `interviewed_by`, `layunin`, `resulta`, `initial_findings`, `initial_agreement`, `assessment1`, `case_management_evaluation`, `case_resolution`, `reviewing`, `approving`, `created_at`, `updated_at`, `building_number`, `street_name`, `barangay`) VALUES
+(1, 'Arzel John', 'Zolina', 'Zolina', 'None', '23', '2001-09-14', 'Koronadal City', 'Male', 'College Graduate', 'Single', 'Other', 'Other', 'Freelancing', '10,000 PHP - 20,000 PHP', '09154138624', 'Ok', NULL, NULL, NULL, NULL, 'Wood', '0-50', 'Apartment', '1', '[\"Refrigerator\",\"Electric Fan\"]', '', '5,000 PHP - 10,000 PHP', 'House Renter', NULL, NULL, 'Approve', 'Done', NULL, 'Done', 'APL 0000001', NULL, '[\"Burial\",\"Funeral\",\"Crisis Intervention Unit = Valid ID\",\"Barangay Clearance.\",\"Medical Certificate.\",\"Incident Report.\",\"Funeral Contract.\",\"Death Certificate.\",\"Valid ID\",\"ID Copy\",\"Senior Citizen ID (60+)\",\"Poverty Alleviation Program = Valid ID\",\"SCSR.\",\"Application Form\",\"Refrigerator,Electric Fan\"]', '[]', '2024-09-21', 'Arzel', 'Arzel', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Arzel John Zolina', '2024-09-13 23:28:51', '2024-09-17 01:08:59', 'Lot 1', 'Purok Masagana 1', 'Pagalungan'),
+(2, 'Reynald', 'Agustin', 'Sebua', 'Jr.', '22', '2024-09-21', 'Koronadal City', 'Male', 'College 4th Year', 'Widowed', 'Other', 'Other', 'Outsourcing', '100 PHP - 500 PHP', '09090937257', 'Ok', NULL, NULL, NULL, NULL, 'Semi-concrete', '151-200', 'Apartment', '10', '[\"Refrigerator\"]', '', '20,000 PHP - 25,000 PHP', 'House Renter', NULL, NULL, 'Re-access', NULL, NULL, 'Done', 'APL 0000002', NULL, '[\"Financial\",\"Funeral\",\"Crisis Intervention Unit = Valid ID\",\"Barangay Clearance.\",\"Valid ID\",\"Residence Certificate Or Barangay Clearance\",\"Clinical Abstract\\/medical Certificate\",\"Police Report Or Incident Report\",\"Funeral Contract And Registered Death Certificate. (if Applicable)\",\"Solo Parent = Agency Referral\",\"Residency Cert.\",\"Medical Cert.\",\"Billing Proof\",\"Birth Cert.\",\"ID Copy\",\"Senior Citizen ID (60+)\",\"Pre-marriage Counseling = Valid ID\",\"Birth Certificate\",\"After-Care Services = Valid ID\",\"Birth Certificate.\",\"Residence Certificate.\",\"Poverty Alleviation Program = Valid ID\",\"Residence Certificate\",\"Income Certificate\",\"SCSR.\",\"Application Form\",\"Refrigerator\"]', '[]', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Arzel John Zolina', '2024-09-13 23:29:59', '2024-09-17 01:13:28', '2', 'Diversion Road', 'Panabo'),
+(4, 'Savf', 'Fstaft', 'Ftsfatf', 'Sr.', '21', '2024-10-09', 'Koronadal City', 'Male', 'College 3rd Year', 'Widowed', 'Other', 'Other', 'Freelancing', 'No Income', '029182917677', 'Sa', NULL, NULL, NULL, NULL, 'Wood', '51-100', 'Apartment', '9', '[\"Refrigerator\"]', '', '35,000 PHP - 40,000 PHP', 'House Owner', NULL, NULL, 'Re-access', NULL, NULL, NULL, 'APL 0000003', NULL, '[\"Financial\",\"Funeral\",\"Funeral Contract.\",\"Death Certificate.\",\"Valid ID\",\"Residence Certificate Or Barangay Clearance\",\"Clinical Abstract\\/medical Certificate\",\"Police Report Or Incident Report\",\"Funeral Contract And Registered Death Certificate. (if Applicable)\",\"Poverty Alleviation Program = Valid ID\",\"Residence Certificate\",\"Income Certificate\",\"Refrigerator\"]', '[]', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-09-14 20:36:49', '2024-09-17 01:13:51', '1103', 'Morato', 'QC'),
+(7, 'A', 'A', 'A', 'Jr.', '21', '2024-10-10', 'Koronadal City', 'Male', 'College 3rd Year', 'Divorced', 'Other', 'Other', 'Freelancing', '100 PHP - 500 PHP', '029182917677', 'Ok', NULL, NULL, NULL, NULL, 'Wood', '101-150', 'Single-Family Home', '8', '[\"Refrigerator\"]', '', '35,000 PHP - 40,000 PHP', 'House Renter', NULL, NULL, NULL, NULL, NULL, NULL, 'APL 0000004', NULL, '[\"Refrigerator\"]', '[]', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-09-17 01:02:38', '2024-09-17 01:08:10', 'Md1 Apartment', 'PMCO Village', 'Magsaysay');
 
 -- --------------------------------------------------------
 
@@ -188,7 +192,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (3, '2024_03_25_030544_create_failed_jobs_table', 1),
 (4, '2024_08_21_054439_create_clients_table', 1),
 (5, '2024_08_21_054756_update_clients_table', 1),
-(6, '2024_09_01_125351_create_family_members_table', 1);
+(6, '2024_09_01_125351_create_family_members_table', 1),
+(7, '2024_09_17_085323_add_address_fields_to_clients_table', 2);
 
 -- --------------------------------------------------------
 
@@ -222,7 +227,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('77wDe0JIishEkEIcvD92k5ie1E54XDYHcmCsKRmm', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiOTN4OXdJZGZjOFlCZkdYVVdhUGpUZmo2dE9nWlpwQlB1TU04dU9USCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9ob21lIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTtzOjQ6ImF1dGgiO2E6MTp7czoyMToicGFzc3dvcmRfY29uZmlybWVkX2F0IjtpOjE3MjYzMTgwNDg7fX0=', 1726318048);
+('qsGTMXtuKRbUHf4NvFqLyZxTUU9TRMjAORrhTYly', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiUkFHVVFZRWtPQnYwUDhNeWdHVVpYSlZFakFnZjZBMW0wajVDUksyUSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDI6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC92aWV3LW9uZ29pbmctY2xpZW50cyI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7czo0OiJhdXRoIjthOjE6e3M6MjE6InBhc3N3b3JkX2NvbmZpcm1lZF9hdCI7aToxNzI2NTY1MjI3O319', 1726565329);
 
 -- --------------------------------------------------------
 
@@ -248,7 +253,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `role`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'Social Worker', 'socialworker@gmail.com', NULL, '$2y$12$9jYejAZ3lvYJdjJdB9yX1OdQPSFR7d8GVPPSAg2AtM4EB9Q2mG1gm', 'social-worker', NULL, '2024-09-13 23:31:32', '2024-09-13 23:31:32'),
-(2, 'Social Worker 2', 'socialworker2@gmail.com', NULL, '$2y$12$fdEDpT9MZiSgEVDM/06TW.f6KcWiM8nnxyaIQpTixsVBkNYvZfBJG', 'social-worker', NULL, '2024-09-14 04:33:54', '2024-09-14 04:33:54');
+(2, 'Social Worker 2', 'socialworker2@gmail.com', NULL, '$2y$12$fdEDpT9MZiSgEVDM/06TW.f6KcWiM8nnxyaIQpTixsVBkNYvZfBJG', 'social-worker', NULL, '2024-09-14 04:33:54', '2024-09-14 04:33:54'),
+(3, 'admin', 'admin@gmail.com', NULL, '$2y$12$rp9i.0jVfSMBLYPWV1KuS.tAgAqCK7Hdczx7yNRJSwXUgb05RHPAC', 'admin', NULL, '2024-09-15 04:45:32', '2024-09-15 04:45:32');
 
 --
 -- Indexes for dumped tables
@@ -321,7 +327,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -339,13 +345,13 @@ ALTER TABLE `family_members`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables

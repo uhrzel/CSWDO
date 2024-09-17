@@ -17,7 +17,9 @@ class Client extends Model
         'last_name',
         'middle',
         'suffix',
-        'address',
+        'building_number',
+        'street_name',
+        'barangay',
         'age',
         'date_of_birth',
         'pob',
@@ -155,9 +157,17 @@ class Client extends Model
         $this->attributes['suffix'] = ucwords($value);
     }
 
-    public function setAddressAttribute($value)
+    public function setbuildingNumberAttribute($value)
     {
-        $this->attributes['address'] = ucwords($value);
+        $this->attributes['building_number'] = ucwords($value);
+    }
+    public function setstreetNameAttribute($value)
+    {
+        $this->attributes['street_name'] = ucwords($value);
+    }
+    public function setbarangayAttribute($value)
+    {
+        $this->attributes['barangay'] = ucwords($value);
     }
 
     public function setPobAttribute($value)

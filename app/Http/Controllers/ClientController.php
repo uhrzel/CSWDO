@@ -19,7 +19,9 @@ class ClientController extends Controller
             'last_name' => 'required|string',
             'middle' => 'required|string',
             'suffix' => 'required|string',
-            'address' => 'required|string',
+            'building_number' => 'required|string',
+            'street_name' => 'required|string',
+            'barangay' => 'required|string',
             'age' => 'required|numeric',
             'date_of_birth' => 'nullable|date',
             'pob' => 'required|string',
@@ -97,11 +99,14 @@ class ClientController extends Controller
     public function store(Request $request)
     {
         $validatedData = $this->validateClient($request);
+
+
         $validatedData['services'] = json_encode($request->input('services', []));
         $validatedData['requirements'] = json_encode($request->input('requirements', []));
         $validatedData['appliances'] = json_encode($request->input('appliances', []));
         $validatedData['other_appliances'] = $request->input('other_appliances', '');
 
+        // Generate control number
         $latestClient = Client::latest()->first();
         if ($latestClient) {
             $lastControlNumber = $latestClient->control_number;
@@ -114,6 +119,7 @@ class ClientController extends Controller
         $controlNumber = "APL " . $nextNumber;
         $validatedData['control_number'] = $controlNumber;
 
+        // Handle optional fields for nationality and religion
         if ($request->input('nationality') === 'Other') {
             $validatedData['nationality'] = $request->input('other_nationality');
         } else {
@@ -126,6 +132,7 @@ class ClientController extends Controller
             $validatedData['other_religion'] = null;
         }
 
+        // Create the client record
         $client = Client::create($validatedData);
 
         return response()->json([
@@ -133,6 +140,7 @@ class ClientController extends Controller
             'control_number' => $controlNumber,
         ]);
     }
+
 
     public function caselist()
     {
@@ -185,7 +193,9 @@ class ClientController extends Controller
                 'last_name' => 'nullable|string|max:255',
                 'middle' => 'nullable|string|max:255',
                 'suffix' => 'nullable|string|max:10',
-                'address' => 'nullable|string|max:255',
+                'building_number' => 'nullable|string|max:255', // New field for building number
+                'street_name' => 'nullable|string|max:255', // New field for street name
+                'barangay' => 'nullable|string|max:255', // New field for barangay
                 'date_of_birth' => 'nullable|date',
                 'pob' => 'nullable|string|max:255',
                 'sex' => 'nullable|string|in:Male,Female',
@@ -234,13 +244,17 @@ class ClientController extends Controller
             // Find the client by ID
             $client = Client::findOrFail($id);
 
+
+
             // Process fields with ucwords() if they are strings
             $fields = [
                 'first_name',
                 'last_name',
                 'middle',
                 'suffix',
-                'address',
+                'building_number',
+                'street_name',
+                'barangay',
                 'pob',
                 'sex',
                 'educational_attainment',

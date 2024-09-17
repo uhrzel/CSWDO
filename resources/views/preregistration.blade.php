@@ -95,11 +95,9 @@
                                         <option value="None">None</option>
                                     </select>
                                 </div>
-
                                 <div class="col-md-4 mb-3">
-                                    <label for="age">Age</label>
-                                    <input type="number" name="age" class="form-control" id="age" placeholder="Enter Age" oninput="this.value=this.value.replace(/[^0-9]/g,'');" required>
-                                    <div class="invalid-feedback">Invalid age. Please enter only numbers.</div>
+                                    <label for="date_of_birth">Date of Birth</label>
+                                    <input type="date" name="date_of_birth" class="form-control" id="date_of_birth" placeholder="Enter Date of Birth" required>
                                 </div>
 
                                 <div class="col-md-4 mb-3">
@@ -111,10 +109,6 @@
                                     </select>
                                 </div>
 
-                                <div class="col-md-4 mb-3">
-                                    <label for="date_of_birth">Date of Birth</label>
-                                    <input type="date" name="date_of_birth" class="form-control" id="date_of_birth" placeholder="Enter Date of Birth" required>
-                                </div>
 
                                 <div class="col-md-4 mb-3">
                                     <label for="pob">Place of Birth</label>
@@ -199,7 +193,6 @@
                                     <label for="other_nationality">Other Nationality</label>
                                     <input type="text" name="other_nationality" class="form-control" id="other_nationality">
                                 </div>
-
                                 <div class="col-md-4 mb-3">
                                     <label for="monthly_income">Monthly Income</label>
                                     <select class="form-control" id="monthly_income" name="monthly_income" Required>
@@ -220,9 +213,20 @@
                                 </div>
 
                                 <div class="col-md-4 mb-3">
-                                    <label for="address">Address</label>
-                                    <input type="text" name="address" class="form-control" id="address" placeholder="Enter Address" Required>
+                                    <label for="building_number">Building / House / Block No.</label>
+                                    <input type="text" class="form-control" id="building_number" name="building_number" placeholder="E.g. Blk 123 or No. 4" required>
                                 </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <label for="street_name">Street No. / Name</label>
+                                    <input type="text" class="form-control" id="street_name" name="street_name" placeholder="1st Avenue" required>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <label for="barangay">Barangay</label>
+                                    <input type="text" class="form-control" id="barangay" name="barangay" placeholder="E.g. Bagumbayan" required>
+                                </div>
+
                                 <div class="col-md-4 mb-3">
                                     <label for="occupation">Occupation</label>
                                     <input type="text" name="occupation" class="form-control" id="occupation" placeholder="Enter Occupation" Required>

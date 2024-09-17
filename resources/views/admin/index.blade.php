@@ -47,6 +47,7 @@
                         <tr>
                             <th>Name</th>
                             <th>Email</th>
+                            <th>Password</th>
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
@@ -56,6 +57,7 @@
                         <tr>
                             <td class="name">{{ $worker->name }}</td>
                             <td class="email">{{ $worker->email }}</td>
+                            <td class="email">{{ $worker->password }}</td>
                             <td>
                                 <button class="btn btn-primary" onclick="openEditModal({{ $worker->id }}, '{{ $worker->name }}', '{{ $worker->email }}')">
                                     <i class="fas fa-edit"></i>
